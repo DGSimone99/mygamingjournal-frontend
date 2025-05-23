@@ -20,6 +20,12 @@ body {
   margin-top: 1em;
   height: calc(100vh - 1em);
   overflow: hidden;
+  &-catalog {
+    margin-top: 1em;
+    height: calc(100vh - 8.4em);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 * {
@@ -34,6 +40,15 @@ body {
 .input-field {
   background-color: var(--color-sidebar) !important;
   color: var(--color-text) !important;
+  &-filter {
+    background-color: var(--color-sidebar) !important;
+    color: var(--color-text) !important;
+    width: 170px !important;
+  }
+  &-search {
+    background-color: var(--color-theme-bg) !important;
+    color: var(--color-text) !important;
+  }
 }
 
 input::placeholder,
@@ -80,4 +95,10 @@ textarea::placeholder {
   margin-left: 8px;
   font-weight: bold;
   color: var(--color-text) !important;
+}
+
+select {
+  &:focus {
+    box-shadow: none !important;
+  }
 }

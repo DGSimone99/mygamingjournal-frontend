@@ -12,23 +12,31 @@ function GameCatalog(props) {
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await axios.get("/api/games", {
-        params: { genre: props.genre, order: props.order, page, size },
-      });
+      const params = {
+        order: props.order || null,
+        page,
+        size,
+      };
+
+      if (props.query && props.queryType) {
+        params[props.queryType] = props.query;
+      }
+
+      const response = await axios.get("/api/games", { params });
       setGames(response.data.content);
     };
 
     fetch();
-  }, [props.genre, props.order, page, size]);
+  }, [props.query, props.queryType, props.order, page, size]);
 
   return (
-    <Container>
+    <Container fluid>
       <div className="d-flex justify-content-between align-items-center">
-        <h2>{props?.genre?.toUpperCase()}</h2>
+        <h2>{props?.query?.toUpperCase()}</h2>
         {location.pathname === "/catalog" && (
           <Button
             as={Link}
-            to={`/catalog/${props.genre}`}
+            to={`/catalog/${props.queryType}/${props.query}`}
             className="text-secondary pointer-underline bg-transparent border-0"
           >
             Show more
@@ -36,7 +44,7 @@ function GameCatalog(props) {
         )}
       </div>
 
-      <Row>
+      <Row className=" px-4">
         {games?.slice(0, props.slice).map((game) => {
           return <GameCard game={game} key={game.id} grid={props.grid} />;
         })}

@@ -84,7 +84,7 @@ function AchievementsTab({ game }) {
         <h2 className="m-0">{game.achievements.length} Achievements</h2>
         <Form.Select
           aria-label="Order by"
-          className="input-field fw-bold border-0 w-25"
+          className="input-field-filter fw-bold border-0"
           value={order}
           onChange={(e) => setOrder(e.target.value)}
         >

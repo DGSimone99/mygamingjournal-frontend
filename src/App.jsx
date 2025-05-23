@@ -2,7 +2,7 @@ import "./App.css";
 import "./styles/theme.css";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Home from "./components/Home";
-import MainCatalog from "./components/catalog/MainCatalog";
+import CatalogPage from "./components/catalog/CatalogPage";
 import GameDetailsPage from "./components/details-page/GameDetailsPage";
 import LoginPage from "./components/login/LoginPage";
 import SideBar from "./components/layout/SideBar";
@@ -19,7 +19,7 @@ function App() {
           <ThemeButton />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/catalog/*" element={<MainCatalog />} />
+            <Route path="/catalog/*" element={<CatalogPage />} />
             <Route path="/game/:gameId" element={<GameDetailsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

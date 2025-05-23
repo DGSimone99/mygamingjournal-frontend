@@ -16,8 +16,14 @@
 
 .color-text {
   color: var(--color-text) !important;
+  fill: var(--color-text) !important;
 }
 
 .color-text-secondary {
   color: var(--color-text-secondary) !important;
+  fill: var(--color-text-secondary) !important;
+}
+
+.border-color {
+  border-color: var(--color-section) !important;
 }

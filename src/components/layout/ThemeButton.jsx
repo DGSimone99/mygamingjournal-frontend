@@ -9,7 +9,11 @@ function ThemeButton() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={`theme-container ${open ? "open" : ""} position-fixed top-0 end-0 z-3 p-2`}>
+    <div
+      className={`theme-container  border border-2 border-color ${
+        open ? "open" : ""
+      } position-fixed top-0 end-0 z-3 p-2`}
+    >
       <div className="theme-inner p-2 d-flex align-items-center overflow-hidden">
         <Button onClick={() => setOpen(!open)} className="theme-toggle p-0 bg-transparent border-0">
           <FaChevronRight />
