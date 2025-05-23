@@ -1,0 +1,20 @@
+.modal-custom {
+  background-color: var(--color-page) !important;
+  color: var(--color-text) !important;
+}
+
+.bg-main-details {
+  background-color: var(--color-section) !important;
+}
+
+.btn-close {
+  display: none;
+}
+
+.modal-btn-delete {
+  background-color: var(--color-danger) !important;
+  color: var(--color-text) !important;
+  &:hover {
+    background-color: var(--color-danger-hover) !important;
+  }
+}

@@ -1,0 +1,29 @@
+.theme-button {
+  background-color: var(--color-theme-bg) !important;
+}
+
+.theme-container {
+  background-color: var(--color-sidebar);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .theme-inner {
+    color: var(--color-text);
+    width: 40px;
+    transition: width 0.3s ease-in-out;
+  }
+
+  &.open .theme-inner {
+    width: 100px;
+  }
+}
+
+.theme-toggle {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s;
+
+  .theme-container:not(.open) & {
+    transform: rotate(180deg);
+  }
+}

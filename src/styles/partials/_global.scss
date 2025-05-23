@@ -1,0 +1,83 @@
+body,
+body * {
+  color: var(--color-text) !important;
+}
+
+body.theme-transition {
+  transition: background-color 1s ease, color 1s ease;
+}
+
+body.theme-transition,
+body.theme-transition * {
+  transition: background-color 1s ease, color 1s ease;
+}
+
+body {
+  background-color: var(--color-page) !important;
+}
+
+.page {
+  margin-top: 1em;
+  height: calc(100vh - 1em);
+  overflow: hidden;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+}
+
+.main-content {
+  padding-left: 110px;
+}
+
+.input-field {
+  background-color: var(--color-sidebar) !important;
+  color: var(--color-text) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text) !important;
+  opacity: 0.3 !important;
+}
+
+.btn-confirm {
+  background-color: var(--color-primary) !important;
+  color: var(--color-text) !important;
+  border: none !important;
+  &:hover {
+    background-color: var(--color-primary-hover) !important;
+  }
+}
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: var(--color-sidebar);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:checked {
+    background-color: var(--color-sidebar);
+    border-color: var(--color-section);
+  }
+
+  &:checked::before {
+    content: "";
+    display: block;
+    position: relative;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 10px;
+    transform: rotate(45deg);
+  }
+}
+
+.form-check-label {
+  margin-left: 8px;
+  font-weight: bold;
+  color: var(--color-text) !important;
+}

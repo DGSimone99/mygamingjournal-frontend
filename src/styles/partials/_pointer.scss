@@ -1,0 +1,37 @@
+.pointer {
+  &-big {
+    cursor: pointer;
+    transition: transform 0.3s;
+    user-select: none;
+    &:hover {
+      transform: scale(110%);
+    }
+  }
+
+  &-underline {
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+      color: var(--color-text) !important;
+      text-decoration: underline;
+    }
+  }
+
+  &-list {
+    cursor: pointer;
+    transition: transform 0.2s;
+    user-select: none;
+    &:hover {
+      transform: scale(103%);
+      background-color: rgba(31, 46, 120, 0.653) !important;
+    }
+    &2 {
+      cursor: pointer;
+      user-select: none;
+      &:hover {
+        transform: scale(103%);
+        background-color: rgba(34, 51, 137, 0.653) !important;
+      }
+    }
+  }
+}

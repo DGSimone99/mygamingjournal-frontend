@@ -1,0 +1,5 @@
+export const GET_GAMES = "GET_GAMES";
+export const GET_GAME = "GET_GAME";
+export const LOGIN = "LOGIN";
+export const GET_USER_GAME_ENTRIES = "GET_USER_GAME_ENTRIES";
+export const UPDATE_ACHIEVEMENT_ENTRY = "UPDATE_ACHIEVEMENT_ENTRY";

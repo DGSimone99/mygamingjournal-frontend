@@ -1,0 +1,112 @@
+.tabs-container {
+  background: linear-gradient(90deg, var(--color-section), var(--color-card)) !important;
+  overflow: hidden;
+}
+
+.tabs {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  &.active {
+    background-color: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+  }
+  &:hover {
+    background-color: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+  }
+}
+
+.tabs-content,
+.overview-content {
+  height: calc(100vh - 3.4rem);
+  overflow-y: auto;
+}
+
+.tab-section {
+  padding: 1.5rem;
+  h2 {
+    font-weight: bold;
+    margin: 1rem 0 0.5rem;
+  }
+
+  p {
+    margin: 0.25rem 0;
+  }
+}
+
+/* OVERVIEW-TAB */
+.overview-tab {
+  @extend .tab-section;
+
+  background-color: var(--bg-main-details);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+  h5 {
+    margin-block: 0.7em;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    color: var(--color-text);
+    letter-spacing: 0.5px;
+    span {
+      text-transform: none;
+      color: var(--color-text-secondary) !important;
+    }
+  }
+
+  h5 span {
+    font-weight: normal;
+  }
+}
+
+/* DESCRIPTION-TAB */
+.description-tab {
+  @extend .tab-section;
+
+  .carousel {
+    max-height: 400px;
+
+    .carousel-item img {
+      display: block;
+      height: 400px;
+      object-fit: cover;
+      margin: 0 auto;
+    }
+  }
+
+  .game-description {
+    margin-top: 2rem;
+  }
+}
+
+/* ACHIEVEMENTS-TAB */
+.achievements-tab {
+  @extend .tab-section;
+
+  .achievement {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-primary);
+    transition: background-color 0.3s;
+
+    &.locked {
+      opacity: 0.5;
+    }
+
+    img {
+      height: 100px;
+    }
+  }
+}
+
+/* DETAILS-TAB */
+.details-tab {
+  @extend .tab-section;
+
+  .team {
+    .member {
+      background-color: var(--color-bg-card);
+      max-width: 24%;
+    }
+  }
+}
