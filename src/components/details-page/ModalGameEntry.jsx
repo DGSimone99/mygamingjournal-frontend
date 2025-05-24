@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
-import { fetchDetails, saveGameEntry } from "../../redux/actions";
+import { fetchDetails, fetchUserGameEntries, saveGameEntry } from "../../redux/actions";
 import { MdClose } from "react-icons/md";
 
 function ModalGameEntry(props) {
@@ -52,6 +52,7 @@ function ModalGameEntry(props) {
     const method = existingGame ? "put" : "post";
     dispatch(saveGameEntry(gameData, method)).then(() => {
       dispatch(fetchDetails(gameId));
+      dispatch(fetchUserGameEntries());
     });
   };
 

@@ -3,9 +3,19 @@ import { Star, StarFill } from "react-bootstrap-icons";
 import { Link } from "react-router";
 import platformIcons from "../../assets/platformIcons.jsx";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function GameCard({ game, grid, number }) {
   const gameEntries = useSelector((state) => state.gameEntries || []);
+
+  const { isLoggedIn } = useAuth();
+  const [userEntry, setUserEntry] = useState(null);
+
+  useEffect(() => {
+    const foundEntry = gameEntries.find((entry) => entry.gameEntryId == game.id);
+    setUserEntry(foundEntry || null);
+  }, [gameEntries, game]);
   const getReleaseLabel = (game) => {
     if (!game.released) return "TBA";
     if (new Date(game.released) > new Date()) return "Coming Soon";
@@ -22,7 +32,7 @@ function GameCard({ game, grid, number }) {
           <Card.Img
             variant="top"
             src={game.backgroundImage}
-            style={{ height: "15em", objectFit: "cover" }}
+            style={{ height: "20em", objectFit: "cover" }}
             className="rounded-top-4"
           />
           {getReleaseLabel(game) && <div className="coming-soon-overlay">{getReleaseLabel(game)}</div>}
@@ -34,11 +44,7 @@ function GameCard({ game, grid, number }) {
               })}
             </div>
             <div className="d-flex align-items-center gap-2">
-              {gameEntries?.some((entry) => entry.gameEntryId == game?.id) ? (
-                <StarFill style={{ fill: "var(--color-added)" }} />
-              ) : (
-                <Star />
-              )}
+              {userEntry && isLoggedIn ? <StarFill style={{ fill: "var(--color-added)" }} /> : <Star />}
               <span>{game.rating}</span>
             </div>
           </div>
@@ -53,7 +59,7 @@ function GameCard({ game, grid, number }) {
     <Row
       as={Link}
       to={`/game/${game?.id}`}
-      className="align-items-center py-3 pointer-list p-0 shadow-sm rounded-2 text-decoration-none"
+      className="align-items-center py-3 pointer-list p-0 shadow-sm rounded-2 text-decoration-none border border-color my-1"
       key={game.id}
     >
       <Col md={1} className="p-0">

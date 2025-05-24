@@ -48,10 +48,11 @@
     font-size: 1.2rem;
     color: var(--color-text);
     letter-spacing: 0.5px;
-    span {
-      text-transform: none;
-      color: var(--color-text-secondary) !important;
-    }
+  }
+
+  span {
+    text-transform: none;
+    color: var(--color-text-secondary) !important;
   }
 
   h5 span {

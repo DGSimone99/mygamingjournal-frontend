@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Dropdown, Form, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAchievementEntry } from "../../../redux/actions";
 import { useParams } from "react-router";
+import { useAuth } from "../../../context/AuthContext";
 
 function AchievementsTab({ game }) {
   const dispatch = useDispatch();
+
+  const { isLoggedIn } = useAuth();
 
   const { gameId } = useParams();
   const gameEntries = useSelector((state) => state.gameEntries || []);
   const [error, setError] = useState("");
 
-  const existingEntry = gameEntries.find((entry) => entry.gameEntryId == gameId);
-  const currentGame = existingEntry || game;
+  const [userEntry, setUserEntry] = useState(null);
+  const [currentGame, setCurrentGame] = useState(game);
+
+  useEffect(() => {
+    const foundEntry = gameEntries.find((entry) => entry.gameEntryId == gameId);
+    setUserEntry(foundEntry || null);
+    setCurrentGame(game);
+  }, [gameEntries, gameId, game]);
 
   const [unlockedIds, setUnlockedIds] = useState(() =>
     currentGame.achievements.filter((a) => a.unlocked).map((a) => a.id)
@@ -46,7 +55,7 @@ function AchievementsTab({ game }) {
     });
 
   const handleUnlockAll = () => {
-    if (!existingEntry) {
+    if (!userEntry) {
       setError("You must add this game to unlock achievements");
       return;
     }
@@ -65,7 +74,7 @@ function AchievementsTab({ game }) {
   };
 
   const handleAchievement = (achievement) => {
-    if (!existingEntry) {
+    if (!userEntry) {
       setError("You must add this game to unlock achievements");
       return;
     }
@@ -98,7 +107,7 @@ function AchievementsTab({ game }) {
         </Form.Select>
       </div>
 
-      {existingEntry && (
+      {isLoggedIn && userEntry != null && (
         <div className="d-flex justify-content-between align-items-center mb-3">
           <p
             className={`m-0 ${
@@ -107,7 +116,7 @@ function AchievementsTab({ game }) {
           >
             {unlockedIds.length} <span className="color-text">/ {game.achievements.length}</span>
           </p>
-          {existingEntry ? (
+          {userEntry ? (
             <div className="d-flex align-items-center gap-3">
               <Form.Check
                 type="checkbox"
