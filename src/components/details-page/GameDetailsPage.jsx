@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router";
-import { fetchDetails, fetchUserGameEntries } from "../../redux/actions";
+import { fetchDetails } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import DescriptionTab from "./details-tabs/DescriptionTab";
 import DetailsTab from "./details-tabs/DetailsTab";
@@ -19,7 +19,6 @@ function GameDetailsPage() {
 
   useEffect(() => {
     dispatch(fetchDetails(gameId));
-    dispatch(fetchUserGameEntries());
   }, [dispatch, gameId, game.averageRating, game.added]);
 
   return (
@@ -41,9 +40,11 @@ function GameDetailsPage() {
               >
                 Achievements
               </Button>
-              <Button className={`tabs ${tab === "Related" ? "active" : ""}`} onClick={() => setTab("Related")}>
-                Related Games
-              </Button>
+              {(game?.relatedGames?.length > 0 || game?.dlcList?.length > 0 || game?.parentGames?.length > 0) && (
+                <Button className={`tabs ${tab === "Related" ? "active" : ""}`} onClick={() => setTab("Related")}>
+                  Related Games
+                </Button>
+              )}
               <Button className={`tabs ${tab === "Reviews" ? "active" : ""}`} onClick={() => setTab("Reviews")}>
                 Reviews
               </Button>
@@ -53,9 +54,8 @@ function GameDetailsPage() {
             {tab === "Description" && <DescriptionTab game={game} />}
             {tab === "Details" && <DetailsTab game={game} />}
             {tab === "Achievements" && <AchievementsTab game={game} />}
-            {(game?.relatedGames?.length > 0 || game?.dlcList?.length > 0) && tab === "Related" && (
-              <RelatedGamesTab game={game} />
-            )}
+            {(game?.relatedGames?.length > 0 || game?.dlcList?.length > 0 || game?.parentGames?.length > 0) &&
+              tab === "Related" && <RelatedGamesTab game={game} />}
             {tab === "Reviews" && <ReviewsTab game={game} />}
           </div>
         </Col>

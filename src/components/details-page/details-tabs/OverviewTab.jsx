@@ -14,16 +14,18 @@ function OverviewTab({ game }) {
   const gameEntries = useSelector((state) => state.gameEntries || []);
   const { gameId } = useParams();
 
+  const userEntry = gameEntries?.find((entry) => entry.gameEntryId == gameId);
+
   return (
     <Col md={3} className="overview-tab p-0">
       <Button className="tabs active w-100">Overview</Button>
       <Container className="p-3">
         <h1 className="fs-4 mb-2 fw-bold">{game?.name}</h1>
         <Image src={game?.backgroundImage} className="w-100 mb-2 rounded" alt="gameImage" />
-        <div className="d-flex justify-content-between fs-7 mb-2">
+        <div className="d-flex justify-content-between mb-2">
           <p className="d-flex align-items-center gap-2">
-            {gameEntries?.some((entry) => entry.gameEntryId == gameId) ? <Star /> : <StarFill />}
-            {game.averageRating}
+            <Star />
+            {game.rating} / 10
           </p>
           <div className="d-flex align-items-center">
             <PeopleFill className="me-2" />
@@ -32,10 +34,23 @@ function OverviewTab({ game }) {
         </div>
         {isLoggedIn && (
           <p className="pointer-underline" onClick={() => setShowModal(true)}>
-            {gameEntries?.some((entry) => entry.gameEntryId == gameId) ? "Edit" : "Add to list"}
+            {userEntry ? "Edit" : "Add to list"}
           </p>
         )}
         <hr />
+        {userEntry && (
+          <div>
+            <h4>Personal Stats</h4>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="d-flex align-items-center gap-2">
+                <StarFill style={{ fill: "var(--color-added)" }} />
+                {userEntry?.personalRating}
+              </div>
+              <div>{userEntry?.hoursPlayed} hours</div>
+              <div>{userEntry?.status}</div>
+            </div>
+          </div>
+        )}
         <h3>Info</h3>
         <h5>
           Developer: <span>{game?.developers?.[0] || "-"}</span>

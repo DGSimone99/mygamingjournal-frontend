@@ -18,8 +18,6 @@ function AchievementsTab({ game }) {
     currentGame.achievements.filter((a) => a.unlocked).map((a) => a.id)
   );
 
-  const [numberUnlocked, setNumberUnlocked] = useState(unlockedIds.length);
-
   const [showLocked, setShowLocked] = useState(true);
   const [showUnlocked, setShowUnlocked] = useState(true);
 
@@ -54,28 +52,31 @@ function AchievementsTab({ game }) {
     }
 
     setError("");
+
     currentGame.achievements.forEach((achievement) => {
       const isUnlockedLocally = unlockedIds.includes(achievement.id);
       if (!isUnlockedLocally) {
         dispatch(updateAchievementEntry(achievement.id, true));
       }
     });
+
     const allIds = currentGame.achievements.map((a) => a.id);
     setUnlockedIds(allIds);
-    setNumberUnlocked(allIds.length);
   };
 
   const handleAchievement = (achievement) => {
-    if (existingEntry) {
-      setError("");
-      dispatch(updateAchievementEntry(achievement.id, !achievement.unlocked));
-      setUnlockedIds((prev) =>
-        prev.includes(achievement.id) ? prev.filter((id) => id !== achievement.id) : [...prev, achievement.id]
-      );
-      setNumberUnlocked(unlockedIds.length - 1);
-    } else {
+    if (!existingEntry) {
       setError("You must add this game to unlock achievements");
+      return;
     }
+
+    setError("");
+
+    dispatch(updateAchievementEntry(achievement.id, !achievement.unlocked));
+
+    setUnlockedIds((prev) =>
+      prev.includes(achievement.id) ? prev.filter((id) => id !== achievement.id) : [...prev, achievement.id]
+    );
   };
 
   return (
@@ -99,8 +100,12 @@ function AchievementsTab({ game }) {
 
       {existingEntry && (
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <p className={`m-0 ${game.achievements.length == numberUnlocked ? "text-success" : "color-text-secondary"}`}>
-            {numberUnlocked} <span className="color-text">/ {game.achievements.length}</span>
+          <p
+            className={`m-0 ${
+              game.achievements.length == unlockedIds.length ? "text-success" : "color-text-secondary"
+            }`}
+          >
+            {unlockedIds.length} <span className="color-text">/ {game.achievements.length}</span>
           </p>
           {existingEntry ? (
             <div className="d-flex align-items-center gap-3">

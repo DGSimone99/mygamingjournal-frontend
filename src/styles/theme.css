@@ -41,6 +41,8 @@
 
   --color-theme-bg: #080d17;
 
+  --color-added: #facc15;
+
   --scroll-track-color: rgba(255, 255, 255, 0.05);
   --scroll-thumb-color: rgba(180, 180, 180, 0.3);
   --scroll-thumb-hover: rgba(180, 180, 180, 0.5);

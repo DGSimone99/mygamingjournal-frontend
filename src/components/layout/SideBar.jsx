@@ -6,6 +6,8 @@ import { FaList, FaUser, FaUserFriends, FaChartLine } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { useAuth } from "../../context/AuthContext";
 import Logo from "../../assets/logo.png";
+import { useDispatch } from "react-redux";
+import { fetchUserGameEntries } from "../../redux/actions";
 
 function SideBar() {
   const navigate = useNavigate();
@@ -14,6 +16,8 @@ function SideBar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showDropdownAccount, setShowDropdownAccount] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
     logout();
   };
@@ -21,6 +25,9 @@ function SideBar() {
   useEffect(() => {
     if (!isLoggedIn) {
       setShowDropdownAccount(false);
+    }
+    if (isLoggedIn) {
+      dispatch(fetchUserGameEntries());
     }
   }, [isLoggedIn]);
 

@@ -1,20 +1,22 @@
 import { Card, Col, Image, Row } from "react-bootstrap";
-import { Star } from "react-bootstrap-icons";
+import { Star, StarFill } from "react-bootstrap-icons";
 import { Link } from "react-router";
 import platformIcons from "../../assets/platformIcons.jsx";
+import { useSelector } from "react-redux";
 
 function GameCard({ game, grid, number }) {
+  const gameEntries = useSelector((state) => state.gameEntries || []);
   const getReleaseLabel = (game) => {
     if (!game.released) return "TBA";
     if (new Date(game.released) > new Date()) return "Coming Soon";
     return null;
   };
   return grid ? (
-    <Col md={12 / number} className="mb-4 pointer-big" key={game.id}>
+    <Col md={12 / number} className="mb-4 mt-4 pointer-big" key={game.id}>
       <Card
         as={Link}
         to={`/game/${game.id}`}
-        className="shadow bg-black text-dark-custom h-100 rounded-4 text-decoration-none"
+        className="shadow bg-black color-text h-100 rounded-4 text-decoration-none"
       >
         <div className="position-relative">
           <Card.Img
@@ -24,12 +26,20 @@ function GameCard({ game, grid, number }) {
             className="rounded-top-4"
           />
           {getReleaseLabel(game) && <div className="coming-soon-overlay">{getReleaseLabel(game)}</div>}
-          <div className="d-flex justify-content-between align-items-center mt-1 ms-2">
-            <div className="d-flex align-items-center ms-2 gap-2">
+          <div className="d-flex justify-content-between align-items-center mt-1 mx-3">
+            <div className="d-flex align-items-center gap-2">
               {game?.parentPlatforms?.map((parentPlatforms, index) => {
                 const icon = platformIcons[parentPlatforms];
                 return icon ? <div key={index}>{icon}</div> : null;
               })}
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              {gameEntries?.some((entry) => entry.gameEntryId == game?.id) ? (
+                <StarFill style={{ fill: "var(--color-added)" }} />
+              ) : (
+                <Star />
+              )}
+              <span>{game.rating}</span>
             </div>
           </div>
         </div>

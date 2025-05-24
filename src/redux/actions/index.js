@@ -1,6 +1,13 @@
 import axios from "axios";
 
-import { GET_GAMES, GET_GAME, LOGIN, GET_USER_GAME_ENTRIES, UPDATE_ACHIEVEMENT_ENTRY } from "./actionTypes";
+import {
+  GET_GAMES,
+  GET_GAME,
+  LOGIN,
+  GET_USER_GAME_ENTRIES,
+  UPDATE_ACHIEVEMENT_ENTRY,
+  CLEAR_GAME_ENTRIES,
+} from "./actionTypes";
 
 export const fetchGames = (filters = {}) => {
   return async (dispatch) => {
@@ -72,14 +79,17 @@ export const logoutFetch = () => {
   return async (dispatch) => {
     try {
       localStorage.removeItem("token");
-      dispatch({
-        type: LOGIN,
-        payload: {
-          token: "",
-          username: "",
-          roles: [],
+      dispatch(
+        {
+          type: LOGIN,
+          payload: {
+            token: "",
+            username: "",
+            roles: [],
+          },
         },
-      });
+        { type: CLEAR_GAME_ENTRIES }
+      );
     } catch (error) {
       console.log(error);
     }

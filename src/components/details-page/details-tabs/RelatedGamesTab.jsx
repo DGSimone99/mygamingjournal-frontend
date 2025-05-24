@@ -1,12 +1,22 @@
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import GameCard from "../../catalog/GameCard";
 import { Container } from "react-bootstrap";
 
-function RelatedGamesTab({ game }) {
-  useEffect(() => {}, [game]);
-
+function RelatedGamesTab() {
+  const game = useSelector((state) => state.game || {});
   return (
     <Container className="p-4">
+      {game?.parentGames?.length > 0 && (
+        <div>
+          <h2>Parent Games</h2>
+          <div>
+            {game.parentGames.map((parentGame) => (
+              <GameCard game={parentGame} key={parentGame.id} grid={false} number={-1} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {game?.dlcList?.length > 0 && (
         <div>
           <h2>DLC</h2>
