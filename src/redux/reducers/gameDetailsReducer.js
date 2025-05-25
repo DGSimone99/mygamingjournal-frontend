@@ -4,7 +4,7 @@ const initialState = {
   game: {},
 };
 
-const detailGameReducer = (state = initialState, action) => {
+const gameDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GAME:
       return action.payload.game;
@@ -13,4 +13,4 @@ const detailGameReducer = (state = initialState, action) => {
   }
 };
 
-export default detailGameReducer;
+export default gameDetailsReducer;

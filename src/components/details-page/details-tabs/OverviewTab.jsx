@@ -3,30 +3,36 @@ import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 import { Badge, Button, Col, Container, Image } from "react-bootstrap";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { PeopleFill, Star, StarFill } from "react-bootstrap-icons";
 
 import platformIcons from "../../../assets/platformIcons.jsx";
+import { fetchUserGameEntries } from "../../../redux/actions/entryGameActions.js";
 
 function OverviewTab({ game }) {
   const { isLoggedIn } = useAuth();
-  const [showModal, setShowModal] = useState(false);
-  const gameEntries = useSelector((state) => state.gameEntries || []);
+  const dispatch = useDispatch();
   const { gameId } = useParams();
-  const [tab, setTab] = useState("Info");
 
+  const gameEntries = useSelector((state) => state.gameEntries || []);
   const [userEntry, setUserEntry] = useState(null);
+  const [tab, setTab] = useState("Info");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    const foundEntry = gameEntries.find((entry) => entry.gameEntryId == gameId);
+    dispatch(fetchUserGameEntries());
+  }, [dispatch, gameId]);
+
+  useEffect(() => {
+    const foundEntry = gameEntries.find((entry) => String(entry.gameEntryId) === String(gameId));
     setUserEntry(foundEntry || null);
   }, [gameEntries, gameId]);
 
   useEffect(() => {
-    if ((!userEntry || !isLoggedIn) && tab === "Stats") {
+    if (tab === "Stats" && (!userEntry || !isLoggedIn)) {
       setTab("Info");
     }
-  }, [userEntry, isLoggedIn, tab]);
+  }, [tab, userEntry, isLoggedIn]);
 
   return (
     <Col md={3} className="overview-tab p-0">
@@ -138,12 +144,7 @@ function OverviewTab({ game }) {
         )}
       </Container>
 
-      <ModalGameEntry
-        gameId={game?.id}
-        show={showModal}
-        onHide={() => setShowModal(false)}
-        existingGame={gameEntries.find((entry) => entry.gameEntryId === parseInt(gameId))}
-      />
+      <ModalGameEntry gameId={game?.id} show={showModal} onHide={() => setShowModal(false)} existingGame={userEntry} />
     </Col>
   );
 }

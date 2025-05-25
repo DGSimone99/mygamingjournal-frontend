@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import gamesReducer from "../reducers/gamesReducer.js";
-import detailGameReducer from "../reducers/detailGameReducer.js";
+import gameDetailsReducer from "../reducers/gameDetailsReducer.js";
 import loginReducer from "../reducers/loginReducer.js";
-import gameListReducer from "../reducers/gameListReducer.js";
+import gameEntriesReducer from "../reducers/gameEntriesReducer.js";
+import gameEntryIdsReducer from "../reducers/gameEntryIdsReducer.js";
 
 const mainReducer = combineReducers({
   games: gamesReducer,
-  game: detailGameReducer,
-  gameEntries: gameListReducer,
+  game: gameDetailsReducer,
+  gameEntries: gameEntriesReducer,
+  gameEntryIds: gameEntryIdsReducer,
   login: loginReducer,
 });
 

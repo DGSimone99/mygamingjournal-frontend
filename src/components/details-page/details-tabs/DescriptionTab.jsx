@@ -9,23 +9,26 @@ function DescriptionTab({ game }) {
   };
 
   function GameDescription({ description }) {
+    if (!description) return null;
+
     const blocks = description.split("###").map((block) => {
-      const [title, ...rest] = block.trim().split("\n");
-      const content = rest.join("\n").split("\n\n");
+      const lines = block.trim().split("\n");
+      const title = lines[0];
+      const content = lines.slice(1).join("\n").split("\n\n");
 
       if (!title) return null;
 
       return (
         <div key={title}>
           <h4 className="mt-3 fs-4">{title}:</h4>
-          {content.map((para, index) => (
-            <p key={index}>{para}</p>
+          {content.map((para, i) => (
+            <p key={i}>{para}</p>
           ))}
         </div>
       );
     });
 
-    return <div className="game-description">{blocks}</div>;
+    return <>{blocks}</>;
   }
 
   return (

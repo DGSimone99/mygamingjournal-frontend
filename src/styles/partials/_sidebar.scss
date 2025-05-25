@@ -5,22 +5,23 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--color-tabs-hover);
+      background-color: var(--color-primary-hover);
     }
   }
 }
 
 .dropdown-menu-custom {
-  height: 100vh;
   left: 100%;
-  width: 150px;
+  min-width: 150px;
+  max-height: 90vh;
+  overflow-y: auto;
   background-color: var(--color-page);
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--color-primary);
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-item {
   &:hover {
-    background-color: var(--color-tabs-hover);
+    background-color: var(--color-primary-hover);
   }
 }

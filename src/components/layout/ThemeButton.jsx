@@ -10,7 +10,7 @@ function ThemeButton() {
 
   return (
     <div
-      className={`theme-container  border border-2 border-color ${
+      className={`theme-container border border-2 border-color border-end-0 ${
         open ? "open" : ""
       } position-fixed top-0 end-0 z-3 p-2`}
     >

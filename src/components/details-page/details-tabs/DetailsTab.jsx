@@ -4,11 +4,16 @@ import platformIcons from "../../../assets/platformIcons.jsx";
 import { Reddit } from "react-bootstrap-icons";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Container, Image } from "react-bootstrap";
+import NoUser from "../../../assets/noPic.jpg";
 
 function DetailsTab({ game }) {
   const [member, setMember] = useState(4);
 
-  function GameRequirements(requirements) {
+  function GameRequirements({ requirements }) {
+    if (!requirements || typeof requirements !== "string") {
+      return null; // oppure <p>Requisiti non disponibili</p>
+    }
+
     const htmlDescription = requirements
       .replace(/\n/g, "</p><p class='my-1'>")
       .replace(/(Minimum:)/g, "<h5>$1</h5>")
@@ -16,9 +21,6 @@ function DetailsTab({ game }) {
 
     return <div className="game-description" dangerouslySetInnerHTML={{ __html: htmlDescription }} />;
   }
-
-  const noPic =
-    "https://img.freepik.com/vettori-premium/icona-predefinita-del-profilo-dell-avatar-immagine-dell-utente-dei-social-media-icona-dell-avatar-grigio-silhouette-del-profilo-vuoto-illustrazione-vettoriale_561158-3407.jpg?w=740";
 
   return (
     <Container className="details-tab">
@@ -75,7 +77,7 @@ function DetailsTab({ game }) {
             <div className="team d-flex gap-2 mt-3 flex-wrap">
               {game.developmentTeam.slice(0, member).map((dev) => (
                 <div className="member d-flex align-items-center gap-3 rounded p-2 w-100" key={dev.id}>
-                  <Image src={dev.image || noPic} alt={dev.name} height={50} className="rounded rounded-circle" />
+                  <Image src={dev.image || NoUser} alt={dev.name} height={50} className="rounded rounded-circle" />
                   <div>
                     <h5>{dev.name}</h5>
                     <p>{dev.positions[0]?.charAt(0).toUpperCase() + dev.positions[0]?.slice(1)}</p>
@@ -96,11 +98,11 @@ function DetailsTab({ game }) {
         <p>{game?.genres?.join(", ") || "-"}</p>
       </div>
 
-      {game?.minimumRequirements && (
+      {(game?.minimumRequirements || game?.recommendedRequirements) && (
         <div className="mt-4">
           <h3>System Requirements:</h3>
-          <p className="m-0">{GameRequirements(game.minimumRequirements)}</p>
-          <p className="m-0">{GameRequirements(game.recommendedRequirements)}</p>
+          {game?.minimumRequirements && <GameRequirements requirements={game.minimumRequirements} />}
+          {game?.recommendedRequirements && <GameRequirements requirements={game.recommendedRequirements} />}
         </div>
       )}
 

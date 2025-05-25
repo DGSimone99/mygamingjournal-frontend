@@ -1,6 +1,10 @@
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+export const CLEAR_GAME_ENTRIES = "CLEAR_GAME_ENTRIES";
+
 export const GET_GAMES = "GET_GAMES";
 export const GET_GAME = "GET_GAME";
-export const LOGIN = "LOGIN";
+
 export const GET_USER_GAME_ENTRIES = "GET_USER_GAME_ENTRIES";
-export const CLEAR_GAME_ENTRIES = "CLEAR_GAME_ENTRIES";
+export const GET_USER_GAME_ENTRIES_IDS = "GET_USER_GAME_ENTRIES_IDS";
 export const UPDATE_ACHIEVEMENT_ENTRY = "UPDATE_ACHIEVEMENT_ENTRY";

@@ -102,3 +102,13 @@ select {
     box-shadow: none !important;
   }
 }
+
+.achievement-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}

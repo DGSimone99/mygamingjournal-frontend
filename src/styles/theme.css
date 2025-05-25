@@ -11,7 +11,6 @@
   --color-section: #e5e7eb;
   --color-card: white;
 
-  --color-tabs-hover: #5b21b6;
   --color-comingsoon: #f1a265;
 
   --color-theme-bg: #d2d2d2;
@@ -27,17 +26,14 @@
   --color-text-secondary: #777995;
 
   --color-sidebar: rgb(14, 20, 35);
-
   --color-primary: #222358;
-  --color-primary-hover: #262681;
+  --color-primary-hover: #411f86;
 
   --color-danger: #dc2626;
   --color-danger-hover: #b91c1c;
 
   --color-section: #192231;
   --color-card: rgba(255, 255, 255, 0.12);
-
-  --color-tabs-hover: #3b127d;
 
   --color-theme-bg: #080d17;
 

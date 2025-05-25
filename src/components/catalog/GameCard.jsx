@@ -7,15 +7,15 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 function GameCard({ game, grid, number }) {
-  const gameEntries = useSelector((state) => state.gameEntries || []);
+  const gameEntryIds = useSelector((state) => state.gameEntryIds || []);
 
   const { isLoggedIn } = useAuth();
   const [userEntry, setUserEntry] = useState(null);
 
   useEffect(() => {
-    const foundEntry = gameEntries.find((entry) => entry.gameEntryId == game.id);
+    const foundEntry = gameEntryIds.find((entry) => entry.gameId == game.id);
     setUserEntry(foundEntry || null);
-  }, [gameEntries, game]);
+  }, [gameEntryIds, game]);
   const getReleaseLabel = (game) => {
     if (!game.released) return "TBA";
     if (new Date(game.released) > new Date()) return "Coming Soon";

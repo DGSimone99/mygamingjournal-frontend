@@ -1,8 +1,8 @@
-import { LOGIN } from "../actions/actionTypes";
+import { LOGIN, LOGOUT } from "../actions/actionTypes";
 
 const initialState = {
   token: localStorage.getItem("token") || "",
-  username: "",
+  username: localStorage.getItem("username") || "",
   roles: [],
 };
 
@@ -14,6 +14,14 @@ const loginReducer = (state = initialState, action) => {
         token: action.payload.token,
         username: action.payload.username,
         roles: action.payload.roles,
+      };
+
+    case LOGOUT:
+      return {
+        ...state,
+        token: "",
+        username: "",
+        roles: [],
       };
 
     default:

@@ -8,9 +8,14 @@ import LoginPage from "./components/login/LoginPage";
 import SideBar from "./components/layout/SideBar";
 import ThemeButton from "./components/layout/ThemeButton";
 import RegisterPage from "./components/login/RegisterPage";
-import TopBar from "./components/layout/TopBar";
+import axios from "axios";
 
 function App() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+
   return (
     <BrowserRouter>
       <>

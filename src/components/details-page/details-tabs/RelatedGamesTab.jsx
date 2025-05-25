@@ -4,6 +4,7 @@ import { Container } from "react-bootstrap";
 
 function RelatedGamesTab() {
   const game = useSelector((state) => state.game || {});
+
   return (
     <Container className="p-4">
       {game?.parentGames?.length > 0 && (

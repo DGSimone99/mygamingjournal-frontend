@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { Button, Dropdown, Image, Nav } from "react-bootstrap";
 import { GrCatalog } from "react-icons/gr";
 import { FaList, FaUser, FaUserFriends, FaChartLine } from "react-icons/fa";
@@ -7,14 +7,14 @@ import { IoIosNotifications } from "react-icons/io";
 import { useAuth } from "../../context/AuthContext";
 import Logo from "../../assets/logo.png";
 import { useDispatch } from "react-redux";
-import { fetchUserGameEntries } from "../../redux/actions";
+import { fetchUserGameEntriesIds } from "../../redux/actions";
+import NoUser from "../../assets/NoUser.png";
 
 function SideBar() {
-  const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
 
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showDropdownAccount, setShowDropdownAccount] = useState(false);
+  const [showGenreDropdown, setShowGenreDropdown] = useState(false);
+  const [showAccountDropdown, setShowAccountDropdown] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -23,13 +23,12 @@ function SideBar() {
   };
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      setShowDropdownAccount(false);
-    }
     if (isLoggedIn) {
-      dispatch(fetchUserGameEntries());
+      dispatch(fetchUserGameEntriesIds());
+    } else {
+      setShowAccountDropdown(false);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, dispatch]);
 
   const genres = [
     { slug: "action", name: "Action" },
@@ -60,15 +59,15 @@ function SideBar() {
 
       <Nav className="sidebar-nav d-flex flex-column gap-3">
         <Dropdown
-          className="sidebar-item py-2 fs-7 catalogo-dropdown"
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
+          className="py-2 fs-7"
+          onMouseEnter={() => setShowGenreDropdown(true)}
+          onMouseLeave={() => setShowGenreDropdown(false)}
         >
-          <div onClick={() => navigate("/catalog")}>
+          <Nav.Link as={Link} to="/catalog" className="sidebar-item d-flex align-items-center flex-column gap-2">
             <GrCatalog className="sidebar-icon fs-2" />
-            <Nav.Link>Catalog</Nav.Link>
-          </div>
-          {showDropdown && (
+            Catalog
+          </Nav.Link>
+          {showGenreDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
               {genres.map((genre) => (
                 <Dropdown.Item className="py-2 px-3" key={genre.slug} as={Link} to={`/catalog/${genre.slug}`}>
@@ -79,55 +78,45 @@ function SideBar() {
           )}
         </Dropdown>
 
-        <div className="sidebar-item py-2 fs-7">
+        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
           <FaList className="sidebar-icon fs-2" />
-          <Nav.Link as={Link} to={"/"}>
-            Journal
-          </Nav.Link>
-        </div>
+          Journal
+        </Nav.Link>
 
-        <div className="sidebar-item py-2 fs-7">
+        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
           <FaUserFriends className="sidebar-icon fs-2" />
-          <Nav.Link as={Link} to={"/"}>
-            Friends
-          </Nav.Link>
-        </div>
+          Friends
+        </Nav.Link>
 
-        <div className="sidebar-item py-2 fs-7">
+        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
           <IoIosNotifications className="sidebar-icon fs-2" />
-          <Nav.Link as={Link} to={"/"}>
-            Notifs
-          </Nav.Link>
-        </div>
+          Notifs
+        </Nav.Link>
 
-        <div className="sidebar-item py-2 fs-7">
+        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
           <FaChartLine className="sidebar-icon fs-2" />
-          <Nav.Link as={Link} to={"/"}>
-            Statistics
-          </Nav.Link>
-        </div>
+          Statistics
+        </Nav.Link>
       </Nav>
 
       {!isLoggedIn ? (
-        <div className="sidebar-item py-2 fs-7" onClick={() => navigate("/login")}>
+        <Nav.Link as={Link} to="/login" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
           <FaUser className="sidebar-icon fs-2" />
-          <Nav.Link>Login</Nav.Link>
-        </div>
+          Login
+        </Nav.Link>
       ) : (
         <Dropdown
-          className="sidebar-item py-2 fs-7 catalogo-dropdown"
-          onMouseEnter={() => setShowDropdownAccount(true)}
-          onMouseLeave={() => setShowDropdownAccount(false)}
+          className="py-2 fs-7"
+          onMouseEnter={() => setShowAccountDropdown(true)}
+          onMouseLeave={() => setShowAccountDropdown(false)}
         >
-          <div onClick={() => navigate("/")}>
-            <FaUser className="sidebar-icon fs-2" />
-            <Nav.Link as={Link} to={"/"}>
-              Account
-            </Nav.Link>
-          </div>
-          {showDropdownAccount && (
+          <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
+            <Image src={NoUser} className="sidebar-image rounded-circle" alt="user" height={40} width={40} /> Account
+          </Nav.Link>
+
+          {showAccountDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              <Dropdown.Item className="py-2 px-3" onClick={handleLogout}>
+              <Dropdown.Item className="px-3" onClick={handleLogout}>
                 Logout
               </Dropdown.Item>
             </div>
