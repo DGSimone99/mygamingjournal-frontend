@@ -2,6 +2,8 @@ export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const CLEAR_GAME_ENTRIES = "CLEAR_GAME_ENTRIES";
 
+export const GET_USER = "GET_USER";
+
 export const GET_GAMES = "GET_GAMES";
 export const GET_GAME = "GET_GAME";
 

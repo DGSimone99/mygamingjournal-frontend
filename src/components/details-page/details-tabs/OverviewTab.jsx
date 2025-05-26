@@ -21,7 +21,7 @@ function OverviewTab({ game }) {
 
   useEffect(() => {
     dispatch(fetchUserGameEntries());
-  }, [dispatch, gameId]);
+  }, [gameId]);
 
   useEffect(() => {
     const foundEntry = gameEntries.find((entry) => String(entry.gameEntryId) === String(gameId));

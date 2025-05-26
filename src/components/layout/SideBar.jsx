@@ -6,12 +6,14 @@ import { FaList, FaUser, FaUserFriends, FaChartLine } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { useAuth } from "../../context/AuthContext";
 import Logo from "../../assets/logo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUserGameEntriesIds } from "../../redux/actions";
 import NoUser from "../../assets/NoUser.png";
 
 function SideBar() {
   const { isLoggedIn, logout } = useAuth();
+
+  const user = useSelector((state) => state.user);
 
   const [showGenreDropdown, setShowGenreDropdown] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
@@ -111,12 +113,23 @@ function SideBar() {
           onMouseLeave={() => setShowAccountDropdown(false)}
         >
           <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
-            <Image src={NoUser} className="sidebar-image rounded-circle" alt="user" height={40} width={40} /> Account
+            <Image
+              src={user.avatarUrl || NoUser}
+              className="sidebar-image rounded-circle"
+              alt="user"
+              height={40}
+              width={40}
+            />{" "}
+            Account
           </Nav.Link>
 
           {showAccountDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              <Dropdown.Item className="px-3" onClick={handleLogout}>
+              <Dropdown.Item className="py-2 px-3" as={Link} to={`/settings`}>
+                Account Settings
+              </Dropdown.Item>
+              <hr className="m-0"></hr>
+              <Dropdown.Item className="py-2 px-3" onClick={handleLogout}>
                 Logout
               </Dropdown.Item>
             </div>

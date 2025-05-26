@@ -9,11 +9,16 @@ import SideBar from "./components/layout/SideBar";
 import ThemeButton from "./components/layout/ThemeButton";
 import RegisterPage from "./components/login/RegisterPage";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "./redux/actions";
+import UserSettings from "./components/UserSettings";
 
 function App() {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    dispatch(fetchUser());
   }
 
   return (
@@ -28,6 +33,7 @@ function App() {
             <Route path="/game/:gameId" element={<GameDetailsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/settings" element={<UserSettings />} />
           </Routes>
         </div>
         {/* <Footer /> */}

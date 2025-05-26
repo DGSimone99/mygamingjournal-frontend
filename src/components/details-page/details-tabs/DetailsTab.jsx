@@ -4,7 +4,7 @@ import platformIcons from "../../../assets/platformIcons.jsx";
 import { Reddit } from "react-bootstrap-icons";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Container, Image } from "react-bootstrap";
-import NoUser from "../../../assets/noPic.jpg";
+import NoUser from "../../../assets/NoUser.png";
 
 function DetailsTab({ game }) {
   const [member, setMember] = useState(4);

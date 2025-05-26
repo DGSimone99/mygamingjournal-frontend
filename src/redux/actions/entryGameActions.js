@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { GET_USER_GAME_ENTRIES, GET_USER_GAME_ENTRIES_IDS, UPDATE_ACHIEVEMENT_ENTRY } from "./actionTypes";
+import { fetchGames } from "./gameActions";
 
 export const fetchUserGameEntries = () => {
   return async (dispatch) => {
@@ -62,6 +63,20 @@ export const updateAchievementEntry = (id, unlocked) => {
       });
     } catch (error) {
       console.error("Error updating achievement entry", error);
+    }
+  };
+};
+
+export const deleteGameEntry = (id) => {
+  return async (dispatch) => {
+    try {
+      await axios.delete("/api/my-library?id=" + id);
+
+      await dispatch(fetchUserGameEntries());
+      await dispatch(fetchUserGameEntriesIds());
+      await dispatch(fetchGames());
+    } catch (error) {
+      console.error("Error deleting game entry", error);
     }
   };
 };

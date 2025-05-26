@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { LOGIN, LOGOUT, CLEAR_GAME_ENTRIES } from "./actionTypes";
+import { LOGIN, LOGOUT, CLEAR_GAME_ENTRIES, GET_USER } from "./actionTypes";
 
 export const loginFetch = (credentials) => {
   return async (dispatch) => {
@@ -17,6 +17,8 @@ export const loginFetch = (credentials) => {
         type: LOGIN,
         payload: { token, username, roles },
       });
+
+      await dispatch(fetchUser());
 
       return token;
     } catch (error) {
@@ -50,6 +52,17 @@ export const registerFetch = (formData) => {
     } catch (error) {
       console.error("Registration failed", error);
       return false;
+    }
+  };
+};
+
+export const fetchUser = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/api/users/me");
+      dispatch({ type: GET_USER, payload: response.data });
+    } catch (error) {
+      console.error("Error fetching user", error);
     }
   };
 };

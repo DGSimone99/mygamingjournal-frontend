@@ -4,6 +4,7 @@ import gameDetailsReducer from "../reducers/gameDetailsReducer.js";
 import loginReducer from "../reducers/loginReducer.js";
 import gameEntriesReducer from "../reducers/gameEntriesReducer.js";
 import gameEntryIdsReducer from "../reducers/gameEntryIdsReducer.js";
+import userReducer from "../reducers/userReducer.js";
 
 const mainReducer = combineReducers({
   games: gamesReducer,
@@ -11,6 +12,7 @@ const mainReducer = combineReducers({
   gameEntries: gameEntriesReducer,
   gameEntryIds: gameEntryIdsReducer,
   login: loginReducer,
+  user: userReducer,
 });
 
 const store = configureStore({

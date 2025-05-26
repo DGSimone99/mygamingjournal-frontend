@@ -33,7 +33,10 @@ function AchievementsTab({ game }) {
     } else {
       setUnlockedIds([]);
     }
-  }, [userEntry]);
+    if (!isLoggedIn) {
+      setUnlockedIds([]);
+    }
+  }, [userEntry, isLoggedIn]);
 
   const sortedAchievements = [...game.achievements]
     .filter((a) => {
@@ -70,7 +73,7 @@ function AchievementsTab({ game }) {
   };
 
   const handleAchievement = (achievement) => {
-    if (!userEntry) {
+    if (!userEntry || !isLoggedIn) {
       setError("You must add this game to unlock achievements");
       return;
     }

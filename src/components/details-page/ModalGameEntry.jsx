@@ -3,7 +3,7 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch } from "react-redux";
-import { fetchDetails, fetchUserGameEntries, saveGameEntry } from "../../redux/actions";
+import { deleteGameEntry, fetchDetails, fetchUserGameEntries, saveGameEntry } from "../../redux/actions";
 import { MdClose } from "react-icons/md";
 
 function ModalGameEntry(props) {
@@ -53,6 +53,13 @@ function ModalGameEntry(props) {
     dispatch(saveGameEntry(gameData, method)).then(() => {
       dispatch(fetchDetails(gameId));
       dispatch(fetchUserGameEntries());
+    });
+  };
+
+  const handleDelete = (id) => {
+    props.onHide();
+    dispatch(deleteGameEntry(id)).then(() => {
+      dispatch(fetchDetails(gameId));
     });
   };
 
@@ -133,7 +140,10 @@ function ModalGameEntry(props) {
 
       <Modal.Footer className="modal-custom border-0">
         {existingGame && (
-          <Button className="modal-btn-delete border-0 rounded-pill me-auto" onClick={handleSubmit}>
+          <Button
+            className="modal-btn-delete border-0 rounded-pill me-auto"
+            onClick={() => handleDelete(existingGame.id)}
+          >
             Delete
           </Button>
         )}
