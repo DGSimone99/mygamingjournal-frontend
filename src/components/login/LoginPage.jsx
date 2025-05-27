@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -10,11 +10,18 @@ import { useAuth } from "../../context/AuthContext";
 import LogoCompleto from "../../assets/logoCompleto.png";
 
 function LoginPage() {
+  const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
   const [form, setForm] = useState({ username: "", password: "" });
   const navigate = useNavigate();
   const { login } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/settings");
+    }
+  }, [isLoggedIn]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

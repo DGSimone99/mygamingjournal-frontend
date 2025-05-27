@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,10 +7,18 @@ import { useDispatch } from "react-redux";
 import { registerFetch } from "../../redux/actions";
 import { useNavigate } from "react-router";
 import LogoCompleto from "../../assets/logoCompleto.png";
+import { useAuth } from "../../context/AuthContext";
 
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/settings");
+    }
+  }, [isLoggedIn]);
 
   const [form, setForm] = useState({
     username: "",

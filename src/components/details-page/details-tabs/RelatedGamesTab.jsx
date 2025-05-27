@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import GameCard from "../../catalog/GameCard";
+import GameCard from "../../game-card/GameCard";
 import { Container } from "react-bootstrap";
 
 function RelatedGamesTab() {

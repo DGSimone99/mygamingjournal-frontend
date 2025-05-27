@@ -2,9 +2,21 @@ import { Button, Container, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 import NoUser from "../assets/NoUser.png";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { useAuth } from "../context/AuthContext";
 
 const UserSettings = () => {
   const user = useSelector((state) => state.user);
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
+
   return (
     <Container className="page">
       <div>

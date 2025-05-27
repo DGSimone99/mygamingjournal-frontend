@@ -15,7 +15,7 @@ function SideBar() {
 
   const user = useSelector((state) => state.user);
 
-  const [showGenreDropdown, setShowGenreDropdown] = useState(false);
+  const [showCatalogDropdown, setShowCatalogDropdown] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
 
   const dispatch = useDispatch();
@@ -32,27 +32,6 @@ function SideBar() {
     }
   }, [isLoggedIn, dispatch]);
 
-  const genres = [
-    { slug: "action", name: "Action" },
-    { slug: "indie", name: "Indie" },
-    { slug: "adventure", name: "Adventure" },
-    { slug: "role-playing-games-rpg", name: "RPG" },
-    { slug: "strategy", name: "Strategy" },
-    { slug: "shooter", name: "Shooter" },
-    { slug: "casual", name: "Casual" },
-    { slug: "simulation", name: "Simulation" },
-    { slug: "puzzle", name: "Puzzle" },
-    { slug: "arcade", name: "Arcade" },
-    { slug: "platformer", name: "Platformer" },
-    { slug: "racing", name: "Racing" },
-    { slug: "sports", name: "Sports" },
-    { slug: "fighting", name: "Fighting" },
-    { slug: "family", name: "Family" },
-    { slug: "board-games", name: "Board Games" },
-    { slug: "educational", name: "Educational" },
-    { slug: "card", name: "Card" },
-  ];
-
   return (
     <div className="sidebar z-3 h-100 pt-3 d-flex flex-column justify-content-between text-center position-fixed top-0">
       <Button className="border-0 bg-transparent p-0" as={Link} to={"/"}>
@@ -62,20 +41,24 @@ function SideBar() {
       <Nav className="sidebar-nav d-flex flex-column gap-3">
         <Dropdown
           className="py-2 fs-7"
-          onMouseEnter={() => setShowGenreDropdown(true)}
-          onMouseLeave={() => setShowGenreDropdown(false)}
+          onMouseEnter={() => setShowCatalogDropdown(true)}
+          onMouseLeave={() => setShowCatalogDropdown(false)}
         >
           <Nav.Link as={Link} to="/catalog" className="sidebar-item d-flex align-items-center flex-column gap-2">
             <GrCatalog className="sidebar-icon fs-2" />
             Catalog
           </Nav.Link>
-          {showGenreDropdown && (
+          {showCatalogDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              {genres.map((genre) => (
-                <Dropdown.Item className="py-2 px-3" key={genre.slug} as={Link} to={`/catalog/${genre.slug}`}>
-                  {genre.name}
-                </Dropdown.Item>
-              ))}
+              <Dropdown.Item className="py-2 px-3" as={Link} to={`/catalog/`}>
+                Top Rated
+              </Dropdown.Item>
+              <Dropdown.Item className="py-2 px-3" as={Link} to={`/catalog/`}>
+                New Releases
+              </Dropdown.Item>
+              <Dropdown.Item className="py-2 px-3" as={Link} to={`/catalog/`}>
+                Upcoming Games
+              </Dropdown.Item>
             </div>
           )}
         </Dropdown>

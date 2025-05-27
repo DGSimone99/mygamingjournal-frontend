@@ -29,7 +29,8 @@ function App() {
           <ThemeButton />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/catalog/*" element={<CatalogPage />} />
+            <Route path="/catalog/" element={<CatalogPage />} />
+            <Route path="/catalog/:paramType/:param" element={<CatalogPage />} />
             <Route path="/game/:gameId" element={<GameDetailsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

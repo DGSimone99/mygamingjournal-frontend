@@ -100,10 +100,20 @@ function OverviewTab({ game }) {
             <h4>Game Modes:</h4>
             <div>
               <h5>
-                Singleplayer: <span>{game?.gameModes?.includes("Singleplayer") ? "Yes" : "No"}</span>
+                Singleplayer:{" "}
+                <span>
+                  {game?.gameModes?.some((mode) => ["Singleplayer", "Single-Player"].includes(mode)) ? "Yes" : "No"}
+                </span>
               </h5>
               <h5>
-                Multiplayer: <span>{game?.gameModes?.includes("Multiplayer") ? "Yes" : "No"}</span>
+                Multiplayer:{" "}
+                <span>
+                  {game?.gameModes?.some((mode) =>
+                    ["Multiplayer", "Multi-Player", "Online multiplayer", "Cross-Platform Multiplayer"].includes(mode)
+                  )
+                    ? "Yes"
+                    : "No"}
+                </span>
               </h5>
             </div>
             <hr />
