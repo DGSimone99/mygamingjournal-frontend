@@ -160,7 +160,7 @@ function OverviewTab({ game }) {
         {userEntry && tab === "Stats" && (
           <div className="mt-2">
             <h5 className="d-flex align-items-center gap-2">
-              Your rating: <StarFill style={{ fill: "var(--color-added)" }} />
+              Your rating: <StarFill style={{ fill: "var(--added)" }} />
               <span className="fw-normal">{userEntry?.personalRating}</span>
             </h5>
             <h5 className="d-flex align-items-center gap-2">

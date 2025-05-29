@@ -45,14 +45,14 @@ function PostReview({ game }) {
                   <h5 className="mb-0">{user?.username}</h5>
                 </div>
               </div>
-              <Form.Group className="mb-3">
-                <Form.Label className="text-white">Score</Form.Label>
+              <Form.Group className="my-4">
                 <Form.Select
                   required
                   value={form.score}
                   onChange={(e) => setForm({ ...form, score: parseInt(e.target.value) })}
                   className="bg-black border border-secondary"
                 >
+                  <option value={0}>Score</option>
                   {[...Array(10)].map((_, i) => (
                     <option key={i + 1} value={i + 1}>
                       {i + 1}
@@ -72,7 +72,7 @@ function PostReview({ game }) {
                 className="input-field bg-sidebar border border-secondary"
               />
 
-              <Button type="submit" className="border-secondary ms-2 btn-post">
+              <Button type="submit" className="border-secondary ms-2 btn-confirm">
                 Post
               </Button>
             </Form.Group>

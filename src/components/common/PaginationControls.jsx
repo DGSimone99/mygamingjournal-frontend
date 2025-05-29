@@ -5,14 +5,14 @@ function PaginationControls({ currentPage, totalPages, onPageChange }) {
   const maxVisible = 9;
 
   const startPage = Math.max(0, currentPage - Math.floor(maxVisible / 2));
-  const endPage = Math.min(totalPages, startPage + maxVisible - 1);
+  const endPage = Math.min(totalPages - 1, startPage + maxVisible - 1);
 
   for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
 
   return (
-    <Pagination className="justify-content-center mb-0">
+    <Pagination className="justify-content-center">
       <Pagination.Prev onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 0} />
 
       {startPage > 0 && (
@@ -28,14 +28,14 @@ function PaginationControls({ currentPage, totalPages, onPageChange }) {
         </Pagination.Item>
       ))}
 
-      {endPage < totalPages && (
+      {endPage < totalPages - 1 && (
         <>
           <Pagination.Ellipsis disabled />
-          <Pagination.Item onClick={() => onPageChange(totalPages)}>{totalPages}</Pagination.Item>
+          <Pagination.Item onClick={() => onPageChange(totalPages - 1)}>{totalPages}</Pagination.Item>
         </>
       )}
 
-      <Pagination.Next onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} />
+      <Pagination.Next onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages - 1} />
     </Pagination>
   );
 }

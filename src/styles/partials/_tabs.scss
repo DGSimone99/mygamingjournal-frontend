@@ -90,8 +90,10 @@
       opacity: 0.5;
     }
 
-    img {
+    .achievement-image {
+      width: 100px;
       height: 100px;
+      object-fit: cover;
     }
   }
 }

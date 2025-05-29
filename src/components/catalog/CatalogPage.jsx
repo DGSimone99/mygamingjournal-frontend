@@ -33,11 +33,13 @@ function CatalogPage() {
     if (param && paramType) {
       setQuery(param);
       setQueryType(paramType);
-    } else if (!param && !paramType) {
-      setQuery("");
-      navigate("/catalog");
     }
-  }, [param, paramType]);
+
+    if (location.pathname === "/catalog/") {
+      setQueryType("query");
+      setQuery("");
+    }
+  }, [param, paramType, navigate]);
 
   return (
     <Container fluid className="page">

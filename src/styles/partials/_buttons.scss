@@ -1,0 +1,18 @@
+.btn-close {
+  display: none;
+}
+
+.btn-delete {
+  background-color: var(--danger) !important;
+  &:hover {
+    background-color: var(--danger-hover) !important;
+  }
+}
+
+.btn-confirm {
+  background-color: var(--primary) !important;
+  border-color: var(--sidebar) !important;
+  &:hover {
+    background-color: var(--primary-hover) !important;
+  }
+}

@@ -1,0 +1,51 @@
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: var(--sidebar);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:checked {
+    background-color: var(--sidebar);
+    border-color: var(--section);
+  }
+
+  &:checked::before {
+    content: "";
+    display: block;
+    position: relative;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 10px;
+    transform: rotate(45deg);
+  }
+}
+
+.form-check-label {
+  margin-left: 8px;
+  font-weight: bold;
+  color: var(--text) !important;
+}
+
+select {
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.input-field {
+  background-color: var(--sidebar) !important;
+  &-filter {
+    background-color: var(--sidebar) !important;
+    width: 170px !important;
+  }
+  &-search {
+    background-color: var(--dark) !important;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}

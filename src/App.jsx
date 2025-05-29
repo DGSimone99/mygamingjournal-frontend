@@ -8,10 +8,10 @@ import LoginPage from "./components/login/LoginPage";
 import SideBar from "./components/layout/SideBar";
 import ThemeButton from "./components/layout/ThemeButton";
 import RegisterPage from "./components/login/RegisterPage";
+import UserSettings from "./components/user/UserSettings";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "./redux/actions";
-import UserSettings from "./components/UserSettings";
 
 function App() {
   const dispatch = useDispatch();

@@ -1,11 +1,11 @@
 import { Button, Container, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
-import NoUser from "../assets/NoUser.png";
+import NoUser from "../../assets/NoUser.png";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../context/AuthContext";
-import allLanguages from "../utils/allLanguages";
+import { useAuth } from "../../context/AuthContext";
+import allLanguages from "../../utils/allLanguages";
 import { RiQuillPenAiLine } from "react-icons/ri";
 
 const UserSettings = () => {
