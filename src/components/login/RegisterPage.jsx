@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { registerFetch } from "../../redux/actions";
 import { useNavigate } from "react-router";
 import LogoCompleto from "../../assets/logoCompleto.png";
+import allLanguages from "../../utils/allLanguages";
+import Select from "react-select";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -120,26 +122,22 @@ function RegisterPage() {
           </Form.Group>
 
           <Form.Group controlId="registerLanguages" className="mt-3">
-            <Form.Label>Languages Spoken (max 3)</Form.Label>
-            <Form.Select
-              multiple
-              value={form.languages}
-              onChange={(e) => {
-                const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value);
+            <Form.Label>Languages</Form.Label>
+            <Select
+              isMulti
+              isSearchable
+              options={allLanguages}
+              value={allLanguages.filter((lang) => form.languages.includes(lang.value))}
+              onChange={(selectedOptions) => {
                 if (selectedOptions.length <= 3) {
-                  setForm({ ...form, languages: selectedOptions });
+                  setForm({ ...form, languages: selectedOptions.map((opt) => opt.value) });
                 }
               }}
-              className="input-field border-0"
-            >
-              <option value="it">Italiano 🇮🇹</option>
-              <option value="en">English 🇬🇧</option>
-              <option value="fr">Français 🇫🇷</option>
-              <option value="ja">日本語 🇯🇵</option>
-              <option value="de">Deutsch 🇩🇪</option>
-              <option value="es">Español 🇪🇸</option>
-            </Form.Select>
-            <Form.Text className="text-muted">Hold Ctrl (or ⌘ on Mac) to select multiple.</Form.Text>
+              classNamePrefix="react-select"
+              className="react-select"
+              placeholder="Select languages..."
+            />
+            <Form.Text className="text-secondary">Max 3. Start typing to search.</Form.Text>
           </Form.Group>
 
           <div className="text-danger mt-2">{errorMessage}</div>

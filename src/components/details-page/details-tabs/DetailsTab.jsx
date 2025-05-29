@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import platformIcons from "../../../assets/platformIcons.jsx";
+import platformIcons from "../../../utils/platformIcons.jsx";
 import { Reddit } from "react-bootstrap-icons";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Container, Image } from "react-bootstrap";
@@ -11,7 +11,7 @@ function DetailsTab({ game }) {
 
   function GameRequirements({ requirements }) {
     if (!requirements || typeof requirements !== "string") {
-      return null; // oppure <p>Requisiti non disponibili</p>
+      return null;
     }
 
     const htmlDescription = requirements

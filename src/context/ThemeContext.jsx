@@ -16,6 +16,10 @@ export function ThemeProvider({ children }) {
     body.classList.add("theme-transition");
     body.className = theme + "-theme theme-transition";
 
+    setTimeout(() => {
+      body.classList.remove("theme-transition");
+    }, 1000);
+
     localStorage.setItem("theme", theme);
   }, [theme]);
 

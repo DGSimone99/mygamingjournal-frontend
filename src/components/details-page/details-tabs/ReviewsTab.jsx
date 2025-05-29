@@ -13,7 +13,7 @@ function ReviewsTab({ game }) {
   const yourReview = reviews.find((r) => r.author.id === user.id);
   const otherReviews = reviews.filter((r) => r.author.id !== user.id);
   const { isLoggedIn } = useAuth();
-  const [page, setPage] = useState(0);
+  const [page] = useState(0);
 
   useEffect(() => {
     dispatch(fetchReviewsByGame(game.id, page));

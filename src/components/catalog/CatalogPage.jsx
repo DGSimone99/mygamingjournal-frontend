@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import QueryCatalog from "./QueryCatalog";
 import SearchControls from "./SearchControls";
@@ -12,6 +12,7 @@ function CatalogPage() {
   const [grid, setGrid] = useState(true);
   const [queryType, setQueryType] = useState("query");
   const { paramType, param } = useParams();
+  const navigate = useNavigate();
 
   const renderCatalogsByGenre = () => {
     const genres = ["action", "adventure", "rpg", "shooter", "strategy"];
@@ -27,6 +28,16 @@ function CatalogPage() {
       />
     ));
   };
+
+  useEffect(() => {
+    if (param && paramType) {
+      setQuery(param);
+      setQueryType(paramType);
+    } else if (!param && !paramType) {
+      setQuery("");
+      navigate("/catalog");
+    }
+  }, [param, paramType]);
 
   return (
     <Container fluid className="page">

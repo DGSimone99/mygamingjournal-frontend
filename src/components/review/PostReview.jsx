@@ -23,7 +23,7 @@ function PostReview({ game }) {
     <Container className="p-4 mt-3 rounded-3 shadow-sm bg-dark shadow-lg">
       <div
         onClick={() => setOpen(!open)}
-        className="d-flex align-items-center justify-content-between text-white mb-3 pointer"
+        className="d-flex align-items-center justify-content-between text-white mb-1 pointer"
         style={{ cursor: "pointer" }}
       >
         <h4 className="mb-0">Post a Review</h4>
@@ -33,7 +33,7 @@ function PostReview({ game }) {
       <Collapse in={open}>
         <div>
           <Form onSubmit={handleSubmit}>
-            <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="d-flex justify-content-between align-items-center mb-1">
               <div className="d-flex align-items-center gap-3">
                 <Image
                   src={user?.avatarUrl || NoUser}
@@ -72,7 +72,7 @@ function PostReview({ game }) {
                 className="input-field bg-sidebar border border-secondary"
               />
 
-              <Button type="submit" className="bg-secondary border-0 ms-2">
+              <Button type="submit" className="border-secondary ms-2 btn-post">
                 Post
               </Button>
             </Form.Group>

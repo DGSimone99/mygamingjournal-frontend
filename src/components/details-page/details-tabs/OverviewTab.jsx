@@ -2,12 +2,12 @@ import ModalGameEntry from "../ModalGameEntry.jsx";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 import { Badge, Button, Col, Container, Image } from "react-bootstrap";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { PeopleFill, Star, StarFill } from "react-bootstrap-icons";
-
-import platformIcons from "../../../assets/platformIcons.jsx";
+import platformIcons from "../../../utils/platformIcons.jsx";
 import { fetchUserGameEntries } from "../../../redux/actions/entryGameActions.js";
+import { RiQuillPenAiFill, RiQuillPenAiLine } from "react-icons/ri";
 
 function OverviewTab({ game }) {
   const { isLoggedIn } = useAuth();
@@ -18,6 +18,8 @@ function OverviewTab({ game }) {
   const [userEntry, setUserEntry] = useState(null);
   const [tab, setTab] = useState("Info");
   const [showModal, setShowModal] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserGameEntries());
@@ -51,10 +53,21 @@ function OverviewTab({ game }) {
           </div>
         </div>
         {isLoggedIn && (
-          <p className="pointer-underline" onClick={() => setShowModal(true)}>
-            {userEntry ? "Edit" : "Add to list"}
-          </p>
+          <div>
+            {userEntry ? (
+              <div className="pointer-underline d-flex align-items-center" onClick={() => setShowModal(true)}>
+                <RiQuillPenAiFill className="me-1 fs-5" />
+                Edit
+              </div>
+            ) : (
+              <div className="pointer-underline d-flex align-items-center" onClick={() => setShowModal(true)}>
+                <RiQuillPenAiLine className="me-1 fs-5" />
+                Add to List
+              </div>
+            )}
+          </div>
         )}
+
         <div className="d-flex mt-3">
           <Button
             className={`tabs w-100  ${tab === "Info" ? "active" : ""} ${
@@ -77,10 +90,22 @@ function OverviewTab({ game }) {
           <div className="mt-2">
             <h4>General Info:</h4>
             <h5>
-              Developer: <span>{game?.developers?.[0] || "-"}</span>
+              Developer:{" "}
+              <span
+                onClick={() => navigate(`/catalog/developers/${game?.developers?.[0]}`)}
+                className="pointer-underline"
+              >
+                {game?.developers?.[0] || "-"}
+              </span>
             </h5>
             <h5>
-              Publisher: <span>{game?.publishers?.[0] || "-"}</span>
+              Publisher:{" "}
+              <span
+                onClick={() => navigate(`/catalog/publishers/${game?.publishers?.[0]}`)}
+                className="pointer-underline"
+              >
+                {game?.publishers?.[0] || "-"}
+              </span>
             </h5>
             <h5>
               Release date: <span>{game?.released || "-"}</span>
@@ -89,7 +114,7 @@ function OverviewTab({ game }) {
               Genre:
               <div className="ms-2 d-flex">
                 {game?.genres?.slice(0, 3).map((genre, i, arr) => (
-                  <span key={i} className="me-1">
+                  <span key={i} className="me-1 pointer-underline" onClick={() => navigate(`/catalog/genre/${genre}`)}>
                     {genre}
                     {i < arr.length - 1 && ","}
                   </span>

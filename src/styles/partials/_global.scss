@@ -170,3 +170,16 @@ select {
     background-color: var(--danger-hover) !important;
   }
 }
+
+.btn-post {
+  background-color: var(--primary-hover) !important;
+  border: 0.1em solid var(--primary-hover) !important;
+  &:hover {
+    background-color: var(--primary) !important;
+    border: 0.1em solid var(--secondary) !important;
+  }
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}

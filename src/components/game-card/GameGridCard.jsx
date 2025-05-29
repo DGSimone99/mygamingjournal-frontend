@@ -1,10 +1,10 @@
 import { Card, Col } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import platformIcons from "../../assets/platformIcons.jsx";
+import platformIcons from "../../utils/platformIcons.jsx";
 
 function GameGridCard({ game, number }) {
   const { isLoggedIn } = useAuth();
@@ -21,6 +21,8 @@ function GameGridCard({ game, number }) {
   };
 
   const releaseLabel = getReleaseLabel(game);
+
+  const navigate = useNavigate();
 
   return (
     <Col md={12 / number} className="mb-3 mt-2 pointer-big" key={game.id}>
@@ -54,8 +56,15 @@ function GameGridCard({ game, number }) {
           <Card.Title className="my-0" title={game.name}>
             {game?.name}
           </Card.Title>
-          <Card.Text className="my-0 text-secondary pointer-underline">
-            {game?.developers?.[0] || "Sviluppatore sconosciuto"}
+          <Card.Text
+            className="my-0 text-secondary pointer-underline"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              navigate(`/catalog/developers/${game?.developers?.[0]}`);
+            }}
+          >
+            {game?.developers?.[0] || "Unknown Developer"}
           </Card.Text>
         </Card.Body>
       </Card>

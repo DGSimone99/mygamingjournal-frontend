@@ -1,4 +1,4 @@
-import { Star } from "react-bootstrap-icons";
+import { Star, Trash3Fill } from "react-bootstrap-icons";
 import NoUser from "../../assets/NoUser.png";
 import { Button, Container, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
@@ -16,8 +16,8 @@ function ReviewCard({ review, yourReview }) {
         <div className="d-flex justify-content-between">
           <h4 className="mb-3">Your review</h4>
           <div>
-            <Button onClick={deleteBtn} className="bg-danger border-0 rounded-5">
-              Delete
+            <Button onClick={deleteBtn} className="bg-transparent border-0 rounded-5">
+              <Trash3Fill className="fs-5" style={{ fill: "var(--danger)" }} />
             </Button>
           </div>
         </div>

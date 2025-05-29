@@ -44,7 +44,7 @@ function SideBar() {
           onMouseEnter={() => setShowCatalogDropdown(true)}
           onMouseLeave={() => setShowCatalogDropdown(false)}
         >
-          <Nav.Link as={Link} to="/catalog" className="sidebar-item d-flex align-items-center flex-column gap-2">
+          <Nav.Link as={Link} to="/catalog/" className="sidebar-item d-flex align-items-center flex-column gap-2">
             <GrCatalog className="sidebar-icon fs-2" />
             Catalog
           </Nav.Link>

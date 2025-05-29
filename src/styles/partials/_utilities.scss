@@ -1,4 +1,4 @@
-@import "variables";
+@use "./variables" as *;
 
 .fs-7 {
   font-size: 0.9rem;

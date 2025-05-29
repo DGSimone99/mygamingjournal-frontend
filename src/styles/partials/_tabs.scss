@@ -46,17 +46,13 @@
     font-weight: 600;
     text-transform: uppercase;
     font-size: 1.2rem;
-    color: var(--text);
     letter-spacing: 0.5px;
   }
 
   span {
     text-transform: none;
-    color: var(--text-secondary) !important;
-  }
-
-  h5 span {
     font-weight: normal;
+    color: var(--secondary) !important;
   }
 }
 

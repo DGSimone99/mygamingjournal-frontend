@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
-import platformIcons from "../../assets/platformIcons.jsx";
+import platformIcons from "../../utils/platformIcons.jsx";
 
 function GameListCard({ game }) {
   const { isLoggedIn } = useAuth();
