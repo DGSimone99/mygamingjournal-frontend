@@ -17,12 +17,6 @@ export function ThemeProvider({ children }) {
     body.className = theme + "-theme theme-transition";
 
     localStorage.setItem("theme", theme);
-
-    const timeout = setTimeout(() => {
-      body.classList.remove("theme-transition");
-    }, 1000);
-
-    return () => clearTimeout(timeout);
   }, [theme]);
 
   const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));

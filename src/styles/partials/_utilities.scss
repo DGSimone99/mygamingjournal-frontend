@@ -1,29 +1,25 @@
+@import "variables";
+
 .fs-7 {
   font-size: 0.9rem;
 }
 
-.fs-8 {
-  font-size: 0.8rem;
+@each $name, $value in $color-vars {
+  .text-#{$name} {
+    color: #{$value} !important;
+  }
+
+  .bg-#{$name} {
+    background-color: #{$value} !important;
+  }
+
+  .border-#{$name} {
+    border-color: #{$value} !important;
+  }
 }
 
-.fs-9 {
-  font-size: 0.7rem;
-}
-
-.fs-10 {
-  font-size: 0.6rem;
-}
-
-.color-text {
-  color: var(--color-text) !important;
-  fill: var(--color-text) !important;
-}
-
-.color-text-secondary {
-  color: var(--color-text-secondary) !important;
-  fill: var(--color-text-secondary) !important;
-}
-
-.border-color {
-  border-color: var(--color-section) !important;
+@each $name, $value in $color-vars-hover {
+  .#{$name}-hover:hover {
+    background-color: $value !important;
+  }
 }

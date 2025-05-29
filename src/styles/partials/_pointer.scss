@@ -14,7 +14,7 @@
     cursor: pointer;
     user-select: none;
     &:hover {
-      color: var(--color-text) !important;
+      color: var(--text) !important;
       text-decoration: underline;
     }
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,23 +7,16 @@ import { useDispatch } from "react-redux";
 import { registerFetch } from "../../redux/actions";
 import { useNavigate } from "react-router";
 import LogoCompleto from "../../assets/logoCompleto.png";
-import { useAuth } from "../../context/AuthContext";
 
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/settings");
-    }
-  }, [isLoggedIn]);
 
   const [form, setForm] = useState({
     username: "",
     email: "",
     password: "",
+    languages: [],
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -124,6 +117,29 @@ function RegisterPage() {
                 This field cannot be empty.
               </Form.Control.Feedback>
             </InputGroup>
+          </Form.Group>
+
+          <Form.Group controlId="registerLanguages" className="mt-3">
+            <Form.Label>Languages Spoken (max 3)</Form.Label>
+            <Form.Select
+              multiple
+              value={form.languages}
+              onChange={(e) => {
+                const selectedOptions = Array.from(e.target.selectedOptions).map((option) => option.value);
+                if (selectedOptions.length <= 3) {
+                  setForm({ ...form, languages: selectedOptions });
+                }
+              }}
+              className="input-field border-0"
+            >
+              <option value="it">Italiano 🇮🇹</option>
+              <option value="en">English 🇬🇧</option>
+              <option value="fr">Français 🇫🇷</option>
+              <option value="ja">日本語 🇯🇵</option>
+              <option value="de">Deutsch 🇩🇪</option>
+              <option value="es">Español 🇪🇸</option>
+            </Form.Select>
+            <Form.Text className="text-muted">Hold Ctrl (or ⌘ on Mac) to select multiple.</Form.Text>
           </Form.Group>
 
           <div className="text-danger mt-2">{errorMessage}</div>

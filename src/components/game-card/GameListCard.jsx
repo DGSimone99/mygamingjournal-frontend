@@ -26,7 +26,7 @@ function GameListCard({ game }) {
     <Row
       as={Link}
       to={`/game/${game?.id}`}
-      className="align-items-center py-3 pointer-list p-0 shadow-sm rounded-2 text-decoration-none border border-color my-1"
+      className="align-items-center py-3 pointer-list p-0 shadow-sm rounded-2 text-decoration-none border border-card my-1"
     >
       <Col md={1} className="p-0">
         <Image

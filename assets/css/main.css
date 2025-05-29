@@ -1,0 +1,468 @@
+body,
+body *,
+input,
+textarea,
+select,
+button,
+::placeholder,
+a {
+  color: var(--text) !important;
+}
+
+body.theme-transition {
+  transition: background-color 1s ease, color 1s ease;
+}
+
+body.theme-transition,
+body.theme-transition * {
+  transition: background-color 1s ease, color 1s ease;
+}
+
+body {
+  background-color: var(--body) !important;
+}
+
+.page {
+  margin-top: 1em;
+  height: calc(100vh - 1em);
+  overflow: hidden;
+}
+.page-catalog {
+  margin-top: 1em;
+  height: calc(100vh - 8.4em);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+}
+
+.main-content {
+  padding-left: 110px;
+}
+
+.input-field {
+  background-color: var(--sidebar) !important;
+}
+.input-field-filter {
+  background-color: var(--sidebar) !important;
+  width: 170px !important;
+}
+.input-field-search {
+  background-color: var(--dark) !important;
+}
+.input-field-search:focus {
+  box-shadow: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  opacity: 0.3 !important;
+}
+
+.btn-confirm {
+  background-color: var(--primary) !important;
+  border: none !important;
+}
+.btn-confirm:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.form-check-input {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background-color: var(--sidebar);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.form-check-input:checked {
+  background-color: var(--sidebar);
+  border-color: var(--section);
+}
+.form-check-input:checked::before {
+  content: "";
+  display: block;
+  position: relative;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  transform: rotate(45deg);
+}
+
+.form-check-label {
+  margin-left: 8px;
+  font-weight: bold;
+  color: var(--text) !important;
+}
+
+select:focus {
+  box-shadow: none !important;
+}
+
+.achievement-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.pagination {
+  --bs-pagination-bg: var(--page);
+  --bs-pagination-border-width: 0;
+  gap: 1em;
+}
+.pagination .page-item .page-link {
+  background-color: var(--page);
+  border: none;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pagination .page-item .page-link span {
+  font-size: 2.5em;
+  transform: translateY(-5px);
+}
+.pagination .page-item .page-link:hover {
+  background-color: var(--primary-hover);
+}
+.pagination .page-item.active .page-link {
+  background-color: var(--primary-hover);
+  color: var(--text);
+}
+.pagination .page-item.disabled .page-link {
+  opacity: 0.5;
+}
+.pagination .page-item .page-link:focus {
+  box-shadow: var(--primary-hover);
+}
+
+.btn-close {
+  display: none;
+}
+
+.btn-delete {
+  background-color: var(--danger) !important;
+}
+.btn-delete:hover {
+  background-color: var(--danger-hover) !important;
+}
+
+.sidebar {
+  background-color: var(--sidebar);
+}
+.sidebar-item {
+  cursor: pointer;
+}
+.sidebar-item:hover {
+  background-color: var(--primary-hover);
+}
+
+.dropdown-menu-custom {
+  left: 100%;
+  min-width: 150px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: var(--body);
+  border: 1px solid var(--primary);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item:hover {
+  background-color: var(--primary-hover);
+}
+
+.theme-button {
+  background-color: var(--body) !important;
+}
+
+.theme-container {
+  background-color: var(--sidebar);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.theme-container .theme-inner {
+  width: 40px;
+  transition: width 0.3s ease-in-out;
+}
+.theme-container.open .theme-inner {
+  width: 100px;
+}
+
+.theme-toggle {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.3s;
+}
+.theme-container:not(.open) .theme-toggle {
+  transform: rotate(180deg);
+}
+
+.tabs-container {
+  background: linear-gradient(90deg, var(--section), var(--card)) !important;
+  overflow: hidden;
+}
+
+.tabs {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+.tabs.active {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+.tabs:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.tabs-content,
+.overview-content {
+  height: calc(100vh - 3.4rem);
+  overflow-y: auto;
+}
+
+.tab-section, .details-tab, .achievements-tab, .description-tab, .overview-tab {
+  padding: 1.5rem;
+}
+.tab-section h2, .details-tab h2, .achievements-tab h2, .description-tab h2, .overview-tab h2 {
+  font-weight: bold;
+  margin: 1rem 0 0.5rem;
+}
+.tab-section p, .details-tab p, .achievements-tab p, .description-tab p, .overview-tab p {
+  margin: 0.25rem 0;
+}
+
+/* OVERVIEW-TAB */
+.overview-tab {
+  background-color: var(--dark);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.overview-tab h5 {
+  margin-block: 0.7em;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+.overview-tab span {
+  text-transform: none;
+  color: var(--text-secondary) !important;
+}
+.overview-tab h5 span {
+  font-weight: normal;
+}
+
+/* DESCRIPTION-TAB */
+.description-tab .carousel {
+  max-height: 400px;
+}
+.description-tab .carousel .carousel-item img {
+  display: block;
+  height: 400px;
+  object-fit: cover;
+  margin: 0 auto;
+}
+.description-tab .game-description {
+  margin-top: 2rem;
+}
+
+/* ACHIEVEMENTS-TAB */
+.achievements-tab .achievement {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--primary);
+  transition: background-color 0.3s;
+}
+.achievements-tab .achievement.locked {
+  opacity: 0.5;
+}
+.achievements-tab .achievement img {
+  height: 100px;
+}
+
+/* DETAILS-TAB */
+.details-tab .team .member {
+  background-color: var(--card);
+  max-width: 24%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+.pointer-big {
+  cursor: pointer;
+  transition: transform 0.3s;
+  user-select: none;
+}
+.pointer-big:hover {
+  transform: scale(105%);
+}
+.pointer-underline {
+  cursor: pointer;
+  user-select: none;
+}
+.pointer-underline:hover {
+  color: var(--text) !important;
+  text-decoration: underline;
+}
+.pointer-list {
+  cursor: pointer;
+  transition: transform 0.2s;
+  user-select: none;
+}
+.pointer-list:hover {
+  transform: scale(101%);
+  background-color: rgba(31, 46, 120, 0.653) !important;
+}
+.pointer-list2 {
+  cursor: pointer;
+  user-select: none;
+}
+.pointer-list2:hover {
+  transform: scale(103%);
+  background-color: rgba(34, 51, 137, 0.653) !important;
+}
+
+.fs-7 {
+  font-size: 0.9rem;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+}
+
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.border-danger {
+  border-color: var(--danger) !important;
+}
+
+.text-text {
+  color: var(--text) !important;
+}
+
+.bg-text {
+  background-color: var(--text) !important;
+}
+
+.border-text {
+  border-color: var(--text) !important;
+}
+
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+.text-body {
+  color: var(--body) !important;
+}
+
+.bg-body {
+  background-color: var(--body) !important;
+}
+
+.border-body {
+  border-color: var(--body) !important;
+}
+
+.text-sidebar {
+  color: var(--sidebar) !important;
+}
+
+.bg-sidebar {
+  background-color: var(--sidebar) !important;
+}
+
+.border-sidebar {
+  border-color: var(--sidebar) !important;
+}
+
+.text-section {
+  color: var(--section) !important;
+}
+
+.bg-section {
+  background-color: var(--section) !important;
+}
+
+.border-section {
+  border-color: var(--section) !important;
+}
+
+.text-card {
+  color: var(--card) !important;
+}
+
+.bg-card {
+  background-color: var(--card) !important;
+}
+
+.border-card {
+  border-color: var(--card) !important;
+}
+
+.text-added {
+  color: var(--added) !important;
+}
+
+.bg-added {
+  background-color: var(--added) !important;
+}
+
+.border-added {
+  border-color: var(--added) !important;
+}
+
+.text-dark {
+  color: var(--dark) !important;
+}
+
+.bg-dark {
+  background-color: var(--dark) !important;
+}
+
+.border-dark {
+  border-color: var(--dark) !important;
+}
+
+.primary-hover:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+.danger-hover:hover {
+  background-color: var(--danger-hover) !important;
+}/*# sourceMappingURL=main.css.map */

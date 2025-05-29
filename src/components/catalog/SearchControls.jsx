@@ -69,7 +69,7 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
 
   return (
     <div className="search-controls">
-      <div className="d-flex align-items-center mb-2 border border-2 border-color rounded overflow-hidden input-field-search">
+      <div className="d-flex align-items-center mb-2 border border-1 border-card rounded overflow-hidden bg-dark">
         <Form.Select
           aria-label="Filter by"
           className="input-field-filter fw-bold border-0 border-start border-secondary"
@@ -111,7 +111,7 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
         <div className="d-flex align-items-center gap-2">
           <Form.Select
             aria-label="Order by"
-            className="input-field-filter fw-bold border border-color"
+            className="input-field-filter fw-bold border border-dark"
             value={order.replace("-", "")}
             onChange={(e) => {
               const baseValue = e.target.value;

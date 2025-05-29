@@ -1,18 +1,18 @@
 .tabs-container {
-  background: linear-gradient(90deg, var(--color-section), var(--color-card)) !important;
+  background: linear-gradient(90deg, var(--section), var(--card)) !important;
   overflow: hidden;
 }
 
 .tabs {
-  background-color: var(--color-primary) !important;
-  border-color: var(--color-primary) !important;
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
   &.active {
-    background-color: var(--color-primary-hover) !important;
-    border-color: var(--color-primary-hover) !important;
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
   }
   &:hover {
-    background-color: var(--color-primary-hover) !important;
-    border-color: var(--color-primary-hover) !important;
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
   }
 }
 
@@ -38,7 +38,7 @@
 .overview-tab {
   @extend .tab-section;
 
-  background-color: var(--bg-main-details);
+  background-color: var(--dark);
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 
   h5 {
@@ -46,13 +46,13 @@
     font-weight: 600;
     text-transform: uppercase;
     font-size: 1.2rem;
-    color: var(--color-text);
+    color: var(--text);
     letter-spacing: 0.5px;
   }
 
   span {
     text-transform: none;
-    color: var(--color-text-secondary) !important;
+    color: var(--text-secondary) !important;
   }
 
   h5 span {
@@ -87,7 +87,7 @@
   .achievement {
     display: flex;
     align-items: center;
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--primary);
     transition: background-color 0.3s;
 
     &.locked {
@@ -106,7 +106,7 @@
 
   .team {
     .member {
-      background-color: var(--color-bg-card);
+      background-color: var(--card);
       max-width: 24%;
     }
   }

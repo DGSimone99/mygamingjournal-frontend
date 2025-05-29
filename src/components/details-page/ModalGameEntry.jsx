@@ -65,12 +65,12 @@ function ModalGameEntry(props) {
 
   return (
     <Modal show={props.show} onHide={props.onHide}>
-      <Modal.Header closeButton className="modal-custom border-0">
+      <Modal.Header closeButton className="bg-body border-0">
         <Modal.Title>Add Game to Library</Modal.Title>
         <MdClose size={32} onClick={props.onHide} className="pointer" />
       </Modal.Header>
 
-      <Modal.Body className="bg-main-details">
+      <Modal.Body className="bg-section">
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Hours Played</Form.Label>
@@ -138,12 +138,9 @@ function ModalGameEntry(props) {
         </Form>
       </Modal.Body>
 
-      <Modal.Footer className="modal-custom border-0">
+      <Modal.Footer className="bg-body border-0">
         {existingGame && (
-          <Button
-            className="modal-btn-delete border-0 rounded-pill me-auto"
-            onClick={() => handleDelete(existingGame.id)}
-          >
+          <Button className="btn-delete border-0 rounded-pill me-auto" onClick={() => handleDelete(existingGame.id)}>
             Delete
           </Button>
         )}

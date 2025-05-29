@@ -1,0 +1,17 @@
+$color-vars: (
+  primary: var(--primary),
+  danger: var(--danger),
+  text: var(--text),
+  secondary: var(--secondary),
+  body: var(--body),
+  sidebar: var(--sidebar),
+  section: var(--section),
+  card: var(--card),
+  added: var(--added),
+  dark: var(--dark),
+);
+
+$color-vars-hover: (
+  primary: var(--primary-hover),
+  danger: var(--danger-hover),
+);

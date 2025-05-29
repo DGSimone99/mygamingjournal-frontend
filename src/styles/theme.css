@@ -21,23 +21,25 @@
 }
 
 .dark-theme {
-  --color-page: #0f172a;
-  --color-text: #f1f5f9;
-  --color-text-secondary: #777995;
+  --primary: #222358;
+  --primary-hover: #411f86;
 
-  --color-sidebar: rgb(14, 20, 35);
-  --color-primary: #222358;
-  --color-primary-hover: #411f86;
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
 
-  --color-danger: #dc2626;
-  --color-danger-hover: #b91c1c;
+  --text: #f1f5f9;
+  --secondary: #777995;
 
-  --color-section: #192231;
-  --color-card: rgba(255, 255, 255, 0.12);
+  --body: #0f172a;
 
-  --color-theme-bg: #080d17;
+  --sidebar: rgb(14, 20, 35);
 
-  --color-added: #facc15;
+  --section: #192231;
+  --card: rgba(255, 255, 255, 0.12);
+
+  --dark: #080d17;
+
+  --added: #facc15;
 
   --scroll-track-color: rgba(255, 255, 255, 0.05);
   --scroll-thumb-color: rgba(180, 180, 180, 0.3);

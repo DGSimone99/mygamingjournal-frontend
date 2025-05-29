@@ -1,14 +1,13 @@
 .theme-button {
-  background-color: var(--color-theme-bg) !important;
+  background-color: var(--body) !important;
 }
 
 .theme-container {
-  background-color: var(--color-sidebar);
+  background-color: var(--sidebar);
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   .theme-inner {
-    color: var(--color-text);
     width: 40px;
     transition: width 0.3s ease-in-out;
   }
