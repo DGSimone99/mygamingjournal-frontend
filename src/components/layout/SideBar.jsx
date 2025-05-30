@@ -7,7 +7,6 @@ import { IoIosNotifications } from "react-icons/io";
 import { useAuth } from "../../context/AuthContext";
 import Logo from "../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserGameEntriesIds } from "../../redux/actions";
 import NoUser from "../../assets/NoUser.png";
 
 function SideBar() {
@@ -25,9 +24,7 @@ function SideBar() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(fetchUserGameEntriesIds());
-    } else {
+    if (!isLoggedIn) {
       setShowAccountDropdown(false);
     }
   }, [isLoggedIn, dispatch]);
@@ -95,7 +92,7 @@ function SideBar() {
           onMouseEnter={() => setShowAccountDropdown(true)}
           onMouseLeave={() => setShowAccountDropdown(false)}
         >
-          <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
+          <Nav.Link as={Link} to="/user/me" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
             <Image
               src={user.avatarUrl || NoUser}
               className="sidebar-image rounded-circle"
@@ -108,7 +105,7 @@ function SideBar() {
 
           {showAccountDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              <Dropdown.Item className="py-2 px-3" as={Link} to={`/settings`}>
+              <Dropdown.Item className="py-2 px-3" as={Link} to={`/user/settings`}>
                 Account Settings
               </Dropdown.Item>
               <hr className="m-0"></hr>

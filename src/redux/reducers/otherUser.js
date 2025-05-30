@@ -1,12 +1,12 @@
-import { GET_USER } from "../actions/actionTypes";
+import { GET_OTHER_USER } from "../actions/actionTypes";
 
 const initialState = {
   user: null,
 };
 
-const userReducer = (state = initialState, action) => {
+const otherUserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_USER:
+    case GET_OTHER_USER:
       return {
         ...state,
         user: action.payload,
@@ -16,4 +16,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default otherUserReducer;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -15,6 +15,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [errorMessage, setErrorMessage] = useState("");
+  const { isLoggedIn } = useAuth();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -26,13 +27,17 @@ function LoginPage() {
       dispatch(loginFetch(form)).then((token) => {
         if (token) {
           login(token);
-          navigate("/");
+          navigate("/user/me");
         } else {
           setErrorMessage("Invalid username or password.");
         }
       });
     }
   };
+
+  useEffect(() => {
+    if (isLoggedIn) navigate("/");
+  }, [isLoggedIn, navigate]);
 
   return (
     <Container className="page mt-5 h-100">

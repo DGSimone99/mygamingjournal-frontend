@@ -25,7 +25,8 @@
     user-select: none;
     &:hover {
       transform: scale(101%);
-      background-color: rgba(31, 46, 120, 0.653) !important;
+      background-color: var(--primary-hover) !important;
+      color: var(--text) !important;
     }
     &2 {
       cursor: pointer;
@@ -33,6 +34,22 @@
       &:hover {
         transform: scale(103%);
         background-color: rgba(34, 51, 137, 0.653) !important;
+      }
+    }
+  }
+  &-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+    user-select: none;
+    p {
+      color: var(--secondary) !important;
+    }
+    &:hover {
+      transform: scale(101%);
+      background-color: var(--primary-hover) !important;
+      color: var(--text) !important;
+      p {
+        color: var(--text) !important;
       }
     }
   }

@@ -12,20 +12,22 @@ function ReviewsTab({ game }) {
   const reviews = useSelector((state) => state.reviews.reviews || []);
   const reviewsPages = useSelector((state) => state.reviews.totalPages || 0);
   const user = useSelector((state) => state.user);
-  const yourReview = reviews.find((r) => r.author.id === user.id);
-  const otherReviews = reviews.filter((r) => r.author.id !== user.id);
   const { isLoggedIn } = useAuth();
   const [page, setPage] = useState(0);
 
   useEffect(() => {
     dispatch(fetchReviewsByGame(game.id, page));
-  }, [dispatch, game.id]);
+  }, [dispatch, game.id, page]);
+
+  const yourReview = isLoggedIn ? reviews.find((r) => r.author?.id === user?.id) : null;
+  const otherReviews = reviews.filter((r) => !yourReview || r.id !== yourReview.id);
+
   return (
     <Container className="position-relative">
       {isLoggedIn && !yourReview && <PostReview game={game} />}
       {yourReview && <ReviewCard key={yourReview.id} review={yourReview} yourReview={true} />}
       <div className="mt-3">
-        {reviewsPages > 1 && (
+        {reviewsPages >= 1 && (
           <PaginationControls
             currentPage={page}
             totalPages={reviewsPages}
@@ -33,7 +35,7 @@ function ReviewsTab({ game }) {
           />
         )}
         {otherReviews.length > 0 &&
-          reviews.map((review) => <ReviewCard key={review.id} review={review} yourReview={false} />)}
+          otherReviews.map((review) => <ReviewCard key={review.id} review={review} yourReview={false} />)}
       </div>
     </Container>
   );

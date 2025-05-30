@@ -2,12 +2,14 @@ import { Card, Col, Image, Row } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { Link } from "react-router";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { useSelector } from "react-redux";
-import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
+import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/entryGameActions.js";
 
 function GameListCard({ game }) {
   const { isLoggedIn } = useAuth();
+  const dispatch = useDispatch();
   const gameEntryIds = useSelector((state) => state.gameEntryIds || []);
 
   const isGameInUserList = useMemo(() => {
@@ -21,6 +23,11 @@ function GameListCard({ game }) {
   };
 
   const releaseLabel = getReleaseLabel(game);
+
+  useEffect(() => {
+    dispatch(fetchUserGameEntriesIds());
+    dispatch(fetchUserGameEntries());
+  }, [dispatch]);
 
   return (
     <Row
@@ -55,7 +62,7 @@ function GameListCard({ game }) {
       </Col>
       <Col>
         <p className="text-light my-0 px-2 d-flex align-items-center ms-auto">
-          {isGameInUserList ? <StarFill style={{ fill: "var(--color-added)" }} /> : <Star />}
+          {isGameInUserList ? <StarFill style={{ fill: "var(--added)" }} /> : <Star />}
           {game.rating}
         </p>
       </Col>

@@ -2,12 +2,12 @@ import axios from "axios";
 
 import { GET_USER_GAME_ENTRIES, GET_USER_GAME_ENTRIES_IDS, UPDATE_ACHIEVEMENT_ENTRY } from "./actionTypes";
 import { fetchGames } from "./gameActions";
+import { fetchUserStats } from "./userActions";
 
 export const fetchUserGameEntries = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get("/api/my-library");
-
       dispatch({ type: GET_USER_GAME_ENTRIES, payload: response.data });
     } catch (error) {
       console.error("Error fetching user game entries", error);
@@ -45,7 +45,12 @@ export const saveGameEntry = (game, method) => {
         params,
       });
 
-      dispatch(fetchUserGameEntries());
+      await Promise.all([
+        dispatch(fetchUserGameEntries()),
+        dispatch(fetchUserGameEntriesIds()),
+        dispatch(fetchGames()),
+        dispatch(fetchUserStats("me")),
+      ]);
     } catch (error) {
       console.error("Error saving game entry", error);
     }
@@ -61,6 +66,7 @@ export const updateAchievementEntry = (id, unlocked) => {
         type: UPDATE_ACHIEVEMENT_ENTRY,
         payload: response.data,
       });
+      await dispatch(fetchUserStats("me"));
     } catch (error) {
       console.error("Error updating achievement entry", error);
     }
@@ -72,9 +78,12 @@ export const deleteGameEntry = (id) => {
     try {
       await axios.delete("/api/my-library?id=" + id);
 
-      await dispatch(fetchUserGameEntries());
-      await dispatch(fetchUserGameEntriesIds());
-      await dispatch(fetchGames());
+      await Promise.all([
+        dispatch(fetchUserGameEntries()),
+        dispatch(fetchUserGameEntriesIds()),
+        dispatch(fetchGames()),
+        dispatch(fetchUserStats("me")),
+      ]);
     } catch (error) {
       console.error("Error deleting game entry", error);
     }

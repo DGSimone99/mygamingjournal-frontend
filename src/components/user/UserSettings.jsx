@@ -9,7 +9,7 @@ import allLanguages from "../../utils/allLanguages";
 import { RiQuillPenAiLine } from "react-icons/ri";
 
 const UserSettings = () => {
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 

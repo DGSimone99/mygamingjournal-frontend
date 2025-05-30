@@ -21,7 +21,7 @@
 }
 
 .dark-theme {
-  --primary: #222358;
+  --primary: rgb(31, 27, 83);
   --primary-hover: #411f86;
 
   --danger: #dc2626;

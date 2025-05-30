@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -9,10 +9,12 @@ import { useNavigate } from "react-router";
 import LogoCompleto from "../../assets/logoCompleto.png";
 import allLanguages from "../../utils/allLanguages";
 import Select from "react-select";
+import { useAuth } from "../../context/AuthContext";
 
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const [form, setForm] = useState({
     username: "",
@@ -47,6 +49,10 @@ function RegisterPage() {
       });
     }
   };
+
+  useEffect(() => {
+    if (isLoggedIn) navigate("/user/me");
+  }, [isLoggedIn, navigate]);
 
   return (
     <Container className="page mt-5 d-flex flex-column justify-content-center h-100">

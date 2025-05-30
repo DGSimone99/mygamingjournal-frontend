@@ -1,6 +1,8 @@
 import axios from "axios";
 
-import { LOGIN, LOGOUT, CLEAR_GAME_ENTRIES, GET_USER } from "./actionTypes";
+import { LOGIN, LOGOUT, CLEAR_GAME_ENTRIES } from "./actionTypes";
+import { fetchCurrentUser, fetchUserStats } from "./userActions";
+import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./entryGameActions";
 
 export const loginFetch = (credentials) => {
   return async (dispatch) => {
@@ -10,7 +12,6 @@ export const loginFetch = (credentials) => {
 
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
-
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       dispatch({
@@ -18,7 +19,11 @@ export const loginFetch = (credentials) => {
         payload: { token, username, roles },
       });
 
-      await dispatch(fetchUser());
+      await dispatch(fetchCurrentUser());
+
+      dispatch(fetchUserStats("me"));
+      dispatch(fetchUserGameEntriesIds());
+      dispatch(fetchUserGameEntries());
 
       return token;
     } catch (error) {
@@ -52,17 +57,6 @@ export const registerFetch = (formData) => {
     } catch (error) {
       console.error("Registration failed", error);
       return false;
-    }
-  };
-};
-
-export const fetchUser = () => {
-  return async (dispatch) => {
-    try {
-      const response = await axios.get("/api/users/me");
-      dispatch({ type: GET_USER, payload: response.data });
-    } catch (error) {
-      console.error("Error fetching user", error);
     }
   };
 };
