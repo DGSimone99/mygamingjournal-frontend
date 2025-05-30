@@ -5,7 +5,7 @@ import NoUser from "../../assets/NoUser.png";
 import allLanguages from "../../utils/allLanguages";
 import { RiQuillPenAiLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { fetchUser } from "../../redux/actions";
 import { FaCheck, FaClock, FaGamepad, FaRegHeart, FaTrophy } from "react-icons/fa";
 import StatCard from "./StatCard";
@@ -16,7 +16,7 @@ const UserPage = () => {
   const userStats = useSelector((state) => state.userStats.userStats);
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const location = useLocation();
+  const navigate = useNavigate();
 
   const [userData, setUserData] = useState(null);
 
@@ -26,25 +26,18 @@ const UserPage = () => {
   }
 
   useEffect(() => {
-    if (location.pathname === "/user/me") {
-      dispatch(fetchUser("me"));
-      setUserData(user);
-    } else if (userId) {
-      dispatch(fetchUser(userId));
-    }
-  }, [userId, location.pathname]);
+    dispatch(fetchUser(userId === "me" ? "me" : userId));
+  }, [userId]);
 
   useEffect(() => {
-    if (userId && otherUser) {
+    const isOwnProfile = userId === "me" || userId === user?.id?.toString();
+    if (isOwnProfile && user) {
+      setUserData(user);
+      if (userId !== "me") navigate("/user/me");
+    } else if (!isOwnProfile && otherUser) {
       setUserData(otherUser);
     }
-  }, [otherUser]);
-
-  useEffect(() => {
-    if (location.pathname === "/user/me" && user) {
-      setUserData(user);
-    }
-  }, [user]);
+  }, [userId, user, otherUser, navigate]);
 
   if (!userData) {
     return <div className="text-white">Loading user...</div>;
@@ -55,7 +48,7 @@ const UserPage = () => {
       <Container fluid className="page text-white py-5 mb-5 px-5">
         <div className="d-flex gap-3 align-items-center">
           <h1 className="display-5 fw-bold">{userData?.displayName}</h1>
-          {!userId && <Button className="btn-confirm">Follow</Button>}
+          {userId && <Button className="btn-confirm">Follow</Button>}
         </div>
         <div className="d-flex align-items-start gap-5 my-4">
           <div className="user-hero bg-gradient position-relative p-4 rounded-4 mb-4 shadow-lg">

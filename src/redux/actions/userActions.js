@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_USER, GET_USER_STATS } from "./actionTypes";
+import { GET_OTHER_USER, GET_USER, GET_USER_STATS } from "./actionTypes";
 
 export const fetchCurrentUser = () => {
   return async (dispatch) => {
@@ -16,7 +16,7 @@ export const fetchUser = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get("/api/users/" + id);
-      dispatch({ type: GET_USER, payload: response.data });
+      dispatch({ type: GET_OTHER_USER, payload: response.data });
       await dispatch(fetchUserStats(id));
     } catch (error) {
       console.error("Error fetching user", error);
