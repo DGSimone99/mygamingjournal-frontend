@@ -1,15 +1,16 @@
 import { Card, Col, Image, Row } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
-import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/entryGameActions.js";
+import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/gameEntryActions.js";
 
 function GameListCard({ game }) {
   const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const gameEntryIds = useSelector((state) => state.gameEntryIds || []);
 
   const isGameInUserList = useMemo(() => {
@@ -46,7 +47,14 @@ function GameListCard({ game }) {
         <h2 className="mb-0" title={game?.name}>
           {game?.name}
         </h2>
-        <Card.Text className="my-0 text-secondary pointer-underline">
+        <Card.Text
+          className="my-0 text-secondary pointer-underline"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            navigate(`/catalog/developers/${game?.developers?.[0]}`);
+          }}
+        >
           {game?.developers?.[0] || "Sviluppatore sconosciuto"}
         </Card.Text>
       </Col>

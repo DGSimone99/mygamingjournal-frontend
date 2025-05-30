@@ -4,7 +4,12 @@ import { GET_OTHER_USER, GET_USER, GET_USER_STATS } from "./actionTypes";
 export const fetchCurrentUser = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get("/api/users/me");
+      const token = localStorage.getItem("token");
+      const response = await axios.get("/api/users/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       dispatch({ type: GET_USER, payload: response.data });
     } catch (error) {
       console.error("Error fetching user", error);

@@ -15,6 +15,7 @@ import UserPage from "./components/user/UserPage";
 import { fetchCurrentUser, fetchUserStats } from "./redux/actions/userActions";
 import { useEffect } from "react";
 import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./redux/actions";
+import JournalPage from "./components/journal/JournalPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,8 @@ function App() {
             <Route path="/catalog/:paramType/:param" element={<CatalogPage />} />
             <Route path="/catalog/top-rated" element={<CatalogPage />} />
             <Route path="/game/:gameId" element={<GameDetailsPage />} />
+            <Route path="/journal/:userId" element={<JournalPage />} />
+            <Route path="/myjournal/" element={<JournalPage />} />
             <Route path="/user/settings" element={<UserSettings />} />
             <Route path="/user/me" element={<UserPage />} />
             <Route path="/user/:userId" element={<UserPage />} />

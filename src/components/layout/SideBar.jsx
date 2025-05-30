@@ -35,14 +35,14 @@ function SideBar() {
         <Image src={Logo} className="sidebar-logo d-block mx-auto" alt="logo" height={60} width={60} />
       </Button>
 
-      <Nav className="sidebar-nav d-flex flex-column gap-3">
+      <Nav className="sidebar-nav d-flex flex-column gap-4">
         <Dropdown
           className="py-2 fs-7"
           onMouseEnter={() => setShowCatalogDropdown(true)}
           onMouseLeave={() => setShowCatalogDropdown(false)}
         >
           <Nav.Link as={Link} to="/catalog/" className="sidebar-item d-flex align-items-center flex-column gap-2">
-            <GrCatalog className="sidebar-icon fs-2" />
+            <FaList className="sidebar-icon fs-2" />
             Catalog
           </Nav.Link>
           {showCatalogDropdown && (
@@ -60,8 +60,8 @@ function SideBar() {
           )}
         </Dropdown>
 
-        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
-          <FaList className="sidebar-icon fs-2" />
+        <Nav.Link as={Link} to="/myJournal" className="sidebar-item d-flex align-items-center flex-column gap-2">
+          <GrCatalog className="sidebar-icon fs-2" />
           Journal
         </Nav.Link>
 
@@ -73,11 +73,6 @@ function SideBar() {
         <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
           <IoIosNotifications className="sidebar-icon fs-2" />
           Notifs
-        </Nav.Link>
-
-        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
-          <FaChartLine className="sidebar-icon fs-2" />
-          Statistics
         </Nav.Link>
       </Nav>
 

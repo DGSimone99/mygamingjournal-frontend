@@ -1,6 +1,11 @@
 import axios from "axios";
 
-import { GET_USER_GAME_ENTRIES, GET_USER_GAME_ENTRIES_IDS, UPDATE_ACHIEVEMENT_ENTRY } from "./actionTypes";
+import {
+  GET_USER_GAME_ENTRIES,
+  GET_OTHER_USER_GAME_ENTRIES,
+  GET_USER_GAME_ENTRIES_IDS,
+  UPDATE_ACHIEVEMENT_ENTRY,
+} from "./actionTypes";
 import { fetchGames } from "./gameActions";
 import { fetchUserStats } from "./userActions";
 
@@ -9,6 +14,17 @@ export const fetchUserGameEntries = () => {
     try {
       const response = await axios.get("/api/my-library");
       dispatch({ type: GET_USER_GAME_ENTRIES, payload: response.data });
+    } catch (error) {
+      console.error("Error fetching user game entries", error);
+    }
+  };
+};
+
+export const fetchOtherUserGameEntries = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/api/my-library/" + id);
+      dispatch({ type: GET_OTHER_USER_GAME_ENTRIES, payload: response.data });
     } catch (error) {
       console.error("Error fetching user game entries", error);
     }

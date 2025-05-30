@@ -43,10 +43,9 @@ function QueryCatalog({ query, queryType, order, grid, size = 12, slice, number,
     } else {
       dispatch(
         fetchGames({
-          [paramType]: param,
           order: order || null,
           page,
-          size: 1,
+          size: 6,
         })
       );
     }

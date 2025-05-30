@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
-import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/entryGameActions.js";
+import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/gameEntryActions.js";
 
 function GameGridCard({ game, number }) {
   const { isLoggedIn } = useAuth();

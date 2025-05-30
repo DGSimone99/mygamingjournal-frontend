@@ -8,11 +8,13 @@ import userReducer from "../reducers/userReducer.js";
 import reviewsReducer from "../reducers/reviewsReducer.js";
 import otherUserReducer from "../reducers/otherUser.js";
 import userStatsReducer from "../reducers/userStatsReducer.js";
+import userGameEntriesReducer from "../reducers/userGameEntriesReducer.js";
 
 const mainReducer = combineReducers({
   games: gamesReducer,
   game: gameDetailsReducer,
   gameEntries: gameEntriesReducer,
+  userGameEntries: userGameEntriesReducer,
   gameEntryIds: gameEntryIdsReducer,
   login: loginReducer,
   user: userReducer,

@@ -54,6 +54,42 @@ export const fetchReviewsByGame = (idGame, page, size = 10) => {
   };
 };
 
+export const fetchReviewsByCurrentUser = (page, size = 5) => {
+  return async (dispatch) => {
+    try {
+      let fetchedReviews = await axios.get(`/api/reviews/me?page=${page}&size=${size}`);
+      dispatch({
+        type: GET_REVIEWS,
+        payload: {
+          reviews: fetchedReviews.data.content,
+          totalPages: fetchedReviews.data.totalPages,
+          currentPage: fetchedReviews.data.number,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const fetchReviewsByUser = (idUser, page, size = 5) => {
+  return async (dispatch) => {
+    try {
+      let fetchedReviews = await axios.get(`/api/reviews/user/` + idUser + `/?page=${page}&size=${size}`);
+      dispatch({
+        type: GET_REVIEWS,
+        payload: {
+          reviews: fetchedReviews.data.content,
+          totalPages: fetchedReviews.data.totalPages,
+          currentPage: fetchedReviews.data.number,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
 export const postReview = (idGame, text, score) => {
   return async (dispatch) => {
     try {

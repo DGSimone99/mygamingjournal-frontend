@@ -3,9 +3,11 @@ import NoUser from "../../assets/NoUser.png";
 import { Button, Container, Image, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { deleteReview } from "../../redux/actions";
+import { useNavigate } from "react-router";
 
-function ReviewCard({ review, yourReview }) {
+function ReviewCard({ review, yourReview, userView }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const deleteBtn = () => {
     dispatch(deleteReview(review.id, review.game.id));
@@ -23,18 +25,38 @@ function ReviewCard({ review, yourReview }) {
         </div>
       )}
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex align-items-center gap-3">
-          <Image
-            src={review?.author?.avatarUrl || NoUser}
-            height={50}
-            width={50}
-            className="rounded-circle border border-secondary"
-          />
-          <div>
-            <h5 className="mb-0">{review?.author?.username}</h5>
-            <small className="text-secondary">{review?.date}</small>
+        {!userView ? (
+          <div className="d-flex align-items-center gap-3">
+            <Image
+              src={review?.author?.avatarUrl || NoUser}
+              height={50}
+              width={50}
+              className="rounded-circle border border-secondary"
+            />
+            <div>
+              <h5 className="mb-0">{review?.author?.username}</h5>
+              <p className="text-secondary m-0">{review?.date}</p>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            className="d-flex align-items-center gap-3 pointer-list px-2 py-1 rounded w-75"
+            onClick={() => navigate(`/game/${review?.game?.id}`)}
+          >
+            <Image
+              src={review?.game?.backgroundImage}
+              height={50}
+              width={50}
+              alt="Game Image"
+              className="rounded-circle mb-2"
+              style={{ objectFit: "cover" }}
+            ></Image>
+            <div>
+              <h5 className="mb-0">{review?.game?.name}</h5> <p className="text-secondary p-0">{review?.date}</p>
+            </div>
+          </div>
+        )}
+
         <div className="d-flex align-items-center gap-1 fs-5">
           <Star /> {review?.score}
         </div>

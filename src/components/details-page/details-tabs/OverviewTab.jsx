@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { PeopleFill, Star, StarFill } from "react-bootstrap-icons";
 import platformIcons from "../../../utils/platformIcons.jsx";
-import { fetchUserGameEntries } from "../../../redux/actions/entryGameActions.js";
+import { fetchUserGameEntries } from "../../../redux/actions/gameEntryActions.js";
 import { RiQuillPenAiFill, RiQuillPenAiLine } from "react-icons/ri";
 
 function OverviewTab({ game }) {

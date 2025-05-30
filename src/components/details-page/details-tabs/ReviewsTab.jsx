@@ -11,7 +11,7 @@ function ReviewsTab({ game }) {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews.reviews || []);
   const reviewsPages = useSelector((state) => state.reviews.totalPages || 0);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   const { isLoggedIn } = useAuth();
   const [page, setPage] = useState(0);
 

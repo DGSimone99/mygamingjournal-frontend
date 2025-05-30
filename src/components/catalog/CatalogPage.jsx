@@ -43,7 +43,7 @@ function CatalogPage() {
 
   return (
     <Container fluid className="page">
-      <div className="h-100 mx-5 px-5">
+      <div className="mx-5 px-5">
         <SearchControls
           query={query}
           setQuery={setQuery}
@@ -57,7 +57,7 @@ function CatalogPage() {
         {query ? (
           <QueryCatalog number={number} slice={20} queryType={queryType} query={query} grid={grid} order={order} />
         ) : param && paramType ? (
-          <div className="page-catalog">
+          <div>
             <QueryCatalog number={number} slice={20} paramType={paramType} param={param} grid={grid} order={order} />
           </div>
         ) : (

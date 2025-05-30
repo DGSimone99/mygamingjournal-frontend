@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { LOGIN, LOGOUT, CLEAR_GAME_ENTRIES } from "./actionTypes";
 import { fetchCurrentUser, fetchUserStats } from "./userActions";
-import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./entryGameActions";
+import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./gameEntryActions";
 
 export const loginFetch = (credentials) => {
   return async (dispatch) => {
