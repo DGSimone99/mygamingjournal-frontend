@@ -1,12 +1,13 @@
 import ModalGameEntry from "../ModalGameEntry.jsx";
 import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
-import { Badge, Button, Col, Container, Image } from "react-bootstrap";
+import { Button, Col, Container, Image } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { PeopleFill, Star, StarFill } from "react-bootstrap-icons";
 import platformIcons from "../../../utils/platformIcons.jsx";
 import { fetchUserGameEntries } from "../../../redux/actions/gameEntryActions.js";
+import ModalSetAvailability from "./ModalSetAvailability.jsx";
 import { RiQuillPenAiFill, RiQuillPenAiLine } from "react-icons/ri";
 
 function OverviewTab({ game }) {
@@ -18,15 +19,16 @@ function OverviewTab({ game }) {
   const [userEntry, setUserEntry] = useState(null);
   const [tab, setTab] = useState("Info");
   const [showModal, setShowModal] = useState(false);
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserGameEntries());
-  }, [gameId]);
+  }, [dispatch]);
 
   useEffect(() => {
-    const foundEntry = gameEntries.find((entry) => String(entry.gameEntryId) === String(gameId));
+    const foundEntry = gameEntries.find((entry) => String(entry.realGameId) === String(gameId));
     setUserEntry(foundEntry || null);
   }, [gameEntries, gameId]);
 
@@ -45,7 +47,7 @@ function OverviewTab({ game }) {
         <div className="d-flex justify-content-between mb-2">
           <p className="d-flex align-items-center gap-2">
             <Star />
-            {game.rating} / 10
+            {game?.rating != null ? `${game.rating} / 10` : "No rating"}
           </p>
           <div className="d-flex align-items-center">
             <PeopleFill className="me-2" />
@@ -68,6 +70,27 @@ function OverviewTab({ game }) {
           </div>
         )}
 
+        {isLoggedIn &&
+          userEntry &&
+          game?.gameModes?.some((mode) =>
+            ["Multiplayer", "Multi-Player", "Online multiplayer", "Cross-Platform Multiplayer"].includes(mode)
+          ) && (
+            <Button
+              className="w-100 mt-2 bg-transparent border-added primary-hover"
+              onClick={() => setShowAvailabilityModal(true)}
+            >
+              Set Availability to Play
+            </Button>
+          )}
+        {showAvailabilityModal && (
+          <ModalSetAvailability
+            show={showAvailabilityModal}
+            onHide={() => setShowAvailabilityModal(false)}
+            game={game}
+            userEntry={userEntry}
+          />
+        )}
+
         <div className="d-flex mt-3">
           <Button
             className={`tabs w-100  ${tab === "Info" ? "active" : ""} ${
@@ -86,6 +109,7 @@ function OverviewTab({ game }) {
             </Button>
           )}
         </div>
+
         {tab === "Info" && (
           <div className="mt-2">
             <h4>General Info:</h4>

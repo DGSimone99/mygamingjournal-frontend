@@ -105,3 +105,12 @@ export const deleteGameEntry = (id) => {
     }
   };
 };
+
+export const updateGameEntryAvailability = (gameEntryId, data) => async (dispatch) => {
+  try {
+    await axios.put(`/api/availability/${gameEntryId}`, data);
+    dispatch(fetchUserGameEntries());
+  } catch (error) {
+    console.error(error);
+  }
+};

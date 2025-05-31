@@ -46,7 +46,7 @@ function GameEntryCard({ gameEntry }) {
   return (
     <Row
       as={Link}
-      to={`/game/${gameEntry.gameEntryId}`}
+      to={`/game/${gameEntry.realGameId}`}
       className={`align-items-center py-2 px-2 my-2 rounded-2 text-decoration-none shadow-sm border-start border-4 bg-dark pointer-card`}
       style={{ borderColor: `var(--${colorClass}) !important` }}
     >

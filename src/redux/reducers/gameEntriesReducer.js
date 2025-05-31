@@ -14,7 +14,7 @@ function gameEntriesReducer(state = initialState, action) {
       const updatedAchievement = action.payload;
 
       return state.map((entry) => {
-        if (entry.gameEntryId !== updatedAchievement.gameEntryId) return entry;
+        if (entry.realGameId !== updatedAchievement.realGameId) return entry;
 
         return {
           ...entry,

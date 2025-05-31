@@ -12,7 +12,7 @@ function AchievementsTab({ game }) {
   const { gameId } = useParams();
 
   const userEntry = useSelector((state) =>
-    state.gameEntries.find((entry) => String(entry.gameEntryId) === String(gameId))
+    state.gameEntries.find((entry) => String(entry.realGameId) === String(gameId))
   );
 
   const [unlockedIds, setUnlockedIds] = useState([]);

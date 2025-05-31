@@ -84,7 +84,7 @@ function JournalPage() {
         </div>
 
         {filteredEntries.length > 0 ? (
-          filteredEntries.map((entry) => <GameEntryCard key={entry.gameEntryId} gameEntry={entry} />)
+          filteredEntries.map((entry) => <GameEntryCard key={entry.realGameId} gameEntry={entry} />)
         ) : (
           <div className="text-center mt-5">
             <h2 className="mb-4">No Games Found</h2>

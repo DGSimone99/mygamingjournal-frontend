@@ -1,4 +1,4 @@
-import { Button, Collapse, Container, Image } from "react-bootstrap";
+import { Button, Col, Collapse, Container, Image, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import NoUser from "../../assets/NoUser.png";
@@ -121,6 +121,59 @@ const UserPage = () => {
               <GrCatalog className="me-2" />
               Watch Journal
             </Button>
+          </div>
+
+          <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
+            <h4 className="mb-3">Contacts</h4>
+            {[
+              userData?.steamUsername,
+              userData?.epicUsername,
+              userData?.xboxUsername,
+              userData?.nintendoUsername,
+              userData?.psnUsername,
+              userData?.riotId,
+              userData?.discordTag,
+            ].some(Boolean) ? (
+              <Row className="text-secondary">
+                {userData?.steamUsername && (
+                  <Col md={6} className="mb-2">
+                    <strong>Steam:</strong> <span className="ms-2">{userData.steamUsername}</span>
+                  </Col>
+                )}
+                {userData?.epicUsername && (
+                  <Col md={6} className="mb-2">
+                    <strong>Epic Games:</strong> <span className="ms-2">{userData.epicUsername}</span>
+                  </Col>
+                )}
+                {userData?.xboxUsername && (
+                  <Col md={6} className="mb-2">
+                    <strong>Xbox:</strong> <span className="ms-2">{userData.xboxUsername}</span>
+                  </Col>
+                )}
+                {userData?.nintendoUsername && (
+                  <Col md={6} className="mb-2">
+                    <strong>Nintendo:</strong> <span className="ms-2">{userData.nintendoUsername}</span>
+                  </Col>
+                )}
+                {userData?.psnUsername && (
+                  <Col md={6} className="mb-2">
+                    <strong>PlayStation:</strong> <span className="ms-2">{userData.psnUsername}</span>
+                  </Col>
+                )}
+                {userData?.riotId && (
+                  <Col md={6} className="mb-2">
+                    <strong>Riot ID:</strong> <span className="ms-2">{userData.riotId}</span>
+                  </Col>
+                )}
+                {userData?.discordTag && (
+                  <Col md={6}>
+                    <strong>Discord:</strong> <span className="ms-2">{userData.discordTag}</span>
+                  </Col>
+                )}
+              </Row>
+            ) : (
+              <p className="text-secondary mb-0">No contacts available.</p>
+            )}
           </div>
 
           <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
