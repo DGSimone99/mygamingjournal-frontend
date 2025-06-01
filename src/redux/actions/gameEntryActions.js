@@ -5,6 +5,7 @@ import {
   GET_OTHER_USER_GAME_ENTRIES,
   GET_USER_GAME_ENTRIES_IDS,
   UPDATE_ACHIEVEMENT_ENTRY,
+  GET_AVAILABLE_PLAYERS,
 } from "./actionTypes";
 import { fetchGames } from "./gameActions";
 import { fetchUserStats } from "./userActions";
@@ -110,7 +111,23 @@ export const updateGameEntryAvailability = (gameEntryId, data) => async (dispatc
   try {
     await axios.put(`/api/availability/${gameEntryId}`, data);
     dispatch(fetchUserGameEntries());
+    await dispatch(fetchAvailablePlayers(gameEntryId));
   } catch (error) {
     console.error(error);
   }
 };
+export const fetchAvailablePlayers =
+  (gameId, filters = {}, page = 0, size = 5) =>
+  async (dispatch) => {
+    const params = { page, size, ...filters };
+
+    const response = await axios.get(`/api/availability/${gameId}/available-players`, { params });
+
+    dispatch({
+      type: GET_AVAILABLE_PLAYERS,
+      payload: {
+        content: response.data.content,
+        totalPages: response.data.totalPages,
+      },
+    });
+  };

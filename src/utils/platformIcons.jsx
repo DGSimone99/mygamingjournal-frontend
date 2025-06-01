@@ -27,6 +27,7 @@ const platformIcons = {
   "PS Vita": <SiPlaystationvita />,
   Xbox: <FaXbox />,
   "Xbox 360": <FaXbox />,
+  "Xbox One": <FaXbox />,
   "Xbox Series S/X": <FaXbox />,
 
   SNES: "SNES",

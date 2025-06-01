@@ -5,9 +5,8 @@ import { Button, Col, Container, Image } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { PeopleFill, Star, StarFill } from "react-bootstrap-icons";
-import platformIcons from "../../../utils/platformIcons.jsx";
 import { fetchUserGameEntries } from "../../../redux/actions/gameEntryActions.js";
-import ModalSetAvailability from "./ModalSetAvailability.jsx";
+import ModalAvailablePlayers from "./ModalAvailablePlayers.jsx";
 import { RiQuillPenAiFill, RiQuillPenAiLine } from "react-icons/ri";
 
 function OverviewTab({ game }) {
@@ -19,7 +18,7 @@ function OverviewTab({ game }) {
   const [userEntry, setUserEntry] = useState(null);
   const [tab, setTab] = useState("Info");
   const [showModal, setShowModal] = useState(false);
-  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
+  const [showAvailablePlayersModal, setShowAvailablePlayersModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -77,19 +76,11 @@ function OverviewTab({ game }) {
           ) && (
             <Button
               className="w-100 mt-2 bg-transparent border-added primary-hover"
-              onClick={() => setShowAvailabilityModal(true)}
+              onClick={() => setShowAvailablePlayersModal(true)}
             >
-              Set Availability to Play
+              Find friends to play with
             </Button>
           )}
-        {showAvailabilityModal && (
-          <ModalSetAvailability
-            show={showAvailabilityModal}
-            onHide={() => setShowAvailabilityModal(false)}
-            game={game}
-            userEntry={userEntry}
-          />
-        )}
 
         <div className="d-flex mt-3">
           <Button
@@ -165,20 +156,6 @@ function OverviewTab({ game }) {
                 </span>
               </h5>
             </div>
-            <hr />
-            <div className="info-block platforms d-flex align-items-center gap-2">
-              <h4 className="m-0">Platforms:</h4>
-              <div className="icons d-flex fs-2 gap-3">
-                {game?.parentPlatforms?.length > 0 ? (
-                  game.parentPlatforms.map((p, index) => {
-                    const icon = platformIcons[p];
-                    return icon ? <div key={index}>{icon}</div> : null;
-                  })
-                ) : (
-                  <div>Loading...</div>
-                )}
-              </div>
-            </div>
           </div>
         )}
         {userEntry && tab === "Stats" && (
@@ -204,6 +181,14 @@ function OverviewTab({ game }) {
       </Container>
 
       <ModalGameEntry gameId={game?.id} show={showModal} onHide={() => setShowModal(false)} existingGame={userEntry} />
+      {showAvailablePlayersModal && (
+        <ModalAvailablePlayers
+          show={showAvailablePlayersModal}
+          onHide={() => setShowAvailablePlayersModal(false)}
+          game={game}
+          userEntry={userEntry}
+        />
+      )}
     </Col>
   );
 }

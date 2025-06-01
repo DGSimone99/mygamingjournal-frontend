@@ -21,17 +21,9 @@ const languageMap = [
   { code: "no", label: "Norwegian", country: "no" },
 ];
 
-function countryCodeToFlagEmoji(countryCode) {
-  return countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => String.fromCodePoint(127397 + char.charCodeAt()))
-    .join("");
-}
-
-const allLanguages = languageMap.map(({ code, label, country }) => ({
+const allLanguages = languageMap.map(({ code, label }) => ({
   value: code,
-  label: `${label} ${countryCodeToFlagEmoji(country)}`,
+  label: `${label} ${code}`,
 }));
 
 export default allLanguages;

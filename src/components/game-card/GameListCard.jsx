@@ -7,7 +7,7 @@ import { useEffect, useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
 import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/gameEntryActions.js";
 
-function GameListCard({ game }) {
+function GameListCard({ game, dlc }) {
   const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,16 +47,18 @@ function GameListCard({ game }) {
         <h2 className="mb-0" title={game?.name}>
           {game?.name}
         </h2>
-        <Card.Text
-          className="my-0 text-secondary pointer-underline"
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            navigate(`/catalog/developers/${game?.developers?.[0]}`);
-          }}
-        >
-          {game?.developers?.[0] || "Sviluppatore sconosciuto"}
-        </Card.Text>
+        {!dlc && (
+          <Card.Text
+            className="my-0 text-secondary pointer-underline"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              navigate(`/catalog/developers/${game?.developers?.[0]}`);
+            }}
+          >
+            {game?.developers?.[0] || "Sviluppatore sconosciuto"}
+          </Card.Text>
+        )}
       </Col>
       <Col className="d-flex align-items-center gap-2">
         {game?.parentPlatforms?.map((platform, index) => {

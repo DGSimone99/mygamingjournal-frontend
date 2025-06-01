@@ -12,7 +12,7 @@ function RelatedGamesTab() {
           <h2>Parent Games</h2>
           <div>
             {game.parentGames.map((parentGame) => (
-              <GameCard game={parentGame} key={parentGame.id} grid={false} number={-1} />
+              <GameCard dlc={true} game={parentGame} key={parentGame.id} grid={false} number={-1} />
             ))}
           </div>
         </div>
@@ -23,7 +23,7 @@ function RelatedGamesTab() {
           <h2>DLC</h2>
           <div>
             {game.dlcList.map((dlc) => (
-              <GameCard game={dlc} key={dlc.id} grid={false} number={-1} />
+              <GameCard dlc={true} game={dlc} key={dlc.id} grid={false} number={-1} />
             ))}
           </div>
         </div>
@@ -34,7 +34,7 @@ function RelatedGamesTab() {
           <h2>Related Games</h2>
           <div>
             {game.relatedGames.map((related) => (
-              <GameCard game={related} key={related.id} grid={false} number={-1} />
+              <GameCard dlc={true} game={related} key={related.id} grid={false} number={-1} />
             ))}
           </div>
         </div>

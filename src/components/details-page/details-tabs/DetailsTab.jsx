@@ -39,12 +39,21 @@ function DetailsTab({ game }) {
         <h3 className="m-0">Platforms:</h3>
         <div className="d-flex fs-4 gap-3">
           {game.parentPlatforms.length > 0 ? (
-            game.parentPlatforms.map((p, index) => {
-              const icon = platformIcons[p];
-              return icon ? <div key={index}>{icon}</div> : null;
+            game.parentPlatforms.map((platform, index) => {
+              const icon = platformIcons[platform];
+              return icon ? (
+                <span
+                  key={index}
+                  className="d-flex align-items-center gap-2 fs-5 px-2 py-1 border border-secondary rounded-3 bg-dark shadow-sm"
+                  style={{ fontSize: "0.9rem" }}
+                >
+                  {icon}
+                  <span className="fw-semibold fs-6">{platform}</span>
+                </span>
+              ) : null;
             })
           ) : (
-            <div>Loading...</div>
+            <span className="text-secondary">Loading...</span>
           )}
         </div>
       </div>

@@ -8,7 +8,7 @@ import GameCard from "../game-card/GameCard";
 import { fetchGames } from "../../redux/actions";
 import PaginationControls from "../common/PaginationControls";
 
-function QueryCatalog({ query, queryType, order, grid, size = 12, slice, number, param, paramType }) {
+function QueryCatalog({ query, queryType, order, grid, number, param, paramType, size }) {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -22,7 +22,7 @@ function QueryCatalog({ query, queryType, order, grid, size = 12, slice, number,
       const params = {
         order: order || null,
         page,
-        size: 6,
+        size: size,
       };
 
       if (query && queryType) {
@@ -45,7 +45,8 @@ function QueryCatalog({ query, queryType, order, grid, size = 12, slice, number,
         fetchGames({
           order: order || null,
           page,
-          size: 6,
+          size: size,
+          [paramType]: param,
         })
       );
     }
@@ -53,7 +54,7 @@ function QueryCatalog({ query, queryType, order, grid, size = 12, slice, number,
 
   const renderGameList = (list) => (
     <Row className="px-4">
-      {list.slice(0, slice).map((game) => (
+      {list.slice(0, size).map((game) => (
         <GameCard
           game={game}
           key={game.id}

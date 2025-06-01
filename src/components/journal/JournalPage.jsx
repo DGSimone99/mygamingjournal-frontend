@@ -3,7 +3,7 @@ import GameEntryCard from "./GameEntryCard.jsx";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router";
-import { fetchOtherUserGameEntries } from "../../redux/actions/gameEntryActions.js";
+import { fetchOtherUserGameEntries, fetchUserGameEntries } from "../../redux/actions/gameEntryActions.js";
 
 function JournalPage() {
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -29,18 +29,20 @@ function JournalPage() {
   useEffect(() => {
     if (location.pathname === "/myJournal") {
       setMyJournal(true);
-      setCurrentEntries(gameEntries);
+      dispatch(fetchUserGameEntries());
     } else if (userId) {
       setMyJournal(false);
       dispatch(fetchOtherUserGameEntries(userId));
     }
-  }, [location, userId]);
+  }, [location.pathname, userId, dispatch]);
 
   useEffect(() => {
-    if (!myJournal && userGameEntries.length > 0) {
+    if (myJournal && gameEntries.length > 0) {
+      setCurrentEntries(gameEntries);
+    } else if (!myJournal && userGameEntries.length > 0) {
       setCurrentEntries(userGameEntries);
     }
-  }, [userGameEntries, myJournal]);
+  }, [gameEntries, userGameEntries, myJournal]);
 
   const filteredEntries = currentEntries
     .filter((entry) => statusFilter === "ALL" || entry.status === statusFilter)
@@ -84,7 +86,7 @@ function JournalPage() {
         </div>
 
         {filteredEntries.length > 0 ? (
-          filteredEntries.map((entry) => <GameEntryCard key={entry.realGameId} gameEntry={entry} />)
+          filteredEntries.map((entry) => <GameEntryCard key={entry.id} gameEntry={entry} />)
         ) : (
           <div className="text-center mt-5">
             <h2 className="mb-4">No Games Found</h2>

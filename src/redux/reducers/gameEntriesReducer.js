@@ -1,6 +1,6 @@
 import { CLEAR_GAME_ENTRIES, GET_USER_GAME_ENTRIES, UPDATE_ACHIEVEMENT_ENTRY } from "../actions/actionTypes";
 
-const initialState = JSON.parse(localStorage.getItem("gameEntries") || "[]");
+const initialState = [];
 
 function gameEntriesReducer(state = initialState, action) {
   switch (action.type) {

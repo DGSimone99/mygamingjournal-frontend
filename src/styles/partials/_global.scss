@@ -76,3 +76,16 @@ textarea::placeholder {
     color: #666;
   }
 }
+
+.modal-75 {
+  width: 75vw;
+  height: 75vh;
+  max-width: 75vw;
+  max-height: 75vh;
+}
+
+.modal-75 .modal-content {
+  height: 100%;
+  overflow: auto;
+  background-color: var(--section-color);
+}
