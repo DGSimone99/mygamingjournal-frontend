@@ -65,7 +65,7 @@ function SideBar() {
           Journal
         </Nav.Link>
 
-        <Nav.Link as={Link} to="/" className="sidebar-item d-flex align-items-center flex-column gap-2">
+        <Nav.Link as={Link} to="/friends" className="sidebar-item d-flex align-items-center flex-column gap-2">
           <FaUserFriends className="sidebar-icon fs-2" />
           Friends
         </Nav.Link>

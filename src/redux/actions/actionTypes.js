@@ -5,6 +5,7 @@ export const CLEAR_GAME_ENTRIES = "CLEAR_GAME_ENTRIES";
 export const GET_USER = "GET_USER";
 export const GET_OTHER_USER = "GET_OTHER_USER";
 export const GET_USER_STATS = "GET_USER_STATS";
+export const GET_FRIENDS = "GET_FRIENDS";
 
 export const GET_GAMES = "GET_GAMES";
 export const GET_GAME = "GET_GAME";

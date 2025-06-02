@@ -1,23 +1,29 @@
 :root {
-  --color-page: #f9fafb;
-  --color-text: #111827;
-  --color-text-secondary: #abb4c5;
+  --primary: #4f46e5;
+  --primary-hover: #6e81ff;
 
-  --color-sidebar: white;
+  --danger: #dc2626;
+  --danger-hover: #b91c1c;
 
-  --color-primary: #3b127d;
-  --color-primary-hover: #5b21b6;
+  --success: #16a34a;
+  --success-hover: #15803d;
 
-  --color-section: #e5e7eb;
-  --color-card: white;
+  --text: #1e293b;
+  --secondary: #64748b;
+  --tertiary: #4f46e5;
 
-  --color-comingsoon: #f1a265;
+  --body: #f8fafc;
+  --sidebar: #e2e8f0;
+  --section: #f1f5f9;
+  --card: rgba(255, 255, 255, 0.8);
 
-  --color-theme-bg: #d2d2d2;
+  --dark: #e5e7eb;
+
+  --added: #ca8a04;
 
   --scroll-track-color: rgba(0, 0, 0, 0.05);
-  --scroll-thumb-color: rgba(60, 60, 60, 0.5);
-  --scroll-thumb-hover: rgba(60, 60, 60, 0.8);
+  --scroll-thumb-color: rgba(100, 100, 100, 0.2);
+  --scroll-thumb-hover: rgba(100, 100, 100, 0.4);
 }
 
 .dark-theme {
@@ -32,6 +38,7 @@
 
   --text: #f1f5f9;
   --secondary: #777995;
+  --tertiary: #612ccb;
 
   --body: #0f172a;
 

@@ -10,7 +10,7 @@ function GameEntryCard({ gameEntry }) {
   const dispatch = useDispatch();
   const statusColors = {
     COMPLETED: "success",
-    PLAYING: "primary-hover",
+    PLAYING: "tertiary",
     WISHLIST: "warning",
     DROPPED: "danger",
     BACKLOG: "secondary",

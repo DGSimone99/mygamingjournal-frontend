@@ -34,16 +34,15 @@ function SetAvailabilityCollapse({ game, userEntry, onSuccess }) {
     }
 
     try {
-      const result = await dispatch(
+      await dispatch(
         updateGameEntryAvailability(userEntry.id, {
-          availableToPlay: availableToPlay,
+          availableToPlay,
           availablePlatforms: Array.from(selectedPlatforms),
         })
       );
-      if (result) {
-        setShow(false);
-        onSuccess?.();
-      }
+
+      onSuccess?.();
+      setShow(false);
     } catch (err) {
       console.error(err);
       setError("Error updating availability.");

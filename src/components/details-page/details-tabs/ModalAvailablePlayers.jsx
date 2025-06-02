@@ -61,7 +61,18 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
       </Modal.Header>
 
       <Modal.Body className="bg-section overflow-auto">
-        <SetAvailabilityCollapse game={game} userEntry={userEntry} />
+        <SetAvailabilityCollapse
+          game={game}
+          userEntry={userEntry}
+          onSuccess={() => {
+            const filters = {};
+            if (selectedPlatforms.length > 0) filters.platforms = selectedPlatforms;
+            if (selectedLanguages.length > 0) filters.languages = selectedLanguages;
+
+            setCurrentPage(0);
+            dispatch(fetchAvailablePlayers(game.id, filters, 0));
+          }}
+        />
 
         <Row className="mb-4 my-3">
           <Col md={6}>
@@ -115,16 +126,24 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
               className="d-flex align-items-center justify-content-between py-3 px-2 pointer-list rounded-2 border border-card my-1 mx-3 px-3"
               onClick={() => navigate(`/user/${entry.userId}`)}
             >
-              <div className="d-flex align-items-center gap-3">
-                <Image
-                  src={entry.userAvatarUrl || NoUser}
-                  className="rounded-circle"
-                  height={50}
-                  width={50}
-                  style={{ objectFit: "cover" }}
-                />
-                <div>
-                  <h5 className="mb-0">{entry.userDisplayName}</h5>
+              <div className="d-flex gap-3">
+                <div
+                  className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                  style={{ width: "55px", height: "55px" }}
+                >
+                  {entry.level ?? 0}
+                </div>
+                <div className="d-flex align-items-center gap-3">
+                  <Image
+                    src={entry.userAvatarUrl || NoUser}
+                    className="rounded-circle"
+                    height={50}
+                    width={50}
+                    style={{ objectFit: "cover" }}
+                  />
+                  <div>
+                    <h5 className="mb-0">{entry.userDisplayName}</h5>
+                  </div>
                 </div>
               </div>
 

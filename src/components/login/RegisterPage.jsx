@@ -32,6 +32,7 @@ function RegisterPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const htmlForm = event.currentTarget;
+    setErrorMessage("");
 
     if (htmlForm.checkValidity() === false) {
       event.stopPropagation();
@@ -40,13 +41,21 @@ function RegisterPage() {
     } else if (!isValidPassword(form.password)) {
       setErrorMessage("Password must be at least 8 characters long, with an uppercase letter and a number.");
     } else {
-      dispatch(registerFetch(form)).then((success) => {
-        if (success) {
+      dispatch(registerFetch(form))
+        .then(() => {
           navigate("/login");
-        } else {
-          setErrorMessage("Registration failed. Try again.");
-        }
-      });
+        })
+        .catch((error) => {
+          const message = error?.response?.data;
+
+          if (message === "Username already exists") {
+            setErrorMessage("This username is already taken. Please choose another.");
+          } else if (message === "Email already exists") {
+            setErrorMessage("This email is already registered. Did you mean to log in?");
+          } else {
+            setErrorMessage("Registration failed. Please try again later.");
+          }
+        });
     }
   };
 

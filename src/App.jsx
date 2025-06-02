@@ -16,6 +16,7 @@ import { fetchCurrentUser, fetchUserStats } from "./redux/actions/userActions";
 import { useEffect } from "react";
 import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./redux/actions";
 import JournalPage from "./components/journal/JournalPage";
+import FriendsPage from "./components/friends/FriendsPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function App() {
             <Route path="/user/settings" element={<UserSettings />} />
             <Route path="/user/me" element={<UserPage />} />
             <Route path="/user/:userId" element={<UserPage />} />
+            <Route path="/friends" element={<FriendsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
           </Routes>

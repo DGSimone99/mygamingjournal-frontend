@@ -2,19 +2,22 @@ import { useState, useEffect } from "react";
 import GameEntryCard from "./GameEntryCard.jsx";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useLocation } from "react-router";
 import { fetchOtherUserGameEntries, fetchUserGameEntries } from "../../redux/actions/gameEntryActions.js";
 
 function JournalPage() {
-  const [statusFilter, setStatusFilter] = useState("ALL");
-  const [sortBy, setSortBy] = useState("");
   const dispatch = useDispatch();
   const { userId } = useParams();
+  const location = useLocation();
+
+  const isMyJournal = location.pathname === "/myJournal";
 
   const gameEntries = useSelector((state) => state.gameEntries);
   const userGameEntries = useSelector((state) => state.userGameEntries);
 
-  const [currentEntries, setCurrentEntries] = useState(gameEntries);
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [sortBy, setSortBy] = useState("");
+  const [currentEntries, setCurrentEntries] = useState([]);
 
   const statusPriority = {
     PLAYING: 1,
@@ -24,25 +27,17 @@ function JournalPage() {
     WISHLIST: 5,
   };
 
-  const [myJournal, setMyJournal] = useState(false);
-
   useEffect(() => {
-    if (location.pathname === "/myJournal") {
-      setMyJournal(true);
+    if (isMyJournal) {
       dispatch(fetchUserGameEntries());
     } else if (userId) {
-      setMyJournal(false);
       dispatch(fetchOtherUserGameEntries(userId));
     }
-  }, [location.pathname, userId, dispatch]);
+  }, [dispatch, isMyJournal, userId]);
 
   useEffect(() => {
-    if (myJournal && gameEntries.length > 0) {
-      setCurrentEntries(gameEntries);
-    } else if (!myJournal && userGameEntries.length > 0) {
-      setCurrentEntries(userGameEntries);
-    }
-  }, [gameEntries, userGameEntries, myJournal]);
+    setCurrentEntries(isMyJournal ? gameEntries : userGameEntries);
+  }, [gameEntries, userGameEntries, isMyJournal]);
 
   const filteredEntries = currentEntries
     .filter((entry) => statusFilter === "ALL" || entry.status === statusFilter)
@@ -80,7 +75,7 @@ function JournalPage() {
           >
             <option value="">Default Order</option>
             <option value="NAME">Order by Name</option>
-            <option value="HOURS">Order by Hours Plated</option>
+            <option value="HOURS">Order by Hours Played</option>
             <option value="RATING">Order by Score</option>
           </Form.Select>
         </div>
@@ -90,7 +85,7 @@ function JournalPage() {
         ) : (
           <div className="text-center mt-5">
             <h2 className="mb-4">No Games Found</h2>
-            {myJournal && (
+            {isMyJournal && (
               <Button as={Link} to="/catalog" variant="outline-secondary" className="primary-hover" size="lg">
                 Explore the catalog
               </Button>

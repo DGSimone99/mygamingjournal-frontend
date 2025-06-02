@@ -10,6 +10,7 @@ import otherUserReducer from "../reducers/otherUser.js";
 import userStatsReducer from "../reducers/userStatsReducer.js";
 import userGameEntriesReducer from "../reducers/userGameEntriesReducer.js";
 import availablePlayersReducer from "../reducers/availablePlayersReducer.js";
+import friendsReducer from "../reducers/friendsReducer.js";
 
 const mainReducer = combineReducers({
   games: gamesReducer,
@@ -23,6 +24,7 @@ const mainReducer = combineReducers({
   userStats: userStatsReducer,
   reviews: reviewsReducer,
   availablePlayers: availablePlayersReducer,
+  friends: friendsReducer,
 });
 
 const store = configureStore({

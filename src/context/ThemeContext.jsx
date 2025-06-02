@@ -3,27 +3,35 @@ import { createContext, useState, useEffect } from "react";
 export const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) setTheme(savedTheme);
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
   }, []);
 
   useEffect(() => {
     const body = document.body;
 
-    body.classList.add("theme-transition");
-    body.className = theme + "-theme theme-transition";
+    body.className = theme + "-theme";
 
-    setTimeout(() => {
-      body.classList.remove("theme-transition");
-    }, 1000);
+    if (!isFirstLoad) {
+      body.classList.add("theme-transition");
+      setTimeout(() => {
+        body.classList.remove("theme-transition");
+      }, 1000);
+    }
 
     localStorage.setItem("theme", theme);
+    setIsFirstLoad(false);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 }

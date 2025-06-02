@@ -16,3 +16,11 @@
     background-color: var(--primary-hover) !important;
   }
 }
+
+.btn-journal {
+  background-color: transparent !important;
+  border-color: var(--sidebar) !important;
+  &:hover {
+    background-color: var(--tertiary) !important;
+  }
+}

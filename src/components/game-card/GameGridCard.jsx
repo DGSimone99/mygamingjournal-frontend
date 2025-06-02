@@ -35,7 +35,7 @@ function GameGridCard({ game, number }) {
       <Card
         as={Link}
         to={`/game/${game.id}`}
-        className="shadow bg-black color-text h-100 rounded-4 text-decoration-none"
+        className="shadow bg-card color-text h-100 rounded-4 text-decoration-none"
       >
         <div className="position-relative">
           <Card.Img

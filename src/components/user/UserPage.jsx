@@ -5,13 +5,21 @@ import NoUser from "../../assets/NoUser.png";
 import allLanguages from "../../utils/allLanguages";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { fetchCurrentUser, fetchReviewsByCurrentUser, fetchReviewsByUser, fetchUser } from "../../redux/actions";
+import {
+  fetchCurrentUser,
+  fetchReviewsByCurrentUser,
+  fetchReviewsByUser,
+  fetchUser,
+  toggleFollowFetch,
+} from "../../redux/actions";
 import { FaCheck, FaClock, FaGamepad, FaRegHeart, FaTrophy } from "react-icons/fa";
 import StatCard from "./StatCard";
 import { ChevronDown } from "react-bootstrap-icons";
 import PaginationControls from "../common/PaginationControls";
 import ReviewCard from "../review/ReviewCard";
 import { GrCatalog } from "react-icons/gr";
+import { RiQuillPenAiLine } from "react-icons/ri";
+import { useAuth } from "../../context/AuthContext";
 
 const UserPage = () => {
   const user = useSelector((state) => state.user.user);
@@ -22,14 +30,17 @@ const UserPage = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
   const navigate = useNavigate();
+  const friends = useSelector((state) => state.friends.friends);
 
-  const [linkJournal, setLinkJournal] = useState("/myJournal");
+  const [linkJournal, setLinkJournal] = useState("");
 
   const [page, setPage] = useState(0);
 
   const [open, setOpen] = useState(false);
 
   const [userData, setUserData] = useState(null);
+
+  const { isLoggedIn } = useAuth();
 
   function getLanguageLabel(code) {
     const match = allLanguages.find((lang) => lang.value === code);
@@ -61,14 +72,22 @@ const UserPage = () => {
   useEffect(() => {
     if (location.pathname === "/user/me") {
       dispatch(fetchReviewsByCurrentUser(page, 5));
+
+      setLinkJournal(`/myJournal`);
     } else {
       dispatch(fetchReviewsByUser(userId, page, 5));
       setLinkJournal(`/journal/${userId}`);
     }
   }, [user, userId, page, dispatch]);
 
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  useEffect(() => {
+    setIsFollowing(friends.some((f) => f.id === userData?.id));
+  }, [friends, userData]);
+
   if (!userData || !userStats) {
-    return <div className="text-white px-5 py-5">Loading profile...</div>;
+    return <div className="text-center px-5 py-5">Loading profile...</div>;
   }
 
   const level = userStats.level;
@@ -79,7 +98,20 @@ const UserPage = () => {
     <Container fluid className="py-5 mb-5 px-5">
       <div className="d-flex gap-3 align-items-center">
         <h1 className="display-5 fw-bold">{userData?.displayName}</h1>
-        {userId && <Button className="btn-confirm">Follow</Button>}
+        {userId && isLoggedIn ? (
+          <Button
+            className={`border-0 rounded-5 ${isFollowing ? "bg-secondary" : "bg-primary"} primary-hover`}
+            onClick={() => dispatch(toggleFollowFetch(userId))}
+          >
+            {isFollowing ? "Unfollow" : "Follow"}
+          </Button>
+        ) : (
+          !userId && (
+            <Button className="btn-confirm" onClick={() => navigate("/user/settings")}>
+              <RiQuillPenAiLine /> Edit
+            </Button>
+          )
+        )}
       </div>
 
       <div className="d-flex align-items-start gap-5 my-4">
@@ -136,38 +168,59 @@ const UserPage = () => {
             ].some(Boolean) ? (
               <Row className="text-secondary">
                 {userData?.steamUsername && (
-                  <Col md={6} className="mb-2">
-                    <strong>Steam:</strong> <span className="ms-2">{userData.steamUsername}</span>
+                  <Col md={6} className="mb-4">
+                    <strong>Steam:</strong>{" "}
+                    <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.steamUsername}
+                    </span>
                   </Col>
                 )}
                 {userData?.epicUsername && (
-                  <Col md={6} className="mb-2">
-                    <strong>Epic Games:</strong> <span className="ms-2">{userData.epicUsername}</span>
+                  <Col md={6} className="mb-4">
+                    <strong>Epic Games:</strong>{" "}
+                    <span className="ms-2  bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.epicUsername}
+                    </span>
                   </Col>
                 )}
                 {userData?.xboxUsername && (
-                  <Col md={6} className="mb-2">
-                    <strong>Xbox:</strong> <span className="ms-2">{userData.xboxUsername}</span>
+                  <Col md={6} className="mb-4">
+                    <strong>Xbox:</strong>{" "}
+                    <span className="ms-2  bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.xboxUsername}
+                    </span>
                   </Col>
                 )}
                 {userData?.nintendoUsername && (
-                  <Col md={6} className="mb-2">
-                    <strong>Nintendo:</strong> <span className="ms-2">{userData.nintendoUsername}</span>
+                  <Col md={6} className="mb-4">
+                    <strong>Nintendo:</strong>{" "}
+                    <span className="ms-2  bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.nintendoUsername}
+                    </span>
                   </Col>
                 )}
                 {userData?.psnUsername && (
-                  <Col md={6} className="mb-2">
-                    <strong>PlayStation:</strong> <span className="ms-2">{userData.psnUsername}</span>
+                  <Col md={6} className="mb-4">
+                    <strong>PlayStation:</strong>{" "}
+                    <span className="ms-2  bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.psnUsername}
+                    </span>
                   </Col>
                 )}
                 {userData?.riotId && (
-                  <Col md={6} className="mb-2">
-                    <strong>Riot ID:</strong> <span className="ms-2">{userData.riotId}</span>
+                  <Col md={6} className="mb-4">
+                    <strong>Riot ID:</strong>{" "}
+                    <span className="ms-2  bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.riotId}
+                    </span>
                   </Col>
                 )}
                 {userData?.discordTag && (
                   <Col md={6}>
-                    <strong>Discord:</strong> <span className="ms-2">{userData.discordTag}</span>
+                    <strong>Discord:</strong>{" "}
+                    <span className="ms-2  bg-primary border rounded py-1 px-2 border-secondary">
+                      {userData.discordTag}
+                    </span>
                   </Col>
                 )}
               </Row>

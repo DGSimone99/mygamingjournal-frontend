@@ -36,7 +36,7 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) navigate("/");
+    if (isLoggedIn) navigate("/user/settings");
   }, [isLoggedIn, navigate]);
 
   return (

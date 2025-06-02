@@ -71,7 +71,7 @@ function GameListCard({ game, dlc }) {
         {releaseLabel && <div className="coming-soon">{releaseLabel}</div>}
       </Col>
       <Col>
-        <p className="text-light my-0 px-2 d-flex align-items-center ms-auto">
+        <p className="my-0 px-2 gap-1 d-flex align-items-center ms-auto">
           {isGameInUserList ? <StarFill style={{ fill: "var(--added)" }} /> : <Star />}
           {game.rating}
         </p>
