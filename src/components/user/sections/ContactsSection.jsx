@@ -6,7 +6,7 @@ import { updateUserContactsFetch } from "../../../redux/actions";
 
 function ContactsSection() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.settings);
+  const user = useSelector((state) => state.user.user);
   const [isEditing, setIsEditing] = useState(false);
   const [contacts, setContacts] = useState({
     steamUsername: "",

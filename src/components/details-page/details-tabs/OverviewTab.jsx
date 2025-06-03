@@ -1,5 +1,4 @@
 import ModalGameEntry from "../ModalGameEntry.jsx";
-import { useAuth } from "../../../context/AuthContext";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Image } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router";
@@ -10,7 +9,7 @@ import ModalAvailablePlayers from "./ModalAvailablePlayers.jsx";
 import { RiQuillPenAiFill, RiQuillPenAiLine } from "react-icons/ri";
 
 function OverviewTab({ game }) {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
   const dispatch = useDispatch();
   const { gameId } = useParams();
 
@@ -27,7 +26,7 @@ function OverviewTab({ game }) {
   }, [dispatch]);
 
   useEffect(() => {
-    const foundEntry = gameEntries.find((entry) => String(entry.realGameId) === String(gameId));
+    const foundEntry = gameEntries.find((entry) => String(entry.gameId) === String(gameId));
     setUserEntry(foundEntry || null);
   }, [gameEntries, gameId]);
 
@@ -171,10 +170,6 @@ function OverviewTab({ game }) {
             <h5 className="d-flex align-items-center gap-2">
               Status:
               <span className="fw-normal">{userEntry?.status}</span>
-            </h5>
-            <h5 className="d-flex align-items-center gap-2">
-              Completition:
-              <span className="fw-normal">{userEntry?.completionMode}</span>
             </h5>
           </div>
         )}

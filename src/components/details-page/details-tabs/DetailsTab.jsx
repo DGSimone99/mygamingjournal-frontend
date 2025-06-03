@@ -1,31 +1,33 @@
 import { useState } from "react";
-import { Link } from "react-router";
-import platformIcons from "../../../utils/platformIcons.jsx";
+import { Link } from "react-router-dom";
 import { Reddit } from "react-bootstrap-icons";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Container, Image } from "react-bootstrap";
+import platformIcons from "../../../utils/platformIcons.jsx";
 import NoUser from "../../../assets/NoUser.png";
+
+function GameRequirements({ requirements }) {
+  if (!requirements || typeof requirements !== "string") return null;
+
+  const html = requirements
+    .replace(/\n/g, "</p><p class='my-1'>")
+    .replace(/(Minimum:)/g, "<h5>$1</h5>")
+    .replace(/(Recommended:)/g, "<h5>$1</h5>");
+
+  return <div className="game-description" dangerouslySetInnerHTML={{ __html: html }} />;
+}
 
 function DetailsTab({ game }) {
   const [member, setMember] = useState(4);
 
-  function GameRequirements({ requirements }) {
-    if (!requirements || typeof requirements !== "string") {
-      return null;
-    }
-
-    const htmlDescription = requirements
-      .replace(/\n/g, "</p><p class='my-1'>")
-      .replace(/(Minimum:)/g, "<h5>$1</h5>")
-      .replace(/(Recommended:)/g, "<h5>$1</h5>");
-
-    return <div className="game-description" dangerouslySetInnerHTML={{ __html: htmlDescription }} />;
-  }
+  const toggleTeamView = () => {
+    setMember(member < game.developmentTeam?.length ? game.developmentTeam.length : 4);
+  };
 
   return (
     <Container className="details-tab">
       <div className="mb-3">
-        <Link to={game.redditUrl} target="_blank" rel="noreferrer">
+        <Link to={game?.redditUrl || "#"} target="_blank" rel="noreferrer">
           <Reddit className="fs-2" />
         </Link>
       </div>
@@ -37,8 +39,8 @@ function DetailsTab({ game }) {
 
       <div className="d-flex align-items-center gap-3 mb-3">
         <h3 className="m-0">Platforms:</h3>
-        <div className="d-flex fs-4 gap-3">
-          {game.parentPlatforms.length > 0 ? (
+        <div className="d-flex fs-4 gap-3 flex-wrap">
+          {game?.parentPlatforms?.length ? (
             game.parentPlatforms.map((platform, index) => {
               const icon = platformIcons[platform];
               return icon ? (
@@ -73,30 +75,31 @@ function DetailsTab({ game }) {
       <div className="mb-3 team-section">
         <div className="d-flex justify-content-between">
           <h3>Team:</h3>
-          <div className="pointer">
-            {member < game.developmentTeam.length ? (
-              <FaAngleDown onClick={() => setMember(game.developmentTeam.length)} />
-            ) : (
-              <FaAngleUp onClick={() => setMember(4)} />
-            )}
+          <div className="pointer" onClick={toggleTeamView}>
+            {member < game?.developmentTeam?.length ? <FaAngleDown /> : <FaAngleUp />}
           </div>
         </div>
-        {game?.developmentTeam?.length > 0 ? (
-          <>
-            <div className="team d-flex gap-2 mt-3 flex-wrap">
-              {game.developmentTeam.slice(0, member).map((dev) => (
-                <div className="member d-flex align-items-center gap-3 rounded p-2 w-100" key={dev.id}>
-                  <Image src={dev.image || NoUser} alt={dev.name} height={50} className="rounded rounded-circle" />
-                  <div>
-                    <h5>{dev.name}</h5>
-                    <p>{dev.positions[0]?.charAt(0).toUpperCase() + dev.positions[0]?.slice(1)}</p>
-                  </div>
+
+        {game?.developmentTeam?.length ? (
+          <div className="team d-flex gap-2 mt-3 flex-wrap">
+            {game.developmentTeam.slice(0, member).map((dev) => (
+              <div className="member d-flex align-items-center gap-3 rounded p-2 w-100" key={dev.id}>
+                <Image
+                  src={dev.image || NoUser}
+                  alt={dev.name}
+                  height={50}
+                  width={50}
+                  className="rounded-circle object-fit-cover"
+                />
+                <div>
+                  <h5>{dev.name}</h5>
+                  <p>{dev.positions?.[0]?.[0]?.toUpperCase() + dev.positions?.[0]?.slice(1) || "-"}</p>
                 </div>
-              ))}
-            </div>
-          </>
+              </div>
+            ))}
+          </div>
         ) : (
-          <div>Loading...</div>
+          <p className="text-muted">Loading team info...</p>
         )}
       </div>
 
@@ -110,8 +113,8 @@ function DetailsTab({ game }) {
       {(game?.minimumRequirements || game?.recommendedRequirements) && (
         <div className="mt-4">
           <h3>System Requirements:</h3>
-          {game?.minimumRequirements && <GameRequirements requirements={game.minimumRequirements} />}
-          {game?.recommendedRequirements && <GameRequirements requirements={game.recommendedRequirements} />}
+          {game.minimumRequirements && <GameRequirements requirements={game.minimumRequirements} />}
+          {game.recommendedRequirements && <GameRequirements requirements={game.recommendedRequirements} />}
         </div>
       )}
 

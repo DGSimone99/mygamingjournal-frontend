@@ -109,6 +109,7 @@ function UserPage() {
           <Image
             src={userData.avatarUrl || NoUser}
             height={200}
+            width={200}
             className="rounded-circle border border-secondary shadow-sm"
             alt="User Avatar"
           />
@@ -227,8 +228,8 @@ function UserPage() {
           <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
             <h4 className="mb-3">Languages</h4>
             <div className="d-flex flex-wrap gap-2">
-              {userData.language?.length > 0 ? (
-                userData.language.map((langCode) => (
+              {userData.languages?.length > 0 ? (
+                userData.languages.map((langCode) => (
                   <span key={langCode} className="badge bg-primary px-3 py-2 fs-6">
                     {getLanguageLabel(langCode)}
                   </span>

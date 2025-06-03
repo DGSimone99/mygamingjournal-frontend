@@ -16,19 +16,20 @@ function UserSearchTab() {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    if (query.trim() !== "") {
-      dispatch(fetchAllUsers(page, 5, query));
+    if (query.trim()) {
+      dispatch(fetchAllUsers(page, 5, query.trim()));
     }
   }, [dispatch, page, query]);
 
   const handleSearchChange = (e) => {
-    setQuery(e.target.value);
+    const value = e.target.value;
+    setQuery(value);
     setPage(0);
   };
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
+  const handlePageChange = (newPage) => setPage(newPage);
+
+  const isQuerying = query.trim().length > 0;
 
   return (
     <div>
@@ -43,7 +44,7 @@ function UserSearchTab() {
         />
       </div>
 
-      {query.trim() === "" ? (
+      {!isQuerying ? (
         <p className="text-secondary text-center my-5 fs-5">Start typing to search users</p>
       ) : (
         <>

@@ -1,16 +1,14 @@
 import { Card, Col, Image, Row } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../../context/AuthContext.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
-import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/gameEntryActions.js";
 
 function GameListCard({ game, dlc }) {
-  const { isLoggedIn } = useAuth();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
   const gameEntryIds = useSelector((state) => state.gameEntryIds || []);
 
   const isGameInUserList = useMemo(() => {
@@ -25,11 +23,6 @@ function GameListCard({ game, dlc }) {
 
   const releaseLabel = getReleaseLabel(game);
 
-  useEffect(() => {
-    dispatch(fetchUserGameEntriesIds());
-    dispatch(fetchUserGameEntries());
-  }, [dispatch]);
-
   return (
     <Row
       as={Link}
@@ -43,10 +36,12 @@ function GameListCard({ game, dlc }) {
           className="w-100 ms-2 rounded-2"
         />
       </Col>
+
       <Col md="6" className="ms-2">
         <h2 className="mb-0" title={game?.name}>
           {game?.name}
         </h2>
+
         {!dlc && (
           <Card.Text
             className="my-0 text-secondary pointer-underline"
@@ -60,16 +55,19 @@ function GameListCard({ game, dlc }) {
           </Card.Text>
         )}
       </Col>
+
       <Col className="d-flex align-items-center gap-2">
         {game?.parentPlatforms?.map((platform, index) => {
           const icon = platformIcons[platform];
           return icon ? <div key={index}>{icon}</div> : null;
         })}
       </Col>
+
       <Col>
         <div>{game?.released}</div>
         {releaseLabel && <div className="coming-soon">{releaseLabel}</div>}
       </Col>
+
       <Col>
         <p className="my-0 px-2 gap-1 d-flex align-items-center ms-auto">
           {isGameInUserList ? <StarFill style={{ fill: "var(--added)" }} /> : <Star />}

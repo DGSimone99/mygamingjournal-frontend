@@ -4,7 +4,6 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useLocation, useNavigate } from "react-router";
 import { fetchOtherUserGameEntries, fetchUserGameEntries } from "../../redux/actions/gameEntryActions.js";
-import { useAuth } from "../../context/AuthContext.jsx";
 
 function JournalPage() {
   const dispatch = useDispatch();
@@ -12,13 +11,11 @@ function JournalPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useAuth();
-
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
   const isMyJournal = location.pathname === "/myJournal";
 
   const gameEntries = useSelector((state) => state.gameEntries);
   const userGameEntries = useSelector((state) => state.userGameEntries);
-
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [sortBy, setSortBy] = useState("");
   const [currentEntries, setCurrentEntries] = useState([]);
@@ -32,22 +29,21 @@ function JournalPage() {
   };
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+      return;
+    }
+
     if (isMyJournal) {
       dispatch(fetchUserGameEntries());
     } else if (userId) {
       dispatch(fetchOtherUserGameEntries(userId));
     }
-  }, [dispatch, isMyJournal, userId]);
+  }, [dispatch, isLoggedIn, isMyJournal, userId, navigate]);
 
   useEffect(() => {
     setCurrentEntries(isMyJournal ? gameEntries : userGameEntries);
   }, [gameEntries, userGameEntries, isMyJournal]);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    }
-  }, [isLoggedIn, navigate]);
 
   const filteredEntries = currentEntries
     .filter((entry) => statusFilter === "ALL" || entry.status === statusFilter)

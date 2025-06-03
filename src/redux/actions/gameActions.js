@@ -1,101 +1,81 @@
 import axios from "axios";
-import { GET_GAMES, GET_GAME, GET_REVIEWS } from "./actionTypes";
+import {
+  GET_GAMES_REQUEST,
+  GET_GAMES_SUCCESS,
+  GET_GAMES_FAILURE,
+  GET_GAME_REQUEST,
+  GET_GAME_SUCCESS,
+  GET_GAME_FAILURE,
+  GET_REVIEWS_REQUEST,
+  GET_REVIEWS_SUCCESS,
+  GET_REVIEWS_FAILURE,
+} from "./actionTypes";
 
 export const fetchGames = (filters = {}) => {
   return async (dispatch) => {
+    dispatch({ type: GET_GAMES_REQUEST });
     try {
-      let fetchedGames = await axios.get(`/api/games`, { params: filters });
+      const res = await axios.get("/api/games", { params: filters });
       dispatch({
-        type: GET_GAMES,
+        type: GET_GAMES_SUCCESS,
         payload: {
-          games: fetchedGames.data.content,
-          totalPages: fetchedGames.data.totalPages,
-          currentPage: fetchedGames.data.number,
+          games: res.data.content,
+          totalPages: res.data.totalPages,
+          currentPage: res.data.number,
         },
       });
     } catch (error) {
-      console.log(error);
+      dispatch({ type: GET_GAMES_FAILURE, error: error.message });
     }
   };
 };
 
 export const fetchDetails = (id) => {
   return async (dispatch) => {
+    dispatch({ type: GET_GAME_REQUEST });
     try {
-      let detailGame = await axios.get(`/api/games/details/` + id);
-      dispatch({
-        type: GET_GAME,
-        payload: {
-          game: detailGame.data,
-        },
-      });
+      const res = await axios.get(`/api/games/details/${id}`);
+      dispatch({ type: GET_GAME_SUCCESS, payload: { game: res.data } });
     } catch (error) {
-      console.log(error);
+      dispatch({ type: GET_GAME_FAILURE, error: error.message });
     }
   };
 };
 
-export const fetchReviewsByGame = (idGame, page, size = 10) => {
+const fetchReviewsGeneric = (url, page = 0, size = 10) => {
   return async (dispatch) => {
+    dispatch({ type: GET_REVIEWS_REQUEST });
     try {
-      let fetchedReviews = await axios.get(`/api/reviews/game/` + idGame + `/?page=${page}&size=${size}`);
+      const res = await axios.get(`${url}?page=${page}&size=${size}`);
       dispatch({
-        type: GET_REVIEWS,
+        type: GET_REVIEWS_SUCCESS,
         payload: {
-          reviews: fetchedReviews.data.content,
-          totalPages: fetchedReviews.data.totalPages,
-          currentPage: fetchedReviews.data.number,
+          reviews: res.data.content,
+          totalPages: res.data.totalPages,
+          currentPage: res.data.number,
         },
       });
     } catch (error) {
-      console.log(error);
+      dispatch({ type: GET_REVIEWS_FAILURE, error: error.message });
     }
   };
 };
 
-export const fetchReviewsByCurrentUser = (page, size = 5) => {
-  return async (dispatch) => {
-    try {
-      let fetchedReviews = await axios.get(`/api/reviews/me?page=${page}&size=${size}`);
-      dispatch({
-        type: GET_REVIEWS,
-        payload: {
-          reviews: fetchedReviews.data.content,
-          totalPages: fetchedReviews.data.totalPages,
-          currentPage: fetchedReviews.data.number,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
+export const fetchReviewsByGame = (idGame, page = 0, size = 10) =>
+  fetchReviewsGeneric(`/api/reviews/game/${idGame}`, page, size);
 
-export const fetchReviewsByUser = (idUser, page, size = 5) => {
-  return async (dispatch) => {
-    try {
-      let fetchedReviews = await axios.get(`/api/reviews/user/` + idUser + `/?page=${page}&size=${size}`);
-      dispatch({
-        type: GET_REVIEWS,
-        payload: {
-          reviews: fetchedReviews.data.content,
-          totalPages: fetchedReviews.data.totalPages,
-          currentPage: fetchedReviews.data.number,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
+export const fetchReviewsByUser = (idUser, page = 0, size = 10) =>
+  fetchReviewsGeneric(`/api/reviews/user/${idUser}`, page, size);
+
+export const fetchReviewsByCurrentUser = (page = 0, size = 10) => fetchReviewsGeneric(`/api/reviews/me`, page, size);
 
 export const postReview = (idGame, text, score) => {
   return async (dispatch) => {
     try {
-      await axios.post(`/api/reviews?gameId=${idGame}&text=${text}&score=${score}`);
+      await axios.post("/api/reviews", { gameId: idGame, text, score });
       dispatch(fetchReviewsByGame(idGame, 0));
     } catch (error) {
-      console.log(error);
+      console.error("Error posting review:", error);
     }
   };
 };
@@ -103,10 +83,10 @@ export const postReview = (idGame, text, score) => {
 export const deleteReview = (idReview, idGame) => {
   return async (dispatch) => {
     try {
-      await axios.delete(`/api/reviews/` + idReview);
+      await axios.delete(`/api/reviews/${idReview}`);
       dispatch(fetchReviewsByGame(idGame, 0));
     } catch (error) {
-      console.log(error);
+      console.error("Error deleting review:", error);
     }
   };
 };

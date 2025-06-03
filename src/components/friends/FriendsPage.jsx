@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { fetchFriends } from "../../redux/actions";
-
-import { useAuth } from "../../context/AuthContext";
 import { BiSearch } from "react-icons/bi";
 import FriendCard from "./FriendCard";
 import UserSearchTab from "./UserSearchTab";
@@ -11,19 +9,20 @@ import PaginationControls from "../common/PaginationControls";
 
 function FriendsPage() {
   const dispatch = useDispatch();
-  const friends = useSelector((state) => state.friends.friends);
-  const totalPages = useSelector((state) => state.friends.totalPages);
-  const currentPage = useSelector((state) => state.friends.currentPage);
-  const { isLoggedIn } = useAuth();
-  const [tab, setTab] = useState("Friends");
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
+  const friends = useSelector((state) => state.friends.friends || []);
+  const totalPages = useSelector((state) => state.friends.totalPages || 0);
+  const currentPage = useSelector((state) => state.friends.currentPage || 0);
+
+  const [tab, setTab] = useState(isLoggedIn ? "Friends" : "Search");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    if (tab === "Friends") {
+    if (isLoggedIn && tab === "Friends") {
       dispatch(fetchFriends(page, 5, searchQuery));
     }
-  }, [dispatch, tab, page, searchQuery]);
+  }, [dispatch, tab, page, searchQuery, isLoggedIn]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -34,29 +33,23 @@ function FriendsPage() {
     setSearchQuery(e.target.value);
   };
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setTab("Search");
-    }
-  }, [dispatch, tab, page, searchQuery]);
-
   return (
     <Container fluid className="page px-5 py-4">
       <Row className="justify-content-center">
-        <Col lg={10} xl={9}>
+        <Col xl={9}>
           <h1 className="fw-bold text-white text-center mb-4">Friends</h1>
 
           <div className="tabs-bar d-flex">
             {isLoggedIn && (
               <Button
-                className={`tabs flex-fill text-center rounded rounded-end-0 ${tab === "Friends" ? "active" : ""} `}
+                className={`tabs flex-fill rounded rounded-end-0 ${tab === "Friends" ? "active" : ""}`}
                 onClick={() => setTab("Friends")}
               >
                 Friends
               </Button>
             )}
             <Button
-              className={`tabs flex-fill text-center rounded-end rounded-start-0 ${tab === "Search" ? "active" : ""}`}
+              className={`tabs flex-fill rounded-end rounded-start-0 ${tab === "Search" ? "active" : ""}`}
               onClick={() => setTab("Search")}
             >
               Search Users
@@ -77,7 +70,7 @@ function FriendsPage() {
                   />
                 </div>
 
-                {totalPages > 0 && (
+                {totalPages > 1 && (
                   <PaginationControls
                     currentPage={currentPage}
                     totalPages={totalPages}
@@ -88,7 +81,7 @@ function FriendsPage() {
                 <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
                   {friends.length > 0 ? (
                     friends.map((friend) => (
-                      <Col key={friend.id} xs={12} md={6} className="w-100">
+                      <Col key={friend.id} xs={12} md={6}>
                         <FriendCard friend={friend} />
                       </Col>
                     ))

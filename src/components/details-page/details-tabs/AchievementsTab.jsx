@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { Container, Form, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAchievementEntry } from "../../../redux/actions";
 import { useParams } from "react-router";
-import { useAuth } from "../../../context/AuthContext";
+import { updateAchievementEntry } from "../../../redux/actions";
 import NoAchievement from "../../../assets/NoAchievement.png";
 
 function AchievementsTab({ game }) {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useAuth();
   const { gameId } = useParams();
 
-  const userEntry = useSelector((state) =>
-    state.gameEntries.find((entry) => String(entry.realGameId) === String(gameId))
-  );
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
+
+  const userEntry = useSelector((state) => state.gameEntries.find((entry) => entry.realGameId === gameId));
 
   const [unlockedIds, setUnlockedIds] = useState([]);
   const [error, setError] = useState("");
@@ -27,32 +25,31 @@ function AchievementsTab({ game }) {
   ];
 
   useEffect(() => {
-    if (userEntry?.achievements?.length > 0) {
+    if (isLoggedIn && userEntry?.achievements?.length > 0) {
       const initialUnlocked = userEntry.achievements.filter((a) => a.unlocked).map((a) => a.achievementId);
       setUnlockedIds(initialUnlocked);
     } else {
       setUnlockedIds([]);
     }
-    if (!isLoggedIn) {
-      setUnlockedIds([]);
-    }
   }, [userEntry, isLoggedIn]);
 
-  const sortedAchievements = [...game.achievements]
-    .filter((a) => {
-      const isUnlocked = unlockedIds.includes(a.id);
-      return (isUnlocked && showUnlocked) || (!isUnlocked && showLocked);
-    })
-    .sort((a, b) => {
-      if (order === "name") return a.name.localeCompare(b.name);
-      if (order === "averagePercentage") return a.averagePercentage - b.averagePercentage;
+  const handleAchievement = (achievement) => {
+    if (!isLoggedIn || !userEntry) {
+      setError("You must add this game to unlock achievements");
+      return;
+    }
 
-      const aUnlocked = unlockedIds.includes(a.id);
-      const bUnlocked = unlockedIds.includes(b.id);
+    setError("");
+    const entry = userEntry.achievements.find((e) => e.achievementId === achievement.id);
+    if (!entry) return;
 
-      if (aUnlocked !== bUnlocked) return bUnlocked - aUnlocked;
-      return a.id - b.id;
-    });
+    const isUnlocked = unlockedIds.includes(entry.achievementId);
+    dispatch(updateAchievementEntry(entry.id, !isUnlocked));
+
+    setUnlockedIds((prev) =>
+      isUnlocked ? prev.filter((id) => id !== entry.achievementId) : [...prev, entry.achievementId]
+    );
+  };
 
   const handleUnlockAll = () => {
     if (!userEntry) {
@@ -72,29 +69,26 @@ function AchievementsTab({ game }) {
     setUnlockedIds(allIds);
   };
 
-  const handleAchievement = (achievement) => {
-    if (!userEntry || !isLoggedIn) {
-      setError("You must add this game to unlock achievements");
-      return;
-    }
+  const sortedAchievements = [...(game.achievements || [])]
+    .filter((a) => {
+      const isUnlocked = unlockedIds.includes(a.id);
+      return (isUnlocked && showUnlocked) || (!isUnlocked && showLocked);
+    })
+    .sort((a, b) => {
+      if (order === "name") return a.name.localeCompare(b.name);
+      if (order === "averagePercentage") return a.averagePercentage - b.averagePercentage;
 
-    setError("");
+      const aUnlocked = unlockedIds.includes(a.id);
+      const bUnlocked = unlockedIds.includes(b.id);
+      if (aUnlocked !== bUnlocked) return bUnlocked - aUnlocked;
 
-    const entry = userEntry.achievements.find((e) => e.achievementId === achievement.id);
-    if (!entry) return;
-
-    const isUnlocked = unlockedIds.includes(entry.achievementId);
-    dispatch(updateAchievementEntry(entry.id, !isUnlocked));
-
-    setUnlockedIds((prev) =>
-      isUnlocked ? prev.filter((id) => id !== entry.achievementId) : [...prev, entry.achievementId]
-    );
-  };
+      return a.id - b.id;
+    });
 
   return (
     <Container className="achievements-tab">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="m-0">{game.achievements.length} Achievements</h2>
+        <h2 className="m-0">{game.achievements?.length || 0} Achievements</h2>
         <p className="m-0 text-danger">{error}</p>
         <Form.Select
           aria-label="Order by"
@@ -115,10 +109,10 @@ function AchievementsTab({ game }) {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <p
             className={`m-0 ${
-              game.achievements.length === unlockedIds.length ? "text-success" : "color-text-secondary"
+              game.achievements?.length === unlockedIds.length ? "text-success" : "color-text-secondary"
             }`}
           >
-            {unlockedIds.length} <span className="color-text">/ {game.achievements.length}</span>
+            {unlockedIds.length} <span className="color-text">/ {game.achievements?.length}</span>
           </p>
 
           <div className="d-flex align-items-center gap-3">
@@ -147,9 +141,9 @@ function AchievementsTab({ game }) {
       {sortedAchievements.map((achievement) => (
         <div
           key={achievement.id}
-          className={`achievement ${
+          className={`achievement d-flex align-items-center rounded mb-3 pointer-list ${
             !unlockedIds.includes(achievement.id) ? "locked" : ""
-          } d-flex align-items-center rounded mb-3 pointer-list`}
+          }`}
           onClick={() => handleAchievement(achievement)}
         >
           <Image src={achievement.image || NoAchievement} alt={achievement.name} className="me-3 achievement-image" />

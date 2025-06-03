@@ -7,27 +7,31 @@ import platformIcons from "../../../utils/platformIcons";
 import allLanguages from "../../../utils/allLanguages";
 import SetAvailabilityCollapse from "./SetAvailabilityCollapse";
 import NoUser from "../../../assets/NoUser.png";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import PaginationControls from "../../common/PaginationControls";
 
 function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const availablePlayers = useSelector((state) => state.availablePlayers.players || []);
+  const totalPages = useSelector((state) => state.availablePlayers.totalPages || 1);
+
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = useSelector((state) => state.availablePlayers.totalPages || 1);
-  const navigate = useNavigate();
+
+  const buildFilters = () => {
+    const filters = {};
+    if (selectedPlatforms.length > 0) filters.platforms = selectedPlatforms;
+    if (selectedLanguages.length > 0) filters.languages = selectedLanguages;
+    return filters;
+  };
 
   useEffect(() => {
-    if (show && game?.id) {
-      const filters = {};
-      if (selectedPlatforms.length > 0) filters.platforms = selectedPlatforms;
-      if (selectedLanguages.length > 0) filters.languages = selectedLanguages;
-
-      dispatch(fetchAvailablePlayers(game.id, filters, currentPage));
-    }
-  }, [dispatch, show, game, selectedPlatforms, selectedLanguages, currentPage]);
+    if (!show || !game?.id) return;
+    dispatch(fetchAvailablePlayers(game.id, buildFilters(), currentPage));
+  }, [show, game, selectedPlatforms, selectedLanguages, currentPage, dispatch]);
 
   const handlePlatformChange = (platform) => {
     setCurrentPage(0);
@@ -65,12 +69,8 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
           game={game}
           userEntry={userEntry}
           onSuccess={() => {
-            const filters = {};
-            if (selectedPlatforms.length > 0) filters.platforms = selectedPlatforms;
-            if (selectedLanguages.length > 0) filters.languages = selectedLanguages;
-
             setCurrentPage(0);
-            dispatch(fetchAvailablePlayers(game.id, filters, 0));
+            dispatch(fetchAvailablePlayers(game.id, buildFilters(), 0));
           }}
         />
 
@@ -110,13 +110,7 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
         </Row>
 
         {filteredPlayers.length > 0 && (
-          <div className="my-4">
-            <PaginationControls
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={(page) => setCurrentPage(page)}
-            />
-          </div>
+          <PaginationControls currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
         )}
 
         {filteredPlayers.length > 0 ? (

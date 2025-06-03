@@ -1,4 +1,4 @@
-import { CLEAR_GAME_ENTRIES, GET_USER_GAME_ENTRIES, UPDATE_ACHIEVEMENT_ENTRY } from "../actions/actionTypes";
+import { CLEAR_GAME_ENTRIES, GET_USER_GAME_ENTRIES, UPDATE_ACHIEVEMENT_ENTRY } from "../../actions/actionTypes";
 
 const initialState = [];
 

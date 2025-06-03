@@ -5,26 +5,25 @@ import { updateGameEntryAvailability } from "../../../redux/actions";
 import { BiInfoCircle, BiChevronDown } from "react-icons/bi";
 
 function SetAvailabilityCollapse({ game, userEntry, onSuccess }) {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [availableToPlay, setAvailableToPlay] = useState(userEntry?.availableToPlay || false);
+  const [availableToPlay, setAvailableToPlay] = useState(Boolean(userEntry?.availableToPlay));
   const [selectedPlatforms, setSelectedPlatforms] = useState(new Set(userEntry?.availablePlatforms || []));
   const [error, setError] = useState("");
 
-  const dispatch = useDispatch();
-
   const handleCheckboxChange = (platform) => {
-    const newSet = new Set(selectedPlatforms);
-    if (newSet.has(platform)) {
-      newSet.delete(platform);
+    const updated = new Set(selectedPlatforms);
+    if (updated.has(platform)) {
+      updated.delete(platform);
     } else {
-      if (newSet.size >= 3) {
+      if (updated.size >= 3) {
         setError("You can select up to 3 platforms.");
         return;
       }
-      newSet.add(platform);
+      updated.add(platform);
     }
+    setSelectedPlatforms(updated);
     setError("");
-    setSelectedPlatforms(newSet);
   };
 
   const handleSave = async () => {
@@ -40,9 +39,8 @@ function SetAvailabilityCollapse({ game, userEntry, onSuccess }) {
           availablePlatforms: Array.from(selectedPlatforms),
         })
       );
-
-      onSuccess?.();
       setShow(false);
+      if (typeof onSuccess === "function") onSuccess();
     } catch (err) {
       console.error(err);
       setError("Error updating availability.");
@@ -73,7 +71,7 @@ function SetAvailabilityCollapse({ game, userEntry, onSuccess }) {
 
             <p className="text-secondary fs-7 d-flex align-items-center mb-3">
               <BiInfoCircle className="me-1" />
-              Your availability will turn off automatically after 14 days.
+              Availability auto-disables after 14 days.
             </p>
 
             {availableToPlay && (
@@ -87,7 +85,7 @@ function SetAvailabilityCollapse({ game, userEntry, onSuccess }) {
 
                 <Form.Label>Select up to 3 platforms:</Form.Label>
                 <div className="d-flex flex-wrap gap-3 mb-3">
-                  {game?.platforms?.map((platform, index) => (
+                  {(game?.platforms || []).map((platform, index) => (
                     <Form.Check
                       key={index}
                       type="checkbox"

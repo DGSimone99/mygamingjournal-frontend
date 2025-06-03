@@ -1,30 +1,30 @@
-import { ChevronDown, Star } from "react-bootstrap-icons";
-import NoUser from "../../assets/NoUser.png";
-import { Button, Collapse, Container, Form, Image, Row } from "react-bootstrap";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ChevronDown } from "react-bootstrap-icons";
+import { Button, Collapse, Container, Form, Image } from "react-bootstrap";
 import { postReview } from "../../redux/actions";
+import NoUser from "../../assets/NoUser.png";
 
 function PostReview({ game }) {
-  const [form, setForm] = useState({ text: "", score: "" });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ text: "", score: "" });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    dispatch(postReview(game.id, form.text, form.score));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!form.text.trim() || !form.score) return;
+
+    dispatch(postReview(game.id, form.text, Number(form.score)));
     setForm({ text: "", score: "" });
   };
-
-  const [open, setOpen] = useState(false);
 
   return (
     <Container className="p-4 mt-3 rounded-3 shadow-sm bg-dark shadow-lg">
       <div
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((prev) => !prev)}
         className="d-flex align-items-center justify-content-between text-white mb-1 pointer"
-        style={{ cursor: "pointer" }}
       >
         <h4 className="mb-0">Post a Review</h4>
         <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} size={24} />
@@ -33,7 +33,7 @@ function PostReview({ game }) {
       <Collapse in={open}>
         <div>
           <Form onSubmit={handleSubmit}>
-            <div className="d-flex justify-content-between align-items-center mb-1">
+            <div className="d-flex justify-content-between align-items-center mb-3">
               <div className="d-flex align-items-center gap-3">
                 <Image
                   src={user?.avatarUrl || NoUser}
@@ -45,14 +45,15 @@ function PostReview({ game }) {
                   <h5 className="mb-0">{user?.username}</h5>
                 </div>
               </div>
-              <Form.Group className="my-4">
+
+              <Form.Group>
                 <Form.Select
                   required
                   value={form.score}
-                  onChange={(e) => setForm({ ...form, score: parseInt(e.target.value) })}
+                  onChange={(e) => setForm({ ...form, score: e.target.value })}
                   className="bg-black border border-secondary"
                 >
-                  <option value={0}>Score</option>
+                  <option value="">Score</option>
                   {[...Array(10)].map((_, i) => (
                     <option key={i + 1} value={i + 1}>
                       {i + 1}

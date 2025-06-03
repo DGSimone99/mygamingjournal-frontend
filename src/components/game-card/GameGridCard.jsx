@@ -2,18 +2,16 @@ import { Card, Col } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
-import { fetchUserGameEntries, fetchUserGameEntriesIds } from "../../redux/actions/gameEntryActions.js";
 
 function GameGridCard({ game, number }) {
   const { isLoggedIn } = useAuth();
-  const dispatch = useDispatch();
   const gameEntryIds = useSelector((state) => state.gameEntryIds || []);
 
   const isGameInUserList = useMemo(() => {
-    return isLoggedIn && gameEntryIds.some((entry) => entry.gameId === game.id);
+    return isLoggedIn && gameEntryIds.includes(game.id);
   }, [isLoggedIn, gameEntryIds, game.id]);
 
   const getReleaseLabel = (game) => {
@@ -21,10 +19,6 @@ function GameGridCard({ game, number }) {
     if (new Date(game.released) > new Date()) return "Coming Soon";
     return null;
   };
-  useEffect(() => {
-    dispatch(fetchUserGameEntriesIds());
-    dispatch(fetchUserGameEntries());
-  }, [dispatch]);
 
   const releaseLabel = getReleaseLabel(game);
 

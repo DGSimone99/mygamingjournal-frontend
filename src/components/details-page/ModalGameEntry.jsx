@@ -1,73 +1,73 @@
 import { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { useDispatch } from "react-redux";
-import { deleteGameEntry, fetchDetails, fetchUserGameEntries, saveGameEntry } from "../../redux/actions";
+import { Form, Button, Modal } from "react-bootstrap";
 import { MdClose } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { deleteGameEntry, fetchDetails, updateGameEntry, createGameEntry } from "../../redux/actions";
 
-function ModalGameEntry(props) {
-  const gameId = props.gameId;
-  const existingGame = props.existingGame;
+function ModalGameEntry({ gameId, existingGame, show, onHide }) {
   const dispatch = useDispatch();
-  const [form, setForm] = useState({
+
+  const [gameEntryForm, setGameEntryForm] = useState({
     hoursPlayed: 0,
     personalRating: 0,
-    status: "",
-    completionMode: "",
+    status: "PLAYING",
     notes: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   useEffect(() => {
     if (existingGame) {
-      setForm({
-        hoursPlayed: existingGame.hoursPlayed || 0,
-        personalRating: existingGame.personalRating || 0,
-        status: existingGame.status || "",
-        completionMode: existingGame.completionMode || "",
-        notes: existingGame.notes || "",
+      setGameEntryForm({
+        hoursPlayed: existingGame.hoursPlayed ?? 0,
+        personalRating: existingGame.personalRating ?? 0,
+        status: existingGame.status ?? "PLAYING",
+        notes: existingGame.notes ?? "",
       });
     }
   }, [existingGame]);
 
-  const handleSubmit = () => {
-    props.onHide();
-    if (form.personalRating < 0 || form.personalRating > 10) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setGameEntryForm((prev) => ({
+      ...prev,
+      [name]: name === "personalRating" || name === "hoursPlayed" ? parseFloat(value) : value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    if (gameEntryForm.personalRating < 0 || gameEntryForm.personalRating > 10) {
       alert("Personal rating must be between 0 and 10.");
       return;
     }
-    const gameData = {
-      idGame: gameId,
-      ...form,
-    };
 
-    const method = existingGame ? "put" : "post";
-    dispatch(saveGameEntry(gameData, method)).then(() => {
-      dispatch(fetchDetails(gameId));
-      dispatch(fetchUserGameEntries());
-    });
+    try {
+      if (existingGame) {
+        const updatedEntry = { id: existingGame.id, ...gameEntryForm };
+        await dispatch(updateGameEntry(updatedEntry));
+      } else {
+        const newEntry = { idGame: gameId, ...gameEntryForm };
+        await dispatch(createGameEntry(newEntry));
+      }
+
+      await dispatch(fetchDetails(gameId));
+      onHide();
+    } catch (err) {
+      console.error("Error saving entry:", err);
+    }
   };
 
-  const handleDelete = (id) => {
-    props.onHide();
-    dispatch(deleteGameEntry(id)).then(() => {
+  const handleDelete = () => {
+    if (!existingGame) return;
+    dispatch(deleteGameEntry(existingGame.id)).then(() => {
       dispatch(fetchDetails(gameId));
+      onHide();
     });
   };
 
   return (
-    <Modal show={props.show} onHide={props.onHide}>
+    <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton className="bg-body border-0">
         <Modal.Title>Add Game to Library</Modal.Title>
-        <MdClose size={32} onClick={props.onHide} className="pointer" />
+        <MdClose size={32} onClick={onHide} className="pointer" />
       </Modal.Header>
 
       <Modal.Body className="bg-section">
@@ -78,7 +78,7 @@ function ModalGameEntry(props) {
               type="number"
               step="0.1"
               name="hoursPlayed"
-              value={form.hoursPlayed}
+              value={gameEntryForm.hoursPlayed}
               onChange={handleChange}
               className="input-field border-0"
             />
@@ -92,15 +92,20 @@ function ModalGameEntry(props) {
               min="0"
               max="10"
               name="personalRating"
-              value={form.personalRating}
+              value={gameEntryForm.personalRating}
               onChange={handleChange}
               className="input-field border-0"
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>State</Form.Label>
-            <Form.Select name="status" value={form.status} onChange={handleChange} className="input-field border-0">
+            <Form.Label>Status</Form.Label>
+            <Form.Select
+              name="status"
+              value={gameEntryForm.status}
+              onChange={handleChange}
+              className="input-field border-0"
+            >
               <option value="PLAYING">Playing</option>
               <option value="COMPLETED">Completed</option>
               <option value="DROPPED">Dropped</option>
@@ -109,28 +114,13 @@ function ModalGameEntry(props) {
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Completition</Form.Label>
-            <Form.Select
-              name="completionMode"
-              value={form.completionMode}
-              onChange={handleChange}
-              className="input-field border-0"
-            >
-              <option value="UNCOMPLETED">Uncompleted</option>
-              <option value="MAIN_STORY">Main Story Completed</option>
-              <option value="MAIN_STORY_PLUS">Main Story Plus Completed</option>
-              <option value="COMPLETIONIST">Full Completion (100%)</option>
-            </Form.Select>
-          </Form.Group>
-
           <Form.Group>
-            <Form.Label>Note</Form.Label>
+            <Form.Label>Notes</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
               name="notes"
-              value={form.notes}
+              value={gameEntryForm.notes}
               onChange={handleChange}
               className="input-field border-0"
             />
@@ -140,11 +130,10 @@ function ModalGameEntry(props) {
 
       <Modal.Footer className="bg-body border-0">
         {existingGame && (
-          <Button className="btn-delete border-0 rounded-pill me-auto" onClick={() => handleDelete(existingGame.id)}>
+          <Button className="btn-delete border-0 rounded-pill me-auto" onClick={handleDelete}>
             Delete
           </Button>
         )}
-
         <Button className="btn-confirm rounded-pill" onClick={handleSubmit}>
           Save
         </Button>

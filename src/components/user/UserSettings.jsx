@@ -1,15 +1,16 @@
-import { Button, Image } from "react-bootstrap";
+import { Button, Image, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import NoUser from "../../assets/NoUser.png";
 import GeneralInfoSection from "./sections/GeneralInfoSection";
 import LanguageSection from "./sections/LanguageSection";
 import BioSection from "./sections/BioSection";
 import ContactsSection from "./sections/ContactsSection";
-import { fetchDeleteCurrentUser, fetchUserSettings } from "../../redux/actions";
+import { fetchDeleteCurrentUser, fetchUserSettings, updateUserAvatarFetch } from "../../redux/actions";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import ChangePasswordModal from "./ChangePasswordModal";
+import { RiQuillPenAiLine } from "react-icons/ri";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ const UserSettings = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -27,12 +31,29 @@ const UserSettings = () => {
     } else {
       dispatch(fetchUserSettings());
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, dispatch]);
 
   const handleDelete = async () => {
     await dispatch(fetchDeleteCurrentUser());
     setShowModal(false);
     navigate("/");
+  };
+
+  const handleFileChange = async (e) => {
+    if (e.target.files.length === 0) return;
+    const file = e.target.files[0];
+    setUploading(true);
+    try {
+      await dispatch(updateUserAvatarFetch(file));
+    } catch {
+      alert("Failed to upload avatar.");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const openFileDialog = () => {
+    if (fileInputRef.current) fileInputRef.current.click();
   };
 
   if (!user) {
@@ -44,14 +65,31 @@ const UserSettings = () => {
       <h1 className="mb-5 display-5 fw-bold">Account Settings</h1>
 
       <div className="d-flex gap-5 mb-5">
-        <div className="text-center">
+        <div className="text-center position-relative" style={{ width: 180, height: 180 }}>
           <Image
             src={user.avatarUrl || NoUser}
             alt="User avatar"
             height={180}
+            width={180}
             roundedCircle
             className="border border-secondary shadow-sm"
           />
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+          <Button
+            onClick={openFileDialog}
+            disabled={uploading}
+            className="position-absolute primary-hover bottom-0 end-0 mb-2 me-2 p-0 rounded-circle border-secondary bg-sidebar d-flex align-items-center justify-content-center"
+            style={{ width: 36, height: 36 }}
+            aria-label="Change avatar"
+          >
+            {uploading ? <Spinner animation="border" size="sm" /> : <RiQuillPenAiLine size={18} />}
+          </Button>
         </div>
 
         <div className="w-100">

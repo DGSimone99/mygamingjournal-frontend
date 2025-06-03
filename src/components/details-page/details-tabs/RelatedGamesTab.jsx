@@ -3,42 +3,28 @@ import GameCard from "../../game-card/GameCard";
 import { Container } from "react-bootstrap";
 
 function RelatedGamesTab() {
-  const game = useSelector((state) => state.game || {});
+  const game = useSelector((state) => state.game.game || {});
+
+  const renderSection = (title, gameList) => {
+    if (!Array.isArray(gameList) || gameList.length === 0) return null;
+
+    return (
+      <div className="mb-4">
+        <h2>{title}</h2>
+        <div>
+          {gameList.map((g) => (
+            <GameCard dlc={true} game={g} key={g.id} grid={false} number={-1} />
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <Container className="p-4">
-      {game?.parentGames?.length > 0 && (
-        <div>
-          <h2>Parent Games</h2>
-          <div>
-            {game.parentGames.map((parentGame) => (
-              <GameCard dlc={true} game={parentGame} key={parentGame.id} grid={false} number={-1} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {game?.dlcList?.length > 0 && (
-        <div>
-          <h2>DLC</h2>
-          <div>
-            {game.dlcList.map((dlc) => (
-              <GameCard dlc={true} game={dlc} key={dlc.id} grid={false} number={-1} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {game?.relatedGames?.length > 0 && (
-        <div>
-          <h2>Related Games</h2>
-          <div>
-            {game.relatedGames.map((related) => (
-              <GameCard dlc={true} game={related} key={related.id} grid={false} number={-1} />
-            ))}
-          </div>
-        </div>
-      )}
+      {renderSection("Parent Games", game.parentGames)}
+      {renderSection("DLC", game.dlcList)}
+      {renderSection("Related Games", game.relatedGames)}
     </Container>
   );
 }

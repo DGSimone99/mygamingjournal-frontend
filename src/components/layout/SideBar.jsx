@@ -11,7 +11,7 @@ import { logoutFetch } from "../../redux/actions/authActions";
 
 function SideBar() {
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
+  const token = useSelector((state) => state.auth.token);
 
   const userMinimal = useSelector((state) => state.user.minimal);
 
@@ -82,7 +82,7 @@ function SideBar() {
         >
           <Nav.Link as={Link} to="/user/me" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
             <Image
-              src={userMinimal?.avatarUrl || NoUser}
+              src={userMinimal?.avatarUrl ? userMinimal.avatarUrl : NoUser}
               className="sidebar-image rounded-circle"
               alt="user"
               height={40}
