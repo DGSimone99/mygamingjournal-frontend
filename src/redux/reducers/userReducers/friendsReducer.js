@@ -1,4 +1,4 @@
-import { GET_FRIENDS } from "../actions/actionTypes";
+import { GET_FRIENDS } from "../../actions/actionTypes";
 
 const initialState = {
   friends: [],

@@ -2,13 +2,17 @@ import { useState, useEffect } from "react";
 import GameEntryCard from "./GameEntryCard.jsx";
 import { Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams, useLocation } from "react-router";
+import { Link, useParams, useLocation, useNavigate } from "react-router";
 import { fetchOtherUserGameEntries, fetchUserGameEntries } from "../../redux/actions/gameEntryActions.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function JournalPage() {
   const dispatch = useDispatch();
   const { userId } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { isLoggedIn } = useAuth();
 
   const isMyJournal = location.pathname === "/myJournal";
 
@@ -38,6 +42,12 @@ function JournalPage() {
   useEffect(() => {
     setCurrentEntries(isMyJournal ? gameEntries : userGameEntries);
   }, [gameEntries, userGameEntries, isMyJournal]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
 
   const filteredEntries = currentEntries
     .filter((entry) => statusFilter === "ALL" || entry.status === statusFilter)

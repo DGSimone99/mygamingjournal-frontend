@@ -1,8 +1,7 @@
-import axios from "axios";
-
 import { LOGIN, LOGOUT, CLEAR_GAME_ENTRIES } from "./actionTypes";
-import { fetchCurrentUser, fetchUserStats } from "./userActions";
+import { fetchCurrentUser, fetchUserMinimal } from "./userActions";
 import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./gameEntryActions";
+import axios from "axios";
 
 export const loginFetch = (credentials) => {
   return async (dispatch) => {
@@ -20,8 +19,7 @@ export const loginFetch = (credentials) => {
       });
 
       await dispatch(fetchCurrentUser());
-
-      dispatch(fetchUserStats("me"));
+      dispatch(fetchUserMinimal());
       dispatch(fetchUserGameEntriesIds());
       dispatch(fetchUserGameEntries());
 
@@ -38,13 +36,12 @@ export const logoutFetch = () => {
     try {
       localStorage.removeItem("token");
       localStorage.removeItem("username");
-      localStorage.removeItem("gameEntries");
       delete axios.defaults.headers.common["Authorization"];
 
       dispatch({ type: LOGOUT });
       dispatch({ type: CLEAR_GAME_ENTRIES });
     } catch (error) {
-      console.log(error);
+      console.error("Logout failed", error);
     }
   };
 };

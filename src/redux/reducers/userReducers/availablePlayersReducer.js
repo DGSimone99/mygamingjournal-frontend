@@ -1,4 +1,4 @@
-import { GET_AVAILABLE_PLAYERS } from "../actions/actionTypes";
+import { GET_AVAILABLE_PLAYERS } from "../../actions/actionTypes";
 
 const initialState = {
   players: [],

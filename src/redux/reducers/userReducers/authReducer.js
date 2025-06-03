@@ -1,12 +1,12 @@
-import { LOGIN, LOGOUT } from "../actions/actionTypes";
+import { LOGIN, LOGOUT } from "../../actions/actionTypes";
 
 const initialState = {
-  token: localStorage.getItem("token") || "",
-  username: localStorage.getItem("username") || "",
+  token: localStorage.getItem("token") || null,
+  username: localStorage.getItem("username") || null,
   roles: [],
 };
 
-const loginReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
       return {
@@ -15,18 +15,16 @@ const loginReducer = (state = initialState, action) => {
         username: action.payload.username,
         roles: action.payload.roles,
       };
-
     case LOGOUT:
       return {
         ...state,
-        token: "",
-        username: "",
+        token: null,
+        username: null,
         roles: [],
       };
-
     default:
       return state;
   }
 };
 
-export default loginReducer;
+export default authReducer;

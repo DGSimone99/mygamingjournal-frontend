@@ -2,20 +2,10 @@ import { useNavigate } from "react-router";
 import { Button, Image } from "react-bootstrap";
 import NoUser from "../../assets/NoUser.png";
 import allLanguages from "../../utils/allLanguages";
-import { useAuth } from "../../context/AuthContext";
-import { useEffect } from "react";
 import { GrCatalog } from "react-icons/gr";
 
 function FriendCard({ friend }) {
   const navigate = useNavigate();
-
-  const { isLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate("/login");
-    }
-  }, [isLoggedIn, navigate]);
 
   const getLanguageLabel = (code) => {
     const match = allLanguages.find((lang) => lang.value === code);

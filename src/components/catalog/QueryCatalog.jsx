@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { Link, useLocation } from "react-router";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
 import GameCard from "../game-card/GameCard";
 import { fetchGames } from "../../redux/actions";
 import PaginationControls from "../common/PaginationControls";
+import axios from "axios";
 
 function QueryCatalog({ query, queryType, order, grid, number, param, paramType, size }) {
   const location = useLocation();

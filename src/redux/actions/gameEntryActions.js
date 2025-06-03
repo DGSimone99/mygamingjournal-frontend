@@ -8,7 +8,6 @@ import {
   GET_AVAILABLE_PLAYERS,
 } from "./actionTypes";
 import { fetchGames } from "./gameActions";
-import { fetchUserStats } from "./userActions";
 
 export const fetchUserGameEntries = () => {
   return async (dispatch) => {
@@ -66,7 +65,6 @@ export const saveGameEntry = (game, method) => {
         dispatch(fetchUserGameEntries()),
         dispatch(fetchUserGameEntriesIds()),
         dispatch(fetchGames()),
-        dispatch(fetchUserStats("me")),
       ]);
     } catch (error) {
       console.error("Error saving game entry", error);
@@ -83,7 +81,6 @@ export const updateAchievementEntry = (id, unlocked) => {
         type: UPDATE_ACHIEVEMENT_ENTRY,
         payload: response.data,
       });
-      await dispatch(fetchUserStats("me"));
     } catch (error) {
       console.error("Error updating achievement entry", error);
     }
@@ -99,7 +96,6 @@ export const deleteGameEntry = (id) => {
         dispatch(fetchUserGameEntries()),
         dispatch(fetchUserGameEntriesIds()),
         dispatch(fetchGames()),
-        dispatch(fetchUserStats("me")),
       ]);
     } catch (error) {
       console.error("Error deleting game entry", error);

@@ -1,4 +1,3 @@
-// SearchControls.jsx
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Grid, List } from "react-bootstrap-icons";

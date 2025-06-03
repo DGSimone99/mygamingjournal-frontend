@@ -1,26 +1,37 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import { RiQuillPenAiLine } from "react-icons/ri";
 import { updateUserContactsFetch } from "../../../redux/actions";
 
-const ContactsSection = () => {
+function ContactsSection() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-
+  const user = useSelector((state) => state.user.settings);
   const [isEditing, setIsEditing] = useState(false);
   const [contacts, setContacts] = useState({
-    steamUsername: user?.steamUsername || "",
-    psnUsername: user?.psnUsername || "",
-    xboxUsername: user?.xboxUsername || "",
-    nintendoUsername: user?.nintendoUsername || "",
-    epicUsername: user?.epicUsername || "",
-    riotId: user?.riotId || "",
-    discordTag: user?.discordTag || "",
+    steamUsername: "",
+    psnUsername: "",
+    xboxUsername: "",
+    nintendoUsername: "",
+    epicUsername: "",
+    riotId: "",
+    discordTag: "",
   });
 
+  useEffect(() => {
+    setContacts({
+      steamUsername: user?.steamUsername || "",
+      psnUsername: user?.psnUsername || "",
+      xboxUsername: user?.xboxUsername || "",
+      nintendoUsername: user?.nintendoUsername || "",
+      epicUsername: user?.epicUsername || "",
+      riotId: user?.riotId || "",
+      discordTag: user?.discordTag || "",
+    });
+  }, [user]);
+
   const handleChange = (field, value) => {
-    setContacts({ ...contacts, [field]: value });
+    setContacts((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSave = () => {
@@ -63,14 +74,16 @@ const ContactsSection = () => {
     <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4 position-relative">
       <h4 className="mb-3">
         Contacts{" "}
-        <Button
-          size="sm"
-          className="position-absolute top-0 end-0 m-3 bg-transparent border-secondary primary-hover"
-          onClick={() => setIsEditing(true)}
-        >
-          <RiQuillPenAiLine className="me-1" />
-          Edit
-        </Button>
+        {!isEditing && (
+          <Button
+            size="sm"
+            className="position-absolute top-0 end-0 m-3 bg-transparent border-secondary primary-hover"
+            onClick={() => setIsEditing(true)}
+          >
+            <RiQuillPenAiLine className="me-1" />
+            Edit
+          </Button>
+        )}
       </h4>
 
       <Row className="text-secondary">
@@ -95,6 +108,6 @@ const ContactsSection = () => {
       )}
     </div>
   );
-};
+}
 
 export default ContactsSection;

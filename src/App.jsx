@@ -9,14 +9,14 @@ import SideBar from "./components/layout/SideBar";
 import ThemeButton from "./components/layout/ThemeButton";
 import RegisterPage from "./components/login/RegisterPage";
 import UserSettings from "./components/user/UserSettings";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import UserPage from "./components/user/UserPage";
-import { fetchCurrentUser, fetchUserStats } from "./redux/actions/userActions";
+import { fetchCurrentUser, fetchUserMinimal, fetchUserSettings } from "./redux/actions/userActions";
 import { useEffect } from "react";
 import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./redux/actions";
 import JournalPage from "./components/journal/JournalPage";
 import FriendsPage from "./components/friends/FriendsPage";
+import axios from "axios";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,10 +25,16 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      dispatch(fetchCurrentUser());
-      dispatch(fetchUserStats("me"));
-      dispatch(fetchUserGameEntries());
-      dispatch(fetchUserGameEntriesIds());
+      const init = async () => {
+        await dispatch(fetchCurrentUser());
+        await dispatch(fetchUserSettings());
+        await dispatch(fetchUserMinimal());
+
+        await dispatch(fetchUserGameEntriesIds());
+        await dispatch(fetchUserGameEntries());
+      };
+
+      init();
     }
   }, [dispatch]);
 

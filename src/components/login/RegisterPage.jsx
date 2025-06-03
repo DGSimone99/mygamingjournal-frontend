@@ -3,18 +3,18 @@ import { Container, Image } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { useDispatch } from "react-redux";
-import { registerFetch } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import LogoCompleto from "../../assets/logoCompleto.png";
 import allLanguages from "../../utils/allLanguages";
 import Select from "react-select";
-import { useAuth } from "../../context/AuthContext";
+import { registerFetch } from "../../redux/actions";
 
 function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
 
   const [form, setForm] = useState({
     username: "",
@@ -24,7 +24,6 @@ function RegisterPage() {
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [errorMessage, setErrorMessage] = useState("");
 
   const isValidPassword = (password) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
@@ -42,12 +41,9 @@ function RegisterPage() {
       setErrorMessage("Password must be at least 8 characters long, with an uppercase letter and a number.");
     } else {
       dispatch(registerFetch(form))
-        .then(() => {
-          navigate("/login");
-        })
+        .then(() => navigate("/login"))
         .catch((error) => {
           const message = error?.response?.data;
-
           if (message === "Username already exists") {
             setErrorMessage("This username is already taken. Please choose another.");
           } else if (message === "Email already exists") {

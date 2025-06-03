@@ -1,37 +1,30 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Dropdown, Image, Nav } from "react-bootstrap";
 import { GrCatalog } from "react-icons/gr";
-import { FaList, FaUser, FaUserFriends, FaChartLine } from "react-icons/fa";
+import { FaList, FaUser, FaUserFriends } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
-import { useAuth } from "../../context/AuthContext";
 import Logo from "../../assets/logo.png";
-import { useDispatch, useSelector } from "react-redux";
 import NoUser from "../../assets/NoUser.png";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutFetch } from "../../redux/actions/authActions";
 
 function SideBar() {
-  const { isLoggedIn, logout } = useAuth();
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
 
-  const user = useSelector((state) => state.user);
+  const userMinimal = useSelector((state) => state.user.minimal);
 
   const [showCatalogDropdown, setShowCatalogDropdown] = useState(false);
   const [showAccountDropdown, setShowAccountDropdown] = useState(false);
 
-  const dispatch = useDispatch();
-
   const handleLogout = () => {
-    logout();
+    dispatch(logoutFetch());
   };
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setShowAccountDropdown(false);
-    }
-  }, [isLoggedIn, dispatch]);
 
   return (
     <div className="sidebar z-3 h-100 pt-3 d-flex flex-column justify-content-between text-center position-fixed top-0">
-      <Button className="border-0 bg-transparent p-0" as={Link} to={"/"}>
+      <Button className="border-0 bg-transparent p-0" as={Link} to="/">
         <Image src={Logo} className="sidebar-logo d-block mx-auto" alt="logo" height={60} width={60} />
       </Button>
 
@@ -47,13 +40,13 @@ function SideBar() {
           </Nav.Link>
           {showCatalogDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              <Dropdown.Item className="py-2 px-3" as={Link} to={`/catalog/`}>
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/">
                 Top Rated
               </Dropdown.Item>
-              <Dropdown.Item className="py-2 px-3" as={Link} to={`/catalog/`}>
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/">
                 New Releases
               </Dropdown.Item>
-              <Dropdown.Item className="py-2 px-3" as={Link} to={`/catalog/`}>
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/">
                 Upcoming Games
               </Dropdown.Item>
             </div>
@@ -76,7 +69,7 @@ function SideBar() {
         </Nav.Link>
       </Nav>
 
-      {!isLoggedIn ? (
+      {!token ? (
         <Nav.Link as={Link} to="/login" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
           <FaUser className="sidebar-icon fs-2" />
           Login
@@ -89,21 +82,21 @@ function SideBar() {
         >
           <Nav.Link as={Link} to="/user/me" className="sidebar-item d-flex align-items-center flex-column gap-2 py-2">
             <Image
-              src={user.avatarUrl || NoUser}
+              src={userMinimal?.avatarUrl || NoUser}
               className="sidebar-image rounded-circle"
               alt="user"
               height={40}
               width={40}
-            />{" "}
+            />
             Account
           </Nav.Link>
 
           {showAccountDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              <Dropdown.Item className="py-2 px-3" as={Link} to={`/user/settings`}>
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/user/settings">
                 Account Settings
               </Dropdown.Item>
-              <hr className="m-0"></hr>
+              <hr className="m-0" />
               <Dropdown.Item className="py-2 px-3" onClick={handleLogout}>
                 Logout
               </Dropdown.Item>

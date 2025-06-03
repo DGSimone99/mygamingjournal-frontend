@@ -1,4 +1,4 @@
-import { GET_OTHER_USER } from "../actions/actionTypes";
+import { GET_OTHER_USER } from "../../actions/actionTypes";
 
 const initialState = {
   user: null,

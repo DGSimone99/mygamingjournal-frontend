@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import { GET_GAMES, GET_GAME, GET_REVIEWS } from "./actionTypes";
 
 export const fetchGames = (filters = {}) => {
