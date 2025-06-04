@@ -14,8 +14,8 @@ function LanguageSection() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (user?.language) {
-      setSelectedLanguages(user.language.map((code) => allLanguages.find((lang) => lang.value === code)));
+    if (user?.languages) {
+      setSelectedLanguages(user.languages.map((code) => allLanguages.find((lang) => lang.value === code)));
     }
   }, [user]);
 
@@ -34,7 +34,7 @@ function LanguageSection() {
   const handleCancel = () => {
     setIsEditing(false);
     setError("");
-    setSelectedLanguages(user.language.map((code) => allLanguages.find((lang) => lang.value === code)));
+    setSelectedLanguages(user.languages.map((code) => allLanguages.find((lang) => lang.value === code)));
   };
 
   return (

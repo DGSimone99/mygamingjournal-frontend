@@ -17,6 +17,7 @@ import { fetchUserGameEntries, fetchUserGameEntriesIds } from "./redux/actions";
 import JournalPage from "./components/journal/JournalPage";
 import FriendsPage from "./components/friends/FriendsPage";
 import axios from "axios";
+import NotFound from "./components/NotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -47,8 +48,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/catalog/" element={<CatalogPage />} />
-            <Route path="/catalog/:paramType/:param" element={<CatalogPage />} />
-            <Route path="/catalog/top-rated" element={<CatalogPage />} />
+            <Route path="/catalog/genre/:genre" element={<CatalogPage />} />
+            <Route path="/catalog/top" element={<CatalogPage />} />
+            <Route path="/catalog/new" element={<CatalogPage />} />
+            <Route path="/catalog/coming" element={<CatalogPage />} />
             <Route path="/game/:gameId" element={<GameDetailsPage />} />
             <Route path="/journal/:userId" element={<JournalPage />} />
             <Route path="/myjournal/" element={<JournalPage />} />
@@ -58,6 +61,8 @@ function App() {
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
         {/* <Footer /> */}

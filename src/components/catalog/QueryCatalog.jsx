@@ -1,70 +1,44 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import GameCard from "../game-card/GameCard";
-import { fetchGames } from "../../redux/actions";
 import PaginationControls from "../common/PaginationControls";
-import axios from "axios";
+import { fetchGames } from "../../redux/actions";
 
-function QueryCatalog({ query, queryType, order, grid, number, param, paramType, size }) {
-  const location = useLocation();
+function QueryCatalog({ query, queryType, order, grid, number, size, title, type }) {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const { genre } = useParams();
 
-  const [games, setGames] = useState([]);
-  const fetchedGames = useSelector((state) => state.games.games);
   const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const set = genre || query || type || "default";
+
+  const games = useSelector((state) => state.games.sets);
+  const fetchedSet = games[set] || { games: [], totalPages: 0, currentPage: 0 };
 
   useEffect(() => {
-    const fetch = async () => {
-      const params = {
-        order: order || null,
-        page,
-        size: size,
-      };
-
-      if (query && queryType) {
-        params[queryType] = query;
-      }
-
-      try {
-        const response = await axios.get("/api/games", { params });
-        setGames(response.data.content);
-        setTotalPages(response.data.totalPages);
-      } catch (error) {
-        console.error("Error fetching games", error);
-      }
+    const params = {
+      order: order || null,
+      page,
+      size,
+      type,
     };
 
-    if (!param && !paramType) {
-      fetch();
-    } else {
-      dispatch(
-        fetchGames({
-          order: order || null,
-          page,
-          size: size,
-          [paramType]: param,
-        })
-      );
+    if (genre) {
+      params["genre"] = genre;
+    } else if (query && queryType) {
+      params[queryType] = query;
     }
-  }, [query, queryType, param, paramType, order, page, size, dispatch]);
 
-  const renderGameList = (list) => (
+    dispatch(fetchGames(set, params));
+  }, [query, queryType, order, genre, page, size, dispatch]);
+
+  const renderGameList = () => (
     <Row className="px-4">
-      {list.slice(0, size).map((game) => (
-        <GameCard
-          game={game}
-          key={game.id}
-          grid={grid}
-          number={number}
-          param={param}
-          paramType={paramType}
-          page={page}
-          size={size}
-        />
+      {fetchedSet.games?.slice(0, size).map((game) => (
+        <GameCard game={game} key={game.id} grid={grid} number={number} />
       ))}
     </Row>
   );
@@ -73,31 +47,24 @@ function QueryCatalog({ query, queryType, order, grid, number, param, paramType,
     <Container fluid>
       <Row>
         <Col>
-          <h2 className="mt-2">{query?.toUpperCase()}</h2>
+          <h2 className="mt-2 text-uppercase">{title || set}</h2>
         </Col>
         <Col className="mt-4">
-          <PaginationControls currentPage={page} totalPages={totalPages} onPageChange={(newPage) => setPage(newPage)} />
+          <PaginationControls currentPage={page} totalPages={fetchedSet.totalPages} onPageChange={setPage} />
         </Col>
         <Col className="text-end mt-4">
           {(location.pathname === "/catalog" || location.pathname === "/catalog/") && (
             <Button
               as={Link}
-              to={`/catalog/${queryType}/${query}`}
-              className="text-secondary pointer-underline bg-transparent border-0 "
+              to={`/catalog/genre/${query}`}
+              className="text-secondary pointer-underline bg-transparent border-0"
             >
               Show more
             </Button>
           )}
         </Col>
       </Row>
-      {param && paramType ? (
-        <>
-          {paramType === "genre" && <h2>{param.toUpperCase()}</h2>}
-          {renderGameList(fetchedGames)}
-        </>
-      ) : (
-        <>{renderGameList(games)}</>
-      )}
+      {renderGameList()}
     </Container>
   );
 }

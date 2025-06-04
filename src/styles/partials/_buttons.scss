@@ -24,3 +24,13 @@
     background-color: var(--tertiary) !important;
   }
 }
+
+.mgs-btn {
+  color: #21b5b1 !important;
+  font-style: italic;
+
+  &:hover {
+    color: #49fffc !important;
+    font-weight: bold;
+  }
+}

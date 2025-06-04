@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 
 import QueryCatalog from "./QueryCatalog";
 import SearchControls from "./SearchControls";
@@ -11,9 +11,11 @@ function CatalogPage() {
   const [query, setQuery] = useState("");
   const [grid, setGrid] = useState(true);
   const [queryType, setQueryType] = useState("query");
-  const { paramType, param } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
+  const [title, setTitle] = useState(null);
+  const [type, setType] = useState(null);
+
+  const { genre } = useParams();
 
   const renderCatalogsByGenre = () => {
     const genres = ["action", "adventure", "rpg", "shooter", "strategy"];
@@ -21,18 +23,31 @@ function CatalogPage() {
       <QueryCatalog key={genre} number={number} queryType="genre" query={genre} grid={grid} order={order} size={6} />
     ));
   };
+  const isSpecialPage = location.pathname === "/catalog/top" || location.pathname === "/catalog/new";
+  const isComingPage = location.pathname === "/catalog/coming";
 
   useEffect(() => {
-    if (param && paramType) {
-      setQuery(param);
-      setQueryType(paramType);
-    }
-
     if (location.pathname === "/catalog/") {
       setQueryType("query");
       setQuery("");
     }
-  }, [param, paramType, navigate]);
+  }, [location]);
+
+  useEffect(() => {
+    if (location.pathname === "/catalog/top") {
+      setOrder("-rating");
+      setTitle("Top Rated");
+    } else if (location.pathname === "/catalog/new") {
+      setOrder("-released");
+      setTitle("New Releases");
+    } else if (isComingPage) {
+      setType("coming");
+      setTitle("Coming Soon");
+    } else {
+      setOrder("-rating");
+      setType(null);
+    }
+  }, [location]);
 
   return (
     <Container fluid className="page">
@@ -49,10 +64,12 @@ function CatalogPage() {
 
         {query ? (
           <QueryCatalog number={number} queryType={queryType} query={query} grid={grid} order={order} size={12} />
-        ) : param && paramType ? (
-          <div>
-            <QueryCatalog number={number} paramType={paramType} param={param} grid={grid} order={order} size={12} />
-          </div>
+        ) : genre ? (
+          <QueryCatalog number={number} genre={genre} grid={grid} order={order} size={12} />
+        ) : isSpecialPage ? (
+          <QueryCatalog number={number} grid={grid} order={order} size={12} title={title} />
+        ) : isComingPage ? (
+          <QueryCatalog number={number} grid={grid} order={"-rating"} size={12} title={title} type={type} />
         ) : (
           <div className="page-catalog">{renderCatalogsByGenre()}</div>
         )}

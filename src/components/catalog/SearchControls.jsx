@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Grid, List } from "react-bootstrap-icons";
 import { BiSearch } from "react-icons/bi";
 import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 const genres = [
   { slug: "action", name: "Action" },
@@ -28,8 +28,8 @@ const genres = [
 
 function SearchControls({ query, setQuery, queryType, setQueryType, order, setOrder, setGrid }) {
   const [list, setList] = useState(false);
-  const [selectedGenre] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleGrid = () => {
     setGrid(true);
@@ -41,12 +41,6 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
     setList(true);
   };
 
-  const orderings = [
-    { value: "name", label: "Alphabetical" },
-    { value: "-released", label: "Released" },
-    { value: "-rating", label: "Rating" },
-  ];
-
   const toggleOrderDirection = () => {
     if (order.startsWith("-")) {
       setOrder(order.replace("-", ""));
@@ -55,16 +49,20 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
     }
   };
 
-  const handleGenreSelect = (e) => {
-    const value = e.target.value;
-    navigate(`/catalog/genre/${value}`);
-  };
+  const orderings = [
+    { value: "name", label: "Alphabetical" },
+    { value: "-released", label: "Released" },
+    { value: "-rating", label: "Rating" },
+  ];
 
-  useEffect(() => {
-    if (!query) {
+  const handleGenreSelect = (e) => {
+    const selected = e.target.value;
+    if (selected === "") {
       navigate("/catalog");
+    } else {
+      navigate(`/catalog/genre/${selected}`);
     }
-  }, [queryType, query]);
+  };
 
   return (
     <div className="search-controls">
@@ -80,22 +78,22 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
           <option value="developers">Developers</option>
           <option value="publishers">Publishers</option>
         </Form.Select>
+
         <BiSearch className="ms-2 fs-3" />
+
         <Form.Control
           type="text"
           placeholder="Search"
           className="input-field-search border-0 rounded-0"
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value), navigate(`/catalog/${queryType}/${e.target.value}`);
-          }}
+          onChange={(e) => setQuery(e.target.value)}
         />
 
         <Form.Select
           aria-label="Genre"
           className="input-field-filter fw-bold border-0 border-end border-secondary"
-          value={selectedGenre}
           onChange={handleGenreSelect}
+          value={location.pathname.startsWith("/catalog/genre/") ? location.pathname.split("/").pop() : ""}
         >
           <option value="">All Genres</option>
           {genres.map((genre) => (
@@ -113,9 +111,9 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
             className="input-field-filter fw-bold border border-dark"
             value={order.replace("-", "")}
             onChange={(e) => {
-              const baseValue = e.target.value;
+              const base = e.target.value;
               const isDesc = order.startsWith("-");
-              setOrder(isDesc ? `-${baseValue}` : baseValue);
+              setOrder(isDesc ? `-${base}` : base);
             }}
           >
             {orderings.map((option) => (

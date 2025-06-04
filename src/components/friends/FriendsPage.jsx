@@ -59,7 +59,7 @@ function FriendsPage() {
           <div className="tabs-content bg-dark p-4 rounded-4 rounded-top-0 border-top-0 shadow border border-card">
             {isLoggedIn && tab === "Friends" && (
               <>
-                <div className="d-flex align-items-center mb-4 border border-secondary rounded">
+                <div className="d-flex align-items-center mb-4 border border-secondary rounded ">
                   <BiSearch className="ms-2 fs-3" />
                   <Form.Control
                     type="text"
@@ -81,7 +81,7 @@ function FriendsPage() {
                 <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
                   {friends.length > 0 ? (
                     friends.map((friend) => (
-                      <Col key={friend.id} xs={12} md={6}>
+                      <Col key={friend.id} xs={12} md={10}>
                         <FriendCard friend={friend} />
                       </Col>
                     ))

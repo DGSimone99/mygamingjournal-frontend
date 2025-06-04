@@ -43,12 +43,9 @@
 .page {
   margin-top: 1em;
   height: calc(100vh - 1em);
-  overflow: hidden;
   &-catalog {
     margin-top: 1em;
     height: calc(100vh - 8.4em);
-    overflow-y: auto;
-    overflow-x: hidden;
   }
 }
 

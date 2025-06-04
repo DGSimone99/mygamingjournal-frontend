@@ -40,13 +40,13 @@ function SideBar() {
           </Nav.Link>
           {showCatalogDropdown && (
             <div className="dropdown-menu-custom position-absolute top-0 z-3 p-2 overflow-y-auto">
-              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/">
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/top">
                 Top Rated
               </Dropdown.Item>
-              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/">
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/new">
                 New Releases
               </Dropdown.Item>
-              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/">
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/catalog/coming">
                 Upcoming Games
               </Dropdown.Item>
             </div>

@@ -2,8 +2,8 @@ import { Star, Trash3Fill } from "react-bootstrap-icons";
 import NoUser from "../../assets/NoUser.png";
 import { Button, Container, Image } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { deleteReview } from "../../redux/actions";
 import { useNavigate } from "react-router";
+import { deleteReview } from "../../redux/actions";
 
 function ReviewCard({ review, yourReview, userView }) {
   const dispatch = useDispatch();

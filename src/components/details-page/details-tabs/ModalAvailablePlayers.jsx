@@ -21,7 +21,7 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
 
-  const buildFilters = () => {
+  const selectFilters = () => {
     const filters = {};
     if (selectedPlatforms.length > 0) filters.platforms = selectedPlatforms;
     if (selectedLanguages.length > 0) filters.languages = selectedLanguages;
@@ -30,7 +30,7 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
 
   useEffect(() => {
     if (!show || !game?.id) return;
-    dispatch(fetchAvailablePlayers(game.id, buildFilters(), currentPage));
+    dispatch(fetchAvailablePlayers(game.id, selectFilters(), currentPage));
   }, [show, game, selectedPlatforms, selectedLanguages, currentPage, dispatch]);
 
   const handlePlatformChange = (platform) => {
@@ -70,7 +70,7 @@ function ModalAvailablePlayers({ game, show, onHide, userEntry }) {
           userEntry={userEntry}
           onSuccess={() => {
             setCurrentPage(0);
-            dispatch(fetchAvailablePlayers(game.id, buildFilters(), 0));
+            dispatch(fetchAvailablePlayers(game.id, selectFilters(), 0));
           }}
         />
 

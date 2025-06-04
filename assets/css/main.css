@@ -248,8 +248,6 @@ select:focus {
 .page-catalog {
   margin-top: 1em;
   height: calc(100vh - 8.4em);
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .main-content {
@@ -280,14 +278,26 @@ select:focus {
   overflow-y: auto;
 }
 
-.tab-section, .details-tab, .achievements-tab, .description-tab, .overview-tab {
+.tab-section,
+.details-tab,
+.achievements-tab,
+.description-tab,
+.overview-tab {
   padding: 1.5rem;
 }
-.tab-section h2, .details-tab h2, .achievements-tab h2, .description-tab h2, .overview-tab h2 {
+.tab-section h2,
+.details-tab h2,
+.achievements-tab h2,
+.description-tab h2,
+.overview-tab h2 {
   font-weight: bold;
   margin: 1rem 0 0.5rem;
 }
-.tab-section p, .details-tab p, .achievements-tab p, .description-tab p, .overview-tab p {
+.tab-section p,
+.details-tab p,
+.achievements-tab p,
+.description-tab p,
+.overview-tab p {
   margin: 0.25rem 0;
 }
 
@@ -576,4 +586,4 @@ select:focus {
 
 .danger-hover:hover {
   background-color: var(--danger-hover) !important;
-}/*# sourceMappingURL=main.css.map */
+} /*# sourceMappingURL=main.css.map */

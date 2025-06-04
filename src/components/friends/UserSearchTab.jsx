@@ -55,7 +55,7 @@ function UserSearchTab() {
           <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
             {users?.length > 0 ? (
               users.map((user) => (
-                <Col key={user.id} xs={12} md={6} className="w-100">
+                <Col key={user.id} xs={12} md={10}>
                   <FriendCard friend={user} />
                 </Col>
               ))
