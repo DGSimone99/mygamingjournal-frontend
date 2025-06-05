@@ -12,13 +12,15 @@ function JournalPage() {
   const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
-  const isMyJournal = location.pathname === "/myJournal";
+  const isMyJournal = location.pathname == "/myJournal";
 
-  const gameEntries = useSelector((state) => state.gameEntries);
-  const userGameEntries = useSelector((state) => state.userGameEntries);
+  const myGameEntries = useSelector((state) => state.gameEntries);
+  const userGameEntries = useSelector((state) => state.userGameEntries.games);
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [sortBy, setSortBy] = useState("");
-  const [currentEntries, setCurrentEntries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const currentEntries = isMyJournal ? myGameEntries : userGameEntries;
 
   const statusPriority = {
     PLAYING: 1,
@@ -34,16 +36,17 @@ function JournalPage() {
       return;
     }
 
-    if (isMyJournal) {
-      dispatch(fetchUserGameEntries());
-    } else if (userId) {
-      dispatch(fetchOtherUserGameEntries(userId));
-    }
-  }, [dispatch, isLoggedIn, isMyJournal, userId, navigate]);
+    const loadData = async () => {
+      if (isMyJournal) {
+        await dispatch(fetchUserGameEntries());
+      } else if (userId) {
+        await dispatch(fetchOtherUserGameEntries(userId));
+      }
+      setIsLoading(false);
+    };
 
-  useEffect(() => {
-    setCurrentEntries(isMyJournal ? gameEntries : userGameEntries);
-  }, [gameEntries, userGameEntries, isMyJournal]);
+    loadData();
+  }, [dispatch, isLoggedIn, isMyJournal, userId, navigate]);
 
   const filteredEntries = currentEntries
     .filter((entry) => statusFilter === "ALL" || entry.status === statusFilter)
@@ -86,7 +89,11 @@ function JournalPage() {
           </Form.Select>
         </div>
 
-        {filteredEntries.length > 0 ? (
+        {isLoading ? (
+          <div className="text-center mt-5">
+            <h2>Loading...</h2>
+          </div>
+        ) : filteredEntries.length > 0 ? (
           filteredEntries.map((entry) => <GameEntryCard key={entry.id} gameEntry={entry} />)
         ) : (
           <div className="text-center mt-5">

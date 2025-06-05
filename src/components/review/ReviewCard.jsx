@@ -10,10 +10,7 @@ function ReviewCard({ review, yourReview, userView }) {
   const navigate = useNavigate();
 
   const deleteBtn = () => {
-    const confirmed = window.confirm("Are you sure you want to delete this review?");
-    if (confirmed) {
-      dispatch(deleteReview(review.id, review.game.id));
-    }
+    dispatch(deleteReview(review.id, review.game.id));
   };
 
   const formattedDate = new Date(review?.date).toLocaleDateString(undefined, {

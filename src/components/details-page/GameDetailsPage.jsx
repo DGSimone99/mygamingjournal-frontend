@@ -23,6 +23,7 @@ function GameDetailsPage() {
   }, [dispatch, gameId]);
 
   const hasRelatedGames = game?.relatedGames?.length > 0 || game?.dlcList?.length > 0;
+  const hasAchievements = game?.achievements?.length > 0;
 
   if (isLoading) {
     return (
@@ -35,7 +36,7 @@ function GameDetailsPage() {
   if (error) {
     return (
       <Container className="mt-5">
-        <Alert variant="danger">Error loading game details: {error}</Alert>
+        <Alert className="bg-danger border-0">Error loading game details: {error}</Alert>
       </Container>
     );
   }
@@ -52,11 +53,20 @@ function GameDetailsPage() {
         <Col md={8} className="tabs-container rounded-end px-0 h-100">
           <div className="tabs-bar">
             <ButtonGroup className="d-flex justify-content-between">
-              {["Description", "Details", "Achievements"].map((label) => (
+              {["Description", "Details"].map((label) => (
                 <Button key={label} className={`tabs ${tab === label ? "active" : ""}`} onClick={() => setTab(label)}>
                   {label}
                 </Button>
               ))}
+
+              {hasAchievements && (
+                <Button
+                  className={`tabs ${tab === "Achievements" ? "active" : ""}`}
+                  onClick={() => setTab("Achievements")}
+                >
+                  Achievements
+                </Button>
+              )}
 
               {hasRelatedGames && (
                 <Button className={`tabs ${tab === "Related" ? "active" : ""}`} onClick={() => setTab("Related")}>

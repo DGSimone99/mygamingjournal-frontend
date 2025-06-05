@@ -19,8 +19,15 @@ function QueryCatalog({ query, queryType, order, grid, number, size, title, type
   const fetchedSet = games[set] || { games: [], totalPages: 0, currentPage: 0 };
 
   useEffect(() => {
+    let finalOrder = order;
+
+    if (order?.includes("rating") && !order?.includes("metacritic")) {
+      const isDesc = order.startsWith("-");
+      finalOrder += isDesc ? ",-metacritic" : ",metacritic";
+    }
+
     const params = {
-      order: order || null,
+      order: finalOrder,
       page,
       size,
       type,
@@ -53,7 +60,7 @@ function QueryCatalog({ query, queryType, order, grid, number, size, title, type
           <PaginationControls currentPage={page} totalPages={fetchedSet.totalPages} onPageChange={setPage} />
         </Col>
         <Col className="text-end mt-4">
-          {(location.pathname === "/catalog" || location.pathname === "/catalog/") && (
+          {(location.pathname === "/catalog" || location.pathname === "/catalog/") && query && (
             <Button
               as={Link}
               to={`/catalog/genre/${query}`}

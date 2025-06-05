@@ -1,13 +1,12 @@
 import { Card, Col } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router";
-import { useAuth } from "../../context/AuthContext.jsx";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import platformIcons from "../../utils/platformIcons.jsx";
 
 function GameGridCard({ game, number }) {
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
   const gameEntryIds = useSelector((state) => state.gameEntryIds || []);
 
   const isGameInUserList = useMemo(() => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Grid, List } from "react-bootstrap-icons";
 import { BiSearch } from "react-icons/bi";
@@ -63,6 +63,12 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
       navigate(`/catalog/genre/${selected}`);
     }
   };
+
+  useEffect(() => {
+    if (!order) {
+      setOrder("-rating");
+    }
+  }, [order]);
 
   return (
     <div className="search-controls">

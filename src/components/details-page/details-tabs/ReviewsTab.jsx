@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchReviewsByGame } from "../../../redux/actions";
 import ReviewCard from "../../review/ReviewCard";
-import { useAuth } from "../../../context/AuthContext";
 import PostReview from "../../review/PostReview";
 import PaginationControls from "../../common/PaginationControls";
 
@@ -12,7 +11,7 @@ function ReviewsTab({ game }) {
   const reviews = useSelector((state) => state.reviews.reviews || []);
   const reviewsPages = useSelector((state) => state.reviews.totalPages || 0);
   const user = useSelector((state) => state.user.user);
-  const { isLoggedIn } = useAuth();
+  const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
   const [page, setPage] = useState(0);
 
   useEffect(() => {

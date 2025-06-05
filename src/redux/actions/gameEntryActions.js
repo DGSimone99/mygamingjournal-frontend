@@ -1,12 +1,14 @@
 import axios from "axios";
 import {
   GET_USER_GAME_ENTRIES,
-  GET_OTHER_USER_GAME_ENTRIES,
   GET_USER_GAME_ENTRIES_IDS,
   UPDATE_ACHIEVEMENT_ENTRY,
   GET_AVAILABLE_PLAYERS_REQUEST,
   GET_AVAILABLE_PLAYERS_SUCCESS,
   GET_AVAILABLE_PLAYERS_FAILURE,
+  GET_OTHER_USER_GAME_ENTRIES_REQUEST,
+  GET_OTHER_USER_GAME_ENTRIES_SUCCESS,
+  GET_OTHER_USER_GAME_ENTRIES_FAILURE,
 } from "./actionTypes";
 import { fetchGames } from "./gameActions";
 
@@ -29,13 +31,19 @@ export const fetchUserGameEntriesIds = () => async (dispatch) => {
   }
 };
 
-export const fetchOtherUserGameEntries = (userId) => async (dispatch) => {
-  try {
-    const response = await axios.get(`/api/my-library/${userId}`);
-    dispatch({ type: GET_OTHER_USER_GAME_ENTRIES, payload: response.data });
-  } catch (error) {
-    console.error("Error fetching other user's game entries", error);
-  }
+export const fetchOtherUserGameEntries = (userId) => {
+  return async (dispatch) => {
+    dispatch({ type: GET_OTHER_USER_GAME_ENTRIES_REQUEST });
+    try {
+      const response = await axios.get(`/api/my-library/user/${userId}`);
+      dispatch({ type: GET_OTHER_USER_GAME_ENTRIES_SUCCESS, payload: response.data });
+    } catch (error) {
+      dispatch({
+        type: GET_OTHER_USER_GAME_ENTRIES_FAILURE,
+        error: error.response?.data?.message || "Error fetching other user's game entries",
+      });
+    }
+  };
 };
 
 export const createGameEntry = (game) => async (dispatch) => {
@@ -66,7 +74,7 @@ export const updateGameEntry = (gameEntry) => async (dispatch) => {
 
 export const deleteGameEntry = (id) => async (dispatch) => {
   try {
-    await axios.delete(`/api/my-library?id=${id}`);
+    await axios.delete(`/api/my-library/${id}`);
     await Promise.all([dispatch(fetchUserGameEntries()), dispatch(fetchUserGameEntriesIds()), dispatch(fetchGames())]);
   } catch (error) {
     console.error("Error deleting game entry", error);

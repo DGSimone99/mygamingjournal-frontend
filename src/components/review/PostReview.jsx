@@ -7,7 +7,7 @@ import NoUser from "../../assets/NoUser.png";
 
 function PostReview({ game }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ text: "", score: "" });
 
@@ -39,7 +39,7 @@ function PostReview({ game }) {
                   src={user?.avatarUrl || NoUser}
                   height={50}
                   width={50}
-                  className="rounded-circle border border-secondary"
+                  className="rounded-circle border border-secondary mt-2"
                 />
                 <div>
                   <h5 className="mb-0">{user?.username}</h5>

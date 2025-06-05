@@ -99,7 +99,7 @@ function DetailsTab({ game }) {
             ))}
           </div>
         ) : (
-          <p className="text-muted">Loading team info...</p>
+          <p className="text-secondary">Loading team info...</p>
         )}
       </div>
 

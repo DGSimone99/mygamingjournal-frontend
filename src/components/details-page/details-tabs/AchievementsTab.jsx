@@ -11,7 +11,7 @@ function AchievementsTab({ game }) {
 
   const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
 
-  const userEntry = useSelector((state) => state.gameEntries.find((entry) => entry.realGameId === gameId));
+  const userEntry = useSelector((state) => state.gameEntries.find((entry) => String(entry.gameId) === String(gameId)));
 
   const [unlockedIds, setUnlockedIds] = useState([]);
   const [error, setError] = useState("");

@@ -44,7 +44,7 @@ function CatalogPage() {
       setType("coming");
       setTitle("Coming Soon");
     } else {
-      setOrder("-rating");
+      setOrder("");
       setType(null);
     }
   }, [location]);

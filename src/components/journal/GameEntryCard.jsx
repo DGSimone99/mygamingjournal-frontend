@@ -27,7 +27,7 @@ function GameEntryCard({ gameEntry }) {
     BACKLOG: "Backlog",
   };
 
-  const colorClass = statusColors[gameEntry.status] || "secondary";
+  const colorClass = statusColors[gameEntry.status];
   const status = statusName[gameEntry.status] || "Unknown";
   const unlockedCount = gameEntry.achievements?.filter((a) => a.unlocked).length || 0;
 
@@ -40,9 +40,8 @@ function GameEntryCard({ gameEntry }) {
   return (
     <Row
       as={Link}
-      to={`/game/${gameEntry.realGameId}`}
-      className="align-items-center py-2 px-2 my-2 rounded-2 text-decoration-none shadow-sm border-start border-4 bg-dark pointer-card"
-      style={{ borderColor: `var(--${colorClass})` }}
+      to={`/game/${gameEntry.gameId}`}
+      className={`align-items-center py-2 px-2 my-2 rounded-2 text-decoration-none shadow-sm border-start border-4 pointer-list bg-dark border-${colorClass}`}
     >
       <Col xs={2}>
         <Image

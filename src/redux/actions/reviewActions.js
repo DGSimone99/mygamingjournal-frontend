@@ -31,7 +31,7 @@ export const fetchReviewsByCurrentUser = (page = 0, size = 10) => fetchReviewsGe
 export const postReview = (idGame, text, score) => {
   return async (dispatch) => {
     try {
-      await axios.post("/api/reviews", { gameId: idGame, text, score });
+      await axios.post("/api/reviews?gameId=" + idGame, { text, score });
       dispatch(fetchReviewsByGame(idGame, 0));
     } catch (error) {
       console.error("Error posting review:", error);
