@@ -85,8 +85,9 @@
 
 .dropdown-menu-custom {
   left: 100%;
+  transform: translateY(-20%);
   min-width: 150px;
-  max-height: 90vh;
+  max-height: 60vh;
   overflow-y: auto;
   background-color: var(--body);
   border: 1px solid var(--primary);

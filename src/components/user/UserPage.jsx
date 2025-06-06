@@ -55,8 +55,10 @@ function UserPage() {
   useEffect(() => {
     if (user && userId === user.id.toString() && location.pathname !== "/user/me") {
       navigate("/user/me");
+    } else if (location.pathname === "/user/me" && !isLoggedIn) {
+      navigate(`/login`);
     }
-  }, [userId, user, location.pathname, navigate]);
+  }, [userId, user, location.pathname, navigate, isLoggedIn]);
 
   useEffect(() => {
     if (location.pathname === "/user/me") {

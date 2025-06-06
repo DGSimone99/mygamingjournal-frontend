@@ -57,7 +57,9 @@ function JournalPage() {
 
       const priorityA = statusPriority[a.status] || 99;
       const priorityB = statusPriority[b.status] || 99;
-      return priorityA - priorityB;
+
+      if (priorityA !== priorityB) return priorityA - priorityB;
+      return a.gameName.localeCompare(b.gameName);
     });
 
   return (

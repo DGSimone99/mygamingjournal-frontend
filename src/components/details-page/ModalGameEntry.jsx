@@ -43,12 +43,13 @@ function ModalGameEntry({ gameId, existingGame, show, onHide }) {
       if (existingGame) {
         const updatedEntry = { id: existingGame.id, ...gameEntryForm };
         await dispatch(updateGameEntry(updatedEntry));
+        await dispatch(fetchDetails(gameId));
       } else {
         const newEntry = { idGame: gameId, ...gameEntryForm };
         await dispatch(createGameEntry(newEntry));
+        await dispatch(fetchDetails(gameId));
       }
 
-      await dispatch(fetchDetails(gameId));
       onHide();
     } catch (err) {
       console.error("Error saving entry:", err);

@@ -96,6 +96,9 @@ function SideBar() {
               <Dropdown.Item className="py-2 px-3" as={Link} to="/user/settings">
                 Account Settings
               </Dropdown.Item>
+              <Dropdown.Item className="py-2 px-3" as={Link} to="/credits">
+                Credits
+              </Dropdown.Item>
               <hr className="m-0" />
               <Dropdown.Item className="py-2 px-3" onClick={handleLogout}>
                 Logout

@@ -18,6 +18,7 @@ import JournalPage from "./components/journal/JournalPage";
 import FriendsPage from "./components/friends/FriendsPage";
 import axios from "axios";
 import NotFound from "./components/NotFound";
+import Credits from "./components/layout/Credits";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ function App() {
             <Route path="/friends" element={<FriendsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/credits" element={<Credits />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
