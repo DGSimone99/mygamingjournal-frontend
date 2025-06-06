@@ -34,33 +34,37 @@ function FriendsPage() {
   };
 
   return (
-    <Container fluid className="page px-5 py-4">
+    <Container fluid className="page px-3 px-md-5 py-4">
       <Row className="justify-content-center">
-        <Col xl={9}>
+        <Col xs={12} lg={10} xl={9}>
           <h1 className="fw-bold text-white text-center mb-4">Friends</h1>
 
-          <div className="tabs-bar d-flex">
+          <div className="tabs-bar d-flex flex-column flex-sm-row">
             {isLoggedIn && (
               <Button
-                className={`tabs flex-fill rounded rounded-end-0 ${tab === "Friends" ? "active" : ""}`}
+                className={`tabs w-100 rounded-0 rounded-top ${tab === "Friends" ? "active" : ""} ${
+                  !isLoggedIn ? "rounded-bottom" : ""
+                }`}
                 onClick={() => setTab("Friends")}
               >
                 Friends
               </Button>
             )}
             <Button
-              className={`tabs flex-fill rounded-end rounded-start-0 ${tab === "Search" ? "active" : ""}`}
+              className={`tabs w-100 rounded-0 ${tab === "Search" ? "active" : ""} ${
+                isLoggedIn ? "rounded-bottom" : "rounded-top"
+              }`}
               onClick={() => setTab("Search")}
             >
               Search Users
             </Button>
           </div>
 
-          <div className="tabs-content bg-dark p-4 rounded-4 rounded-top-0 border-top-0 shadow border border-card">
+          <div className="tabs-content bg-dark p-4 rounded-bottom shadow border border-card border-top-0">
             {isLoggedIn && tab === "Friends" && (
               <>
-                <div className="d-flex align-items-center mb-4 border border-secondary rounded ">
-                  <BiSearch className="ms-2 fs-3" />
+                <div className="d-flex align-items-center mb-4 border border-secondary rounded overflow-hidden">
+                  <BiSearch className="ms-2 fs-3 flex-shrink-0" />
                   <Form.Control
                     type="text"
                     placeholder="Search by username or display name..."
@@ -78,17 +82,17 @@ function FriendsPage() {
                   />
                 )}
 
-                <div className="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                <Row className="g-3">
                   {friends.length > 0 ? (
                     friends.map((friend) => (
-                      <Col key={friend.id} xs={12} md={10}>
+                      <Col key={friend.id} xs={12}>
                         <FriendCard friend={friend} />
                       </Col>
                     ))
                   ) : (
                     <p className="text-secondary text-center my-4">No friends found matching your search.</p>
                   )}
-                </div>
+                </Row>
               </>
             )}
 

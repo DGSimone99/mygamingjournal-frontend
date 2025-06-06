@@ -70,6 +70,24 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
     }
   }, [order]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 991.98px)");
+    const handleResize = (e) => {
+      if (e.matches) {
+        setGrid(false);
+        setList(true);
+      }
+    };
+
+    if (mediaQuery.matches) {
+      setGrid(false);
+      setList(true);
+    }
+
+    mediaQuery.addEventListener("change", handleResize);
+    return () => mediaQuery.removeEventListener("change", handleResize);
+  }, []);
+
   return (
     <div className="search-controls">
       <div className="d-flex align-items-center mb-2 border border-1 border-card rounded overflow-hidden bg-dark">
@@ -138,7 +156,7 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
           </div>
         )}
 
-        <div className="ms-auto">
+        <div className="ms-auto d-none d-lg-block">
           <Grid onClick={handleGrid} className={`pointer text-secondary ${!list ? "text-text" : "text-secondary"}`} />
           <List onClick={handleList} className={`pointer ${!list ? "text-secondary" : "text-text"}`} />
         </div>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import GameEntryCard from "./GameEntryCard.jsx";
-import { Button, Container, Form } from "react-bootstrap";
+import { Button, Container, Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useLocation, useNavigate } from "react-router";
 import { fetchOtherUserGameEntries, fetchUserGameEntries } from "../../redux/actions/gameEntryActions.js";
@@ -12,7 +12,7 @@ function JournalPage() {
   const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => Boolean(state.auth.token));
-  const isMyJournal = location.pathname == "/myJournal";
+  const isMyJournal = location.pathname === "/myJournal";
 
   const myGameEntries = useSelector((state) => state.gameEntries);
   const userGameEntries = useSelector((state) => state.userGameEntries.games);
@@ -61,9 +61,9 @@ function JournalPage() {
     });
 
   return (
-    <Container>
-      <div className="mt-3">
-        <div className="d-flex justify-content-between mb-3">
+    <Container fluid="md" className="mt-3">
+      <Row className="g-3 mb-3">
+        <Col xs={12} md={6}>
           <Form.Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -76,9 +76,11 @@ function JournalPage() {
             <option value="DROPPED">Dropped</option>
             <option value="WISHLIST">Wishlisted</option>
           </Form.Select>
+        </Col>
 
+        <Col xs={12} md={6} className="d-flex justify-content-end">
           <Form.Select
-            className="input-field-filter-2 border-secondary"
+            className="input-field-filter border-secondary"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
@@ -87,25 +89,25 @@ function JournalPage() {
             <option value="HOURS">Order by Hours Played</option>
             <option value="RATING">Order by Score</option>
           </Form.Select>
-        </div>
+        </Col>
+      </Row>
 
-        {isLoading ? (
-          <div className="text-center mt-5">
-            <h2>Loading...</h2>
-          </div>
-        ) : filteredEntries.length > 0 ? (
-          filteredEntries.map((entry) => <GameEntryCard key={entry.id} gameEntry={entry} />)
-        ) : (
-          <div className="text-center mt-5">
-            <h2 className="mb-4">No Games Found</h2>
-            {isMyJournal && (
-              <Button as={Link} to="/catalog" variant="outline-secondary" className="primary-hover" size="lg">
-                Explore the catalog
-              </Button>
-            )}
-          </div>
-        )}
-      </div>
+      {isLoading ? (
+        <div className="text-center mt-5">
+          <h2>Loading...</h2>
+        </div>
+      ) : filteredEntries.length > 0 ? (
+        filteredEntries.map((entry) => <GameEntryCard key={entry.id} gameEntry={entry} />)
+      ) : (
+        <div className="text-center mt-5">
+          <h2 className="mb-4">No Games Found</h2>
+          {isMyJournal && (
+            <Button as={Link} to="/catalog" variant="outline-secondary" className="primary-hover" size="lg">
+              Explore the catalog
+            </Button>
+          )}
+        </div>
+      )}
     </Container>
   );
 }

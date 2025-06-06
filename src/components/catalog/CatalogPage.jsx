@@ -6,7 +6,7 @@ import QueryCatalog from "./QueryCatalog";
 import SearchControls from "./SearchControls";
 
 function CatalogPage() {
-  const [number] = useState(6);
+  const [number, setNumber] = useState(6);
   const [order, setOrder] = useState("-rating");
   const [query, setQuery] = useState("");
   const [grid, setGrid] = useState(true);
@@ -14,6 +14,7 @@ function CatalogPage() {
   const location = useLocation();
   const [title, setTitle] = useState(null);
   const [type, setType] = useState(null);
+  const [size, setSize] = useState(6);
 
   const { genre, developer } = useParams();
 
@@ -27,7 +28,7 @@ function CatalogPage() {
         query={genre}
         grid={grid}
         order={order}
-        size={6}
+        size={size}
         type={type}
       />
     ));
@@ -62,9 +63,28 @@ function CatalogPage() {
     }
   }, [location]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1200px)");
+
+    const handleResize = (e) => {
+      if (e.matches) {
+        setNumber(4);
+        setSize(4);
+      } else {
+        setNumber(6);
+        setSize(6);
+      }
+    };
+
+    handleResize(mediaQuery);
+
+    mediaQuery.addEventListener("change", handleResize);
+    return () => mediaQuery.removeEventListener("change", handleResize);
+  }, []);
+
   return (
-    <Container fluid className="page">
-      <div className="mx-5 px-5">
+    <Container fluid className="mt-4">
+      <div>
         <SearchControls
           query={query}
           setQuery={setQuery}

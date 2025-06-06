@@ -62,9 +62,9 @@ function GameEntryCard({ gameEntry }) {
         {gameEntry.personalRating}/10
       </Col>
       <Col xs={2} className="text-end d-flex align-items-center">
-        <Badge className="bg-primary">
+        <Badge className="bg-primary d-none d-md-block">
           <SlBadge className="me-2" />
-          {unlockedCount}/{gameEntry.achievements?.length || 0} Achievements
+          {unlockedCount}/{gameEntry.achievements?.length || 0}
         </Badge>
         {isMyJournal && (
           <Button onClick={handleDelete} className="bg-transparent border-0 rounded-5 ms-auto">

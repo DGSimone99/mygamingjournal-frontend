@@ -1,4 +1,4 @@
-import { Button, Image, Spinner } from "react-bootstrap";
+import { Button, Container, Image, Spinner, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import NoUser from "../../assets/NoUser.png";
 import GeneralInfoSection from "./sections/GeneralInfoSection";
@@ -61,44 +61,49 @@ const UserSettings = () => {
   }
 
   return (
-    <div className="pt-4 overflow-auto px-5 mx-5">
+    <Container fluid className="pt-4 overflow-auto">
       <h1 className="mb-5 display-5 fw-bold">Account Settings</h1>
 
-      <div className="d-flex gap-5 mb-5">
-        <div className="text-center position-relative" style={{ width: 180, height: 180 }}>
-          <Image
-            src={user.avatarUrl || NoUser}
-            alt="User avatar"
-            height={180}
-            width={180}
-            roundedCircle
-            className="border border-secondary shadow-sm"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <Button
-            onClick={openFileDialog}
-            disabled={uploading}
-            className="position-absolute primary-hover bottom-0 end-0 mb-2 me-2 p-0 rounded-circle border-secondary bg-sidebar d-flex align-items-center justify-content-center"
-            style={{ width: 36, height: 36 }}
-            aria-label="Change avatar"
-          >
-            {uploading ? <Spinner animation="border" size="sm" /> : <RiQuillPenAiLine size={18} />}
-          </Button>
-        </div>
+      <Row className="gap-4 mb-5">
+        <Col xs={12} md={2} className="d-flex justify-content-center mb-5">
+          <div style={{ width: 180, height: 180 }}>
+            <Image
+              src={user.avatarUrl || NoUser}
+              alt="User avatar"
+              height={180}
+              width={180}
+              fluid
+              roundedCircle
+              className="border border-secondary shadow-sm"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+            />
+            <div
+              className="primary-hover bottom-0 end-0 mb-2 me-2 px-2 py-1 rounded-pill pointer my-2 border-secondary bg-sidebar d-flex align-items-center justify-content-center"
+              onClick={openFileDialog}
+              disabled={uploading}
+              aria-label="Change avatar"
+            >
+              <Button style={{ width: 36, height: 36 }} className="border-0 bg-transparent p-0">
+                {uploading ? <Spinner animation="border" size="sm" /> : <RiQuillPenAiLine size={18} />}
+              </Button>
+              <div>Change avatar</div>
+            </div>
+          </div>
+        </Col>
 
-        <div className="w-100">
+        <Col xs={12} md={9}>
           <GeneralInfoSection />
           <LanguageSection />
           <BioSection />
           <ContactsSection />
 
-          <div className="d-flex gap-3 mt-4 justify-content-between">
+          <div className="d-flex flex-column flex-sm-row gap-3 mt-4 justify-content-between">
             <Button className="bg-primary primary-hover border-0 rounded-5" onClick={() => setShowPasswordModal(true)}>
               Change Password
             </Button>
@@ -106,12 +111,12 @@ const UserSettings = () => {
               Delete Account
             </Button>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
       <DeleteConfirmationModal show={showModal} onHide={() => setShowModal(false)} onConfirm={handleDelete} />
       <ChangePasswordModal show={showPasswordModal} onHide={() => setShowPasswordModal(false)} />
-    </div>
+    </Container>
   );
 };
 

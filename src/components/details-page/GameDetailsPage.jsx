@@ -50,7 +50,7 @@ function GameDetailsPage() {
       <Row className="h-100 ms-4 shadow-lg">
         <OverviewTab game={game} />
 
-        <Col md={8} className="tabs-container rounded-end px-0 h-100">
+        <Col md={12} lg={8} className="tabs-container rounded-end px-0 h-100">
           <div className="tabs-bar">
             <ButtonGroup className="d-flex justify-content-between">
               {["Description", "Details"].map((label) => (

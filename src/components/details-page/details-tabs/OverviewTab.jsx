@@ -37,7 +37,7 @@ function OverviewTab({ game }) {
   }, [tab, userEntry, isLoggedIn]);
 
   return (
-    <Col md={3} className="overview-tab p-0">
+    <Col md={12} lg={4} className="overview-tab p-0">
       <Button className="tabs active w-100">Overview</Button>
       <Container className="p-3">
         <h1 className="fs-4 mb-2 fw-bold">{game?.name}</h1>

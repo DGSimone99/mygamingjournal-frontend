@@ -86,7 +86,7 @@ function UserPage() {
   const progressPercentage = Math.min(((exp % 1000) / 1000) * 100, 100);
 
   return (
-    <Container fluid className="py-5 mb-5 px-5">
+    <Container fluid className="py-5 mb-5 container-lg">
       <div className="d-flex gap-3 align-items-center">
         <h1 className="display-5 fw-bold">{userData.displayName}</h1>
         {userId && isLoggedIn ? (
@@ -104,37 +104,38 @@ function UserPage() {
           )
         )}
       </div>
-
-      <div className="d-flex align-items-start gap-5 my-4">
-        <div className="user-hero bg-gradient p-4 rounded-4 shadow-lg mb-4 text-center">
-          <Image
-            src={userData.avatarUrl || NoUser}
-            height={200}
-            width={200}
-            className="rounded-circle border border-secondary shadow-sm"
-            alt="User Avatar"
-          />
-          <h2 className="mt-3">{userData.displayName}</h2>
-          <p className="text-secondary">@{userData.username}</p>
-
-          <div className="level-box">
-            <div className="level-label">Level {level}</div>
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
+      <Row className="my-4">
+        <Col xs={12} lg={3}>
+          <div className="bg-gradient p-4 rounded-4 shadow-lg text-center h-100">
+            <Image
+              fluid
+              src={userData.avatarUrl || NoUser}
+              height={200}
+              width={200}
+              className="rounded-circle border border-secondary shadow-sm"
+              alt="User Avatar"
+            />
+            <h2 className="mt-3">{userData.displayName}</h2>
+            <p className="text-secondary">@{userData.username}</p>
+            <div className="level-box">
+              <div className="level-label">Level {level}</div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{ width: `${progressPercentage}%` }}></div>
+              </div>
+              <div className="exp-label">{exp % 1000} / 1000 EXP</div>
             </div>
-            <div className="exp-label">{exp % 1000} / 1000 EXP</div>
+            <div className="text-secondary">
+              Joined on{" "}
+              {new Date(userData.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </div>
           </div>
-          <div className="text-secondary">
-            Joined on{" "}
-            {new Date(userData.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </div>
-        </div>
+        </Col>
 
-        <div className="flex-grow-1 w-100">
+        <Col xs={12} lg={9}>
           <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4 position-relative">
             <h4 className="mb-3">Stats</h4>
             <div className="d-flex flex-wrap gap-3 justify-content-between">
@@ -144,6 +145,7 @@ function UserPage() {
               <StatCard label="Achievements" value={userData.unlockedAchievements} icon={<FaTrophy />} />
               <StatCard label="Hours Played" value={userData.totalHoursPlayed} icon={<FaClock />} />
             </div>
+
             {(userData.lastAddedGame || userData.mostPlayedGame) && (
               <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm my-4">
                 <div
@@ -153,7 +155,6 @@ function UserPage() {
                   <h4 className="mb-0">Highlights</h4>
                   <ChevronDown className={`transition-transform ${openHighlights ? "rotate-180" : ""}`} size={24} />
                 </div>
-
                 <Collapse in={openHighlights}>
                   <div className="mt-3">
                     {userData.lastAddedGame && (
@@ -162,7 +163,6 @@ function UserPage() {
                         <GameEntryCard gameEntry={userData.lastAddedGame} isMyJournal={false} />
                       </div>
                     )}
-
                     {userData.mostPlayedGame && (
                       <div>
                         <h5 className="text-secondary">Most Played Game</h5>
@@ -183,121 +183,109 @@ function UserPage() {
               Watch Journal
             </Button>
           </div>
-
-          <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
-            <h4 className="mb-3">Contacts</h4>
-            <Row className="text-secondary">
-              {userData.steamUsername && (
-                <Col md={6} className="my-3">
-                  <strong>Steam:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
-                    {userData.steamUsername}
-                  </span>
-                </Col>
-              )}
-              {userData.epicUsername && (
-                <Col md={6} className="my-3">
-                  <strong>Epic Games:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
-                    {userData.epicUsername}
-                  </span>
-                </Col>
-              )}
-              {userData.xboxUsername && (
-                <Col md={6} className="my-3">
-                  <strong>Xbox:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
-                    {userData.xboxUsername}
-                  </span>
-                </Col>
-              )}
-              {userData.nintendoUsername && (
-                <Col md={6} className="my-3">
-                  <strong>Nintendo:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
-                    {userData.nintendoUsername}
-                  </span>
-                </Col>
-              )}
-              {userData.psnUsername && (
-                <Col md={6} className="my-3">
-                  <strong>PlayStation:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
-                    {userData.psnUsername}
-                  </span>
-                </Col>
-              )}
-              {userData.riotId && (
-                <Col md={6} className="my-3">
-                  <strong>Riot ID:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">{userData.riotId}</span>
-                </Col>
-              )}
-              {userData.discordTag && (
-                <Col md={6} className="my-3">
-                  <strong>Discord:</strong>{" "}
-                  <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
-                    {userData.discordTag}
-                  </span>
-                </Col>
-              )}
-              {!userData.steamUsername &&
-                !userData.epicUsername &&
-                !userData.xboxUsername &&
-                !userData.nintendoUsername &&
-                !userData.psnUsername &&
-                !userData.riotId &&
-                !userData.discordTag && <p className="text-secondary mb-0">No contacts available.</p>}
-            </Row>
-          </div>
-
-          <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
-            <h4 className="mb-3">Bio</h4>
-            <p className="mb-0 text-secondary">{userData.bio || "No bio available."}</p>
-          </div>
-
-          <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
-            <h4 className="mb-3">Languages</h4>
-            <div className="d-flex flex-wrap gap-2">
-              {userData.languages?.length > 0 ? (
-                userData.languages.map((langCode) => (
-                  <span key={langCode} className="badge bg-primary px-3 py-2 fs-6">
-                    {getLanguageLabel(langCode)}
-                  </span>
-                ))
-              ) : (
-                <span className="text-secondary">No languages set.</span>
-              )}
-            </div>
-          </div>
-
-          <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
-            <div
-              onClick={() => setOpen(!open)}
-              className="d-flex align-items-center justify-content-between pointer text-white mb-1"
-            >
-              <h4 className="mb-0">{userData.displayName}'s Reviews</h4>
-              <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} size={24} />
-            </div>
-
-            <Collapse in={open}>
-              <div className="mt-3 overflow-auto">
-                {reviewsPages >= 1 && (
-                  <PaginationControls currentPage={page} totalPages={reviewsPages} onPageChange={setPage} />
-                )}
-                {reviews.length > 0 ? (
-                  reviews.map((review) => (
-                    <div className="border border-secondary rounded-3 shadow-sm mb-3" key={review.id}>
-                      <ReviewCard review={review} yourReview={false} userView={true} />
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-secondary">No reviews yet.</p>
-                )}
-              </div>
-            </Collapse>
-          </div>
+        </Col>
+      </Row>
+      <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
+        <h4 className="mb-3">Contacts</h4>
+        <Row className="text-secondary">
+          {userData.steamUsername && (
+            <Col md={6} className="my-3">
+              <strong>Steam:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
+                {userData.steamUsername}
+              </span>
+            </Col>
+          )}
+          {userData.epicUsername && (
+            <Col md={6} className="my-3">
+              <strong>Epic Games:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">{userData.epicUsername}</span>
+            </Col>
+          )}
+          {userData.xboxUsername && (
+            <Col md={6} className="my-3">
+              <strong>Xbox:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">{userData.xboxUsername}</span>
+            </Col>
+          )}
+          {userData.nintendoUsername && (
+            <Col md={6} className="my-3">
+              <strong>Nintendo:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">
+                {userData.nintendoUsername}
+              </span>
+            </Col>
+          )}
+          {userData.psnUsername && (
+            <Col md={6} className="my-3">
+              <strong>PlayStation:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">{userData.psnUsername}</span>
+            </Col>
+          )}
+          {userData.riotId && (
+            <Col md={6} className="my-3">
+              <strong>Riot ID:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">{userData.riotId}</span>
+            </Col>
+          )}
+          {userData.discordTag && (
+            <Col md={6} className="my-3">
+              <strong>Discord:</strong>{" "}
+              <span className="ms-2 bg-primary border rounded py-1 px-2 border-secondary">{userData.discordTag}</span>
+            </Col>
+          )}
+          {!userData.steamUsername &&
+            !userData.epicUsername &&
+            !userData.xboxUsername &&
+            !userData.nintendoUsername &&
+            !userData.psnUsername &&
+            !userData.riotId &&
+            !userData.discordTag && <p className="text-secondary mb-0">No contacts available.</p>}
+        </Row>
+      </div>
+      <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
+        <h4 className="mb-3">Bio</h4>
+        <p className="mb-0 text-secondary">{userData.bio || "No bio available."}</p>
+      </div>
+      <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
+        <h4 className="mb-3">Languages</h4>
+        <div className="d-flex flex-wrap gap-2">
+          {userData.languages?.length > 0 ? (
+            userData.languages.map((langCode) => (
+              <span key={langCode} className="badge bg-primary px-3 py-2 fs-6">
+                {getLanguageLabel(langCode)}
+              </span>
+            ))
+          ) : (
+            <span className="text-secondary">No languages set.</span>
+          )}
         </div>
+      </div>
+      <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm mb-4">
+        <div
+          onClick={() => setOpen(!open)}
+          className="d-flex align-items-center justify-content-between pointer text-white mb-1"
+        >
+          <h4 className="mb-0">{userData.displayName}'s Reviews</h4>
+          <ChevronDown className={`transition-transform ${open ? "rotate-180" : ""}`} size={24} />
+        </div>
+
+        <Collapse in={open}>
+          <div className="mt-3 overflow-auto">
+            {reviewsPages >= 1 && (
+              <PaginationControls currentPage={page} totalPages={reviewsPages} onPageChange={setPage} />
+            )}
+            {reviews.length > 0 ? (
+              reviews.map((review) => (
+                <div className="border border-secondary rounded-3 shadow-sm mb-3" key={review.id}>
+                  <ReviewCard review={review} yourReview={false} userView={true} />
+                </div>
+              ))
+            ) : (
+              <p className="text-secondary">No reviews yet.</p>
+            )}
+          </div>
+        </Collapse>
       </div>
     </Container>
   );

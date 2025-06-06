@@ -14,15 +14,12 @@ function FriendCard({ friend }) {
 
   return (
     <Row
-      className="d-flex align-items-center justify-content-between py-3 px-4 pointer-list rounded-4 border border-card my-2 bg-dark w-100"
+      className="d-flex align-items-center py-3 px-3 px-md-4 pointer-list rounded-4 border border-card my-2 bg-dark w-100"
       onClick={() => navigate(`/user/${friend.id}`)}
       role="button"
     >
-      <Col md={4} className="d-flex align-items-center gap-3 ">
-        <div
-          className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-          style={{ width: "55px", height: "55px" }}
-        >
+      <Col xs={6} md={5} className="d-flex align-items-center gap-3 mb-3 mb-md-0">
+        <div className="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm p-2 px-3">
           {friend.level ?? 0}
         </div>
 
@@ -41,7 +38,11 @@ function FriendCard({ friend }) {
         </div>
       </Col>
 
-      <Col md={4} className="d-flex flex-wrap gap-2 align-items-center justify-content-center">
+      <Col
+        xs={12}
+        md={4}
+        className="d-flex flex-wrap gap-2 align-items-center justify-content-center mb-3 mb-md-0 d-none d-md-flex"
+      >
         {friend.languages?.map((lang) => (
           <span key={lang} className="badge bg-primary px-2 py-1">
             {getLanguageLabel(lang)}
@@ -49,9 +50,9 @@ function FriendCard({ friend }) {
         ))}
       </Col>
 
-      <Col md={4} className="d-flex justify-content-end">
+      <Col xs={6} md={3} className="d-flex justify-content-end">
         <Button
-          className="border-secondary d-flex align-items-center btn-journal rounded-3 ms-3"
+          className="border-secondary d-flex align-items-center btn-journal rounded-3"
           onClick={(e) => {
             e.stopPropagation();
             navigate(`/journal/${friend.id}`);

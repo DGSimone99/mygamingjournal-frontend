@@ -27,24 +27,24 @@ function GameListCard({ game, dlc }) {
     <Row
       as={Link}
       to={`/game/${game?.id}`}
-      className="align-items-center py-3 pointer-list p-0 shadow-sm rounded-2 text-decoration-none border border-card my-1"
+      className="align-items-center py-3 pointer-list p-0 shadow-sm rounded-2 text-decoration-none border border-card my-1 gx-2"
     >
-      <Col md={1} className="p-0">
+      <Col xs={3} sm={2} md={1} className="p-0">
         <Image
           src={game?.backgroundImage}
           style={{ height: "3.5em", objectFit: "cover" }}
           className="w-100 ms-2 rounded-2"
+          fluid
         />
       </Col>
 
-      <Col md="6" className="ms-2">
-        <h2 className="mb-0" title={game?.name}>
+      <Col xs={9} sm={4} md={5} lg={4} className="ms-3">
+        <h5 className="mb-1 fw-bold text-white" title={game?.name}>
           {game?.name}
-        </h2>
-
+        </h5>
         {!dlc && (
           <Card.Text
-            className="my-0 text-secondary pointer-underline"
+            className="my-0 text-secondary pointer-underline d-none d-lg-block"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
@@ -56,20 +56,25 @@ function GameListCard({ game, dlc }) {
         )}
       </Col>
 
-      <Col className="d-flex align-items-center gap-2">
+      <Col
+        xs={6}
+        md={3}
+        lg={3}
+        className="d-flex align-items-center justify-content-center gap-2 mt-2 mt-sm-0 d-none d-md-flex"
+      >
         {game?.parentPlatforms?.map((platform, index) => {
           const icon = platformIcons[platform];
           return icon ? <div key={index}>{icon}</div> : null;
         })}
       </Col>
 
-      <Col>
+      <Col md={2} lg={2} className="text-secondary d-flex align-items-center justify-content-end d-none d-lg-block">
         <div>{game?.released}</div>
-        {releaseLabel && <div className="coming-soon">{releaseLabel}</div>}
+        {releaseLabel && <div className="coming-soon small">{releaseLabel}</div>}
       </Col>
 
-      <Col>
-        <p className="my-0 px-2 gap-1 d-flex align-items-center ms-auto">
+      <Col xs={5} md={2} lg={1} className="d-flex align-items-center justify-content-end mt-2 mt-md-0">
+        <p className="my-0 gap-1 d-flex align-items-center">
           {isGameInUserList ? <StarFill style={{ fill: "var(--added)" }} /> : <Star />}
           {game.rating}
         </p>
