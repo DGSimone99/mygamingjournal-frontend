@@ -15,31 +15,44 @@ function CatalogPage() {
   const [title, setTitle] = useState(null);
   const [type, setType] = useState(null);
 
-  const { genre } = useParams();
+  const { genre, developer } = useParams();
 
   const renderCatalogsByGenre = () => {
     const genres = ["action", "adventure", "rpg", "shooter", "strategy"];
     return genres.map((genre) => (
-      <QueryCatalog key={genre} number={number} queryType="genre" query={genre} grid={grid} order={order} size={6} />
+      <QueryCatalog
+        key={genre}
+        number={number}
+        queryType="genre"
+        query={genre}
+        grid={grid}
+        order={order}
+        size={6}
+        type={type}
+      />
     ));
   };
-  const isSpecialPage = location.pathname === "/catalog/top" || location.pathname === "/catalog/new";
+  const isTopPage = location.pathname === "/catalog/top";
+  const isNewPage = location.pathname === "/catalog/new";
   const isComingPage = location.pathname === "/catalog/coming";
 
   useEffect(() => {
     if (location.pathname === "/catalog/") {
       setQueryType("query");
       setQuery("");
+      if (type !== null) setType(null);
     }
   }, [location]);
 
   useEffect(() => {
-    if (location.pathname === "/catalog/top") {
+    if (isTopPage) {
       setOrder("-rating");
       setTitle("Top Rated");
-    } else if (location.pathname === "/catalog/new") {
+      setType(null);
+    } else if (isNewPage) {
       setOrder("-released");
       setTitle("New Releases");
+      setType("-coming");
     } else if (isComingPage) {
       setType("coming");
       setTitle("Coming Soon");
@@ -60,14 +73,27 @@ function CatalogPage() {
           order={order}
           setOrder={setOrder}
           setGrid={setGrid}
+          type={type}
         />
 
         {query ? (
-          <QueryCatalog number={number} queryType={queryType} query={query} grid={grid} order={order} size={12} />
+          <QueryCatalog
+            number={number}
+            queryType={queryType}
+            query={query}
+            grid={grid}
+            order={order}
+            size={12}
+            type={type}
+          />
         ) : genre ? (
           <QueryCatalog number={number} genre={genre} grid={grid} order={order} size={12} />
-        ) : isSpecialPage ? (
+        ) : developer ? (
+          <QueryCatalog number={number} grid={grid} order={order} size={12} title={developer} />
+        ) : isTopPage ? (
           <QueryCatalog number={number} grid={grid} order={order} size={12} title={title} />
+        ) : isNewPage ? (
+          <QueryCatalog number={number} grid={grid} order={order} size={12} title={title} type={type} />
         ) : isComingPage ? (
           <QueryCatalog number={number} grid={grid} order={"-rating"} size={12} title={title} type={type} />
         ) : (

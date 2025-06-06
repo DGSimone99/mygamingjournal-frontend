@@ -26,11 +26,13 @@ function DetailsTab({ game }) {
 
   return (
     <Container className="details-tab">
-      <div className="mb-3">
-        <Link to={game?.redditUrl || "#"} target="_blank" rel="noreferrer">
-          <Reddit className="fs-2" />
-        </Link>
-      </div>
+      {game?.redditUrl && (
+        <div className="mb-3">
+          <Link to={game?.redditUrl || "#"} target="_blank" rel="noreferrer">
+            <Reddit className="fs-2" />
+          </Link>
+        </div>
+      )}
 
       <div className="mb-3">
         <h3>Release Date:</h3>

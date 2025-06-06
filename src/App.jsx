@@ -52,6 +52,7 @@ function App() {
             <Route path="/catalog/top" element={<CatalogPage />} />
             <Route path="/catalog/new" element={<CatalogPage />} />
             <Route path="/catalog/coming" element={<CatalogPage />} />
+            <Route path="/catalog/developers/:developer" element={<CatalogPage />} />
             <Route path="/game/:gameId" element={<GameDetailsPage />} />
             <Route path="/journal/:userId" element={<JournalPage />} />
             <Route path="/myjournal/" element={<JournalPage />} />

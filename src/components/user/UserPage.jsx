@@ -9,6 +9,7 @@ import {
   fetchUser,
   toggleFollowFetch,
 } from "../../redux/actions";
+import GameEntryCard from "../journal/GameEntryCard";
 
 import NoUser from "../../assets/NoUser.png";
 import allLanguages from "../../utils/allLanguages";
@@ -37,7 +38,7 @@ function UserPage() {
   const [linkJournal, setLinkJournal] = useState("");
   const [open, setOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-
+  const [openHighlights, setOpenHighlights] = useState(false);
   useEffect(() => {
     if (location.pathname === "/user/me") {
       dispatch(fetchCurrentUser());
@@ -143,6 +144,36 @@ function UserPage() {
               <StatCard label="Achievements" value={userData.unlockedAchievements} icon={<FaTrophy />} />
               <StatCard label="Hours Played" value={userData.totalHoursPlayed} icon={<FaClock />} />
             </div>
+            {(userData.lastAddedGame || userData.mostPlayedGame) && (
+              <div className="bg-dark p-4 rounded-3 border border-secondary shadow-sm my-4">
+                <div
+                  onClick={() => setOpenHighlights(!openHighlights)}
+                  className="d-flex align-items-center justify-content-between pointer text-white mb-1"
+                >
+                  <h4 className="mb-0">Highlights</h4>
+                  <ChevronDown className={`transition-transform ${openHighlights ? "rotate-180" : ""}`} size={24} />
+                </div>
+
+                <Collapse in={openHighlights}>
+                  <div className="mt-3">
+                    {userData.lastAddedGame && (
+                      <div className="mb-3">
+                        <h5 className="text-secondary">Last Added Game</h5>
+                        <GameEntryCard gameEntry={userData.lastAddedGame} isMyJournal={false} />
+                      </div>
+                    )}
+
+                    {userData.mostPlayedGame && (
+                      <div>
+                        <h5 className="text-secondary">Most Played Game</h5>
+                        <GameEntryCard gameEntry={userData.mostPlayedGame} isMyJournal={false} />
+                      </div>
+                    )}
+                  </div>
+                </Collapse>
+              </div>
+            )}
+
             <Button
               size="sm"
               className="position-absolute top-0 end-0 m-3 bg-transparent border-secondary primary-hover d-flex align-items-center"

@@ -10,13 +10,17 @@ import { fetchGames } from "../../redux/actions";
 function QueryCatalog({ query, queryType, order, grid, number, size, title, type }) {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { genre } = useParams();
+  const { genre, developer } = useParams();
 
   const [page, setPage] = useState(0);
   const set = genre || query || type || "default";
 
   const games = useSelector((state) => state.games.sets);
   const fetchedSet = games[set] || { games: [], totalPages: 0, currentPage: 0 };
+  const [totalPages, setTotalPages] = useState(fetchedSet?.totalPages);
+
+  const isTopPage = location.pathname === "/catalog/top";
+  const isNewPage = location.pathname === "/catalog/new";
 
   useEffect(() => {
     let finalOrder = order;
@@ -24,6 +28,12 @@ function QueryCatalog({ query, queryType, order, grid, number, size, title, type
     if (order?.includes("rating") && !order?.includes("metacritic")) {
       const isDesc = order.startsWith("-");
       finalOrder += isDesc ? ",-metacritic" : ",metacritic";
+    }
+
+    if (isTopPage || isNewPage) {
+      setTotalPages(20);
+    } else {
+      setTotalPages(fetchedSet?.totalPages);
     }
 
     const params = {
@@ -35,6 +45,8 @@ function QueryCatalog({ query, queryType, order, grid, number, size, title, type
 
     if (genre) {
       params["genre"] = genre;
+    } else if (developer) {
+      params["developers"] = developer;
     } else if (query && queryType) {
       params[queryType] = query;
     }
@@ -57,7 +69,7 @@ function QueryCatalog({ query, queryType, order, grid, number, size, title, type
           <h2 className="mt-2 text-uppercase">{title || set}</h2>
         </Col>
         <Col className="mt-4">
-          <PaginationControls currentPage={page} totalPages={fetchedSet.totalPages} onPageChange={setPage} />
+          <PaginationControls currentPage={page} totalPages={totalPages} onPageChange={setPage} />
         </Col>
         <Col className="text-end mt-4">
           {(location.pathname === "/catalog" || location.pathname === "/catalog/") && query && (

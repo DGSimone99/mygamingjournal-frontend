@@ -9,7 +9,7 @@ const genres = [
   { slug: "action", name: "Action" },
   { slug: "indie", name: "Indie" },
   { slug: "adventure", name: "Adventure" },
-  { slug: "role-playing-games-rpg", name: "RPG" },
+  { slug: "rpg", name: "RPG" },
   { slug: "strategy", name: "Strategy" },
   { slug: "shooter", name: "Shooter" },
   { slug: "casual", name: "Casual" },
@@ -26,7 +26,7 @@ const genres = [
   { slug: "card", name: "Card" },
 ];
 
-function SearchControls({ query, setQuery, queryType, setQueryType, order, setOrder, setGrid }) {
+function SearchControls({ query, setQuery, queryType, setQueryType, order, setOrder, setGrid, type }) {
   const [list, setList] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -111,37 +111,36 @@ function SearchControls({ query, setQuery, queryType, setQueryType, order, setOr
       </div>
 
       <div className="d-flex justify-content-between align-items-center fs-5">
-        <div className="d-flex align-items-center gap-2">
-          <Form.Select
-            aria-label="Order by"
-            className="input-field-filter fw-bold border border-dark"
-            value={order.replace("-", "")}
-            onChange={(e) => {
-              const base = e.target.value;
-              const isDesc = order.startsWith("-");
-              setOrder(isDesc ? `-${base}` : base);
-            }}
-          >
-            {orderings.map((option) => (
-              <option key={option.value} value={option.value.replace("-", "")}>
-                {option.label}
-              </option>
-            ))}
-          </Form.Select>
+        {!type && (
+          <div className="d-flex align-items-center gap-2">
+            <Form.Select
+              aria-label="Order by"
+              className="input-field-filter fw-bold border border-dark"
+              value={order.replace("-", "")}
+              onChange={(e) => {
+                const base = e.target.value;
+                const isDesc = order.startsWith("-");
+                setOrder(isDesc ? `-${base}` : base);
+              }}
+            >
+              {orderings.map((option) => (
+                <option key={option.value} value={option.value.replace("-", "")}>
+                  {option.label}
+                </option>
+              ))}
+            </Form.Select>
 
-          {order.startsWith("-") ? (
-            <TbTriangleFilled onClick={toggleOrderDirection} className="pointer color-text" size={15} />
-          ) : (
-            <TbTriangleInvertedFilled onClick={toggleOrderDirection} className="pointer color-text" size={15} />
-          )}
-        </div>
+            {order.startsWith("-") ? (
+              <TbTriangleFilled onClick={toggleOrderDirection} className="pointer color-text" size={15} />
+            ) : (
+              <TbTriangleInvertedFilled onClick={toggleOrderDirection} className="pointer color-text" size={15} />
+            )}
+          </div>
+        )}
 
         <div className="ms-auto">
-          <Grid
-            onClick={handleGrid}
-            className={`pointer text-secondary ${!list ? "color-text" : "color-text-secondary"}`}
-          />
-          <List onClick={handleList} className={`pointer ${!list ? "color-text-secondary" : "color-text"}`} />
+          <Grid onClick={handleGrid} className={`pointer text-secondary ${!list ? "text-text" : "text-secondary"}`} />
+          <List onClick={handleList} className={`pointer ${!list ? "text-secondary" : "text-text"}`} />
         </div>
       </div>
     </div>
