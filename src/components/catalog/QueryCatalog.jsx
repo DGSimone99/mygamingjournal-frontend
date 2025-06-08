@@ -7,7 +7,7 @@ import GameCard from "../game-card/GameCard";
 import PaginationControls from "../common/PaginationControls";
 import { fetchGames } from "../../redux/actions";
 
-function QueryCatalog({ query, queryType, order, grid, number, size, title, type }) {
+function QueryCatalog({ query, queryType, order, grid, number, size, title, type, style }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const { genre, developer } = useParams();
@@ -30,8 +30,10 @@ function QueryCatalog({ query, queryType, order, grid, number, size, title, type
       finalOrder += isDesc ? ",-metacritic" : ",metacritic";
     }
 
-    if (isTopPage || isNewPage) {
+    if (isTopPage || isNewPage || style === 20) {
       setTotalPages(20);
+    } else if (style === 2) {
+      setTotalPages(2);
     } else {
       setTotalPages(fetchedSet?.totalPages);
     }

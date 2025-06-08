@@ -1,7 +1,7 @@
 import "./App.css";
 import "./styles/theme.css";
 import { BrowserRouter, Routes, Route } from "react-router";
-import Home from "./components/Home";
+import Home from "./components/home/Home";
 import CatalogPage from "./components/catalog/CatalogPage";
 import GameDetailsPage from "./components/details-page/GameDetailsPage";
 import LoginPage from "./components/login/LoginPage";
@@ -68,7 +68,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
-        {/* <Footer /> */}
       </>
     </BrowserRouter>
   );
