@@ -14,8 +14,8 @@ Ogni utente può costruire la propria libreria personale, aggiungere voti e rece
 - 🏆 **Sistema trofei e statistiche personali**
 - 🔐 Registrazione, login e autenticazione sicura tramite JWT
 
-![Scheda gioco](./screenshots/game-details.png)  
-![Achievements](./screenshots/achievements.png)
+![Scheda gioco](./screenshots/Details.png)  
+![Achievements](./screenshots/Achievements.png)
 
 ## 🧑‍💻 Tecnologie utilizzate
 
@@ -38,7 +38,7 @@ Ogni utente può costruire la propria libreria personale, aggiungere voti e rece
 
 | Matchmaking | Libreria | Profilo |
 |-------------|----------|---------|
-| ![Matchmaking](./screenshots/matchmaking.png) | ![Libreria](./screenshots/library.png) | ![Profilo](./screenshots/profile.png) |
+| ![Matchmaking](./screenshots/Matchmaking.png) | ![Libreria](./screenshots/Home.png) | ![Profilo](./screenshots/User.png) |
 
 ## 📌 Note
 
