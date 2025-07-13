@@ -3,7 +3,7 @@
 **MyGamingJournal** è una web app che permette agli utenti di tenere traccia dei videogiochi che giocano, vorrebbero giocare o hanno completato.  
 Ogni utente può costruire la propria libreria personale, aggiungere voti e recensioni, monitorare statistiche e trofei, e persino trovare altri giocatori con cui condividere partite.
 
-![Homepage](./screenshots/homepage.png)
+ ![Libreria](./screenshots/Home.png) 
 
 ## ✨ Funzionalità principali
 
@@ -34,11 +34,19 @@ Ogni utente può costruire la propria libreria personale, aggiungere voti e rece
 - Spring Data JPA
 - Integrazione API RAWG
 
-## 🖼️ Altri screenshot
+## Matchmaking
 
-| Matchmaking | Libreria | Profilo |
-|-------------|----------|---------|
-| ![Matchmaking](./screenshots/Matchmaking.png) | ![Libreria](./screenshots/Home.png) | ![Profilo](./screenshots/User.png) |
+| Matchmaking | Profilo |
+|-------------|---------|
+| ![Matchmaking](./screenshots/Matchmaking.png) | ![Profilo](./screenshots/User.png) |
+
+Trova facilmente altri giocatori con cui condividere sessioni di gioco grazie a un sistema di matchmaking personalizzato.
+Ogni utente può impostare le proprie piattaforme di gioco preferite (es. PC, PlayStation, Xbox) e lingue parlate, e filtrare i profili compatibili.
+Un modo rapido per scoprire persone affini con cui giocare ai propri titoli preferiti.
+
+Ogni utente ha un profilo pubblico che funge da diario videoludico personale, dove è possibile vedere i giochi che ha aggiunto, i voti assegnati, le recensioni e le piattaforme utilizzate.
+È presente anche un sistema di progressione (leveling) che aumenta automaticamente in base all’attività dell’utente, come l’aggiunta di giochi o l’interazione con la piattaforma.
+
 
 ## 📌 Note
 
