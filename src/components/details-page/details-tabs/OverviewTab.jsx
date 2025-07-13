@@ -77,7 +77,7 @@ function OverviewTab({ game }) {
               className="w-100 mt-2 bg-transparent border-added primary-hover"
               onClick={() => setShowAvailablePlayersModal(true)}
             >
-              Find friends to play with
+              Matchmaking
             </Button>
           )}
 

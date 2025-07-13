@@ -11,7 +11,7 @@ function Home() {
   const [type] = useState(null);
   const [size] = useState(6);
   const renderCatalogsByGenre = () => {
-    const genres = ["action", "rpg", "adventure", "shooter"];
+    const genres = ["action", "rpg", "sports", "shooter"];
     return (
       <Row>
         {genres.map((genre) => (

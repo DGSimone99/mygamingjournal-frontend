@@ -9,8 +9,17 @@ function CreditsPage() {
         <Col lg={8}>
           <h1 className="display-4 fw-bold mb-4 text-tertiary">Credits</h1>
 
-          <p className="mb-4 text-secondary fs-5">
-            &copy; {new Date().getFullYear()} <strong>MyGamingJournal</strong> — All rights reserved.
+          <h5 className="text-white mt-5 mb-3">Contacts</h5>
+          <p className="text-secondary d-flex align-items-center justify-content-center fs-4">
+            <FaGithub className="me-2" />
+            <span className="text-text fw-bold me-1">Github:</span> https://github.com/DGSimone99
+          </p>
+          <p className="text-secondary fs-4">
+            <span className="text-text fw-bold">Email:</span> simone.digiorgio99@gmail.com
+          </p>
+
+          <p className="mb-4 text-secondary fs-5 mt-5">
+            &copy; {new Date().getFullYear()} <strong>MyGamingJournal</strong>.
           </p>
 
           <h5 className="text-white mt-5 mb-3">Data Providers</h5>
@@ -32,6 +41,9 @@ function CreditsPage() {
               <FaReact /> React
             </Badge>
             <Badge bg="secondary" className="d-flex align-items-center gap-2 px-3 py-2 fs-6">
+              <FaReact /> Redux
+            </Badge>
+            <Badge bg="secondary" className="d-flex align-items-center gap-2 px-3 py-2 fs-6">
               <FaJava /> Spring Boot
             </Badge>
             <Badge bg="secondary" className="d-flex align-items-center gap-2 px-3 py-2 fs-6">
@@ -41,27 +53,6 @@ function CreditsPage() {
               <FaBootstrap /> Bootstrap
             </Badge>
           </div>
-
-          <h5 className="text-white mt-5 mb-3">Links</h5>
-          <p className="text-secondary">
-            <a
-              href="https://github.com/DGSimone99"
-              target="_blank"
-              rel="noreferrer"
-              className="text-decoration-none me-3"
-            >
-              <FaGithub className="me-1" />
-              GitHub
-            </a>
-            |
-            <a href="#" className="text-decoration-none mx-3">
-              Privacy Policy
-            </a>
-            |
-            <a href="#" className="text-decoration-none ms-3">
-              Contacts
-            </a>
-          </p>
         </Col>
       </Row>
     </Container>
