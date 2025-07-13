@@ -1,11 +1,53 @@
-MyGamingJournal è una web app che permette agli utenti di tenere traccia dei videogiochi che giocano, vorrebbero giocare o hanno completato. Ogni utente può creare la propria libreria personale, con possibilità di dare voti personali o recensioni, inserire le proprie statistiche di gioco, tenere traccia di trofei e altro.
-Consente inoltre di cercare gente con cui giocare impostando le proprie preferenze e dati di varie piattaforme.,
+# 🎮 MyGamingJournal
 
-Tecnologie usate
-Frontend
-React, Redux, React-Bootstrap, Axios, React Router
+**MyGamingJournal** è una web app che permette agli utenti di tenere traccia dei videogiochi che giocano, vorrebbero giocare o hanno completato.  
+Ogni utente può costruire la propria libreria personale, aggiungere voti e recensioni, monitorare statistiche e trofei, e persino trovare altri giocatori con cui condividere partite.
 
-Backend
-Spring Boot, Spring Security, JWT, JPA, integrazione con API RAWG
+![Homepage](./screenshots/homepage.png)
 
-Link alla repository backend: https://github.com/DGSimone99/mygamingjournal-backend
+## ✨ Funzionalità principali
+
+- 📚 **Libreria personale** con stato, voto, ore giocate, recensione e trofei
+- 🎮 **Catalogo di giochi** integrato con l’API di [RAWG](https://rawg.io/apidocs)
+- 🧩 **Schede gioco dettagliate** con info, immagini, achievements e giochi correlati
+- 🧑‍🤝‍🧑 **Funzione matchmaking** per trovare altri giocatori in base a piattaforma e lingua
+- 🏆 **Sistema trofei e statistiche personali**
+- 🔐 Registrazione, login e autenticazione sicura tramite JWT
+
+![Scheda gioco](./screenshots/game-details.png)  
+![Achievements](./screenshots/achievements.png)
+
+## 🧑‍💻 Tecnologie utilizzate
+
+### Frontend
+- React
+- Redux
+- React Router
+- Axios
+- React-Bootstrap
+
+### Backend
+> 🔗 [Link alla repository backend](https://github.com/DGSimone99/mygamingjournal-backend)
+
+- Spring Boot
+- Spring Security + JWT
+- Spring Data JPA
+- Integrazione API RAWG
+
+## 🖼️ Altri screenshot
+
+| Matchmaking | Libreria | Profilo |
+|-------------|----------|---------|
+| ![Matchmaking](./screenshots/matchmaking.png) | ![Libreria](./screenshots/library.png) | ![Profilo](./screenshots/profile.png) |
+
+## 📌 Note
+
+- Progetto realizzato come sviluppo personale per esercizio completo di full stack development
+- Interfaccia dark-mode pensata per essere chiara ma coinvolgente
+- Ogni funzione è stata sviluppata end-to-end con attenzione alla coerenza tra frontend e backend
+- Tutte le informazioni sui giochi sono fornite dall'API di [RAWG](https://rawg.io/apidocs)
+
+---
+
+🧠 *Progetto creato da [DGSimone99](https://github.com/DGSimone99)*  
+
